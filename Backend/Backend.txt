@@ -1,0 +1,301 @@
+Sign-Up-API:
+*Not able to view the created-database,
+*but the response is 200
+Response body
+{
+  "message": "Success",
+  "data": []
+}
+
+
+
+
+
+
+
+
+
+
+Sign-In-API:
+Response body
+{
+  "message": "Success",
+  "data": {
+    "id": 37,
+    "email": "hamza@gmail.com",
+    "creationAt": "2022-11-30 13:16:40",
+    "updatedAt": null,
+    "deletedAt": null,
+    "lastLogin": "2022-11-30 13:41:49",
+    "password": "gAAAAABjh1e4r4Gt5m4fSO2XpUrJ1QcuJb4bdURk_NniQhX_GRY3k_xZNaWW9zOmwgL9rHVOWMvhk0l-lV8KAnAg6G3NZdpzCQ==",
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Njk5MDM5MTIsImlhdCI6MTY2OTgxNTcxMiwic2NvcGUiOiJhY2Nlc3NfdG9rZW4iLCJzdWIiOjM3LCJjcCI6ImhhbXphQGdtYWlsLmNvbSJ9.p0pyxKEXnILBCum2FRlMmpKmj7ohQYQfcQW29q3YmTw",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Njk4NTE3MTIsImlhdCI6MTY2OTgxNTcxMiwic2NvcGUiOiJyZWZyZXNoX3Rva2VuIiwic3ViIjozNywiY3AiOiJoYW16YUBnbWFpbC5jb20ifQ.bkfy67kvMajBDKK4RLNuxKVOy1yxhpjeK0M0LZjp0oU",
+    "flag": false
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create-Project-API:
+Request body
+{
+  "enterBrandCompetitorHashtag": "lenovo, hp, dell",
+  "email": "hamza@gmail.com"
+}
+Response body
+{
+  "message": "Success",
+  "data": []
+}
+
+
+
+
+
+
+
+
+
+
+
+
+Project-Listing-API:
+Request body
+{
+account_type=trial,
+email=hamza@gmail.com
+}
+
+Response body
+Download
+{
+  "message": "Success",
+  "data": [
+    {
+      "id": 36,
+      "brandName": "lenovo",
+      "competitorName": "hp",
+      "hashtag": "dell",
+      "creationAt": "2022-11-30T13:44:03",
+      "updatedAt": "2022-11-30T13:44:21",
+      "deletedAt": null,
+      "accountType": "trial"
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+News-Mentions-API:
+Response body
+{
+  "message": "Success",
+  "data": {
+    "totalResults": 2099,
+    "articles": [
+      {
+        "source": {
+          "id": "usa-today",
+          "name": "USA Today"
+        },
+        "author": "Kasey Caminiti, Daniel Donabedian, Elsie Boskamp, Jon Winkler, Nusrat Sultana and Jessica Kasparian, Reviewed",
+        "title": "Cyber Monday 2022 isn't over yet—here are 150+ deals you can still shop",
+        "description": "Shop still-live Black Friday and Cyber Monday deals on all the gifts you want and the home, tech and fashion you need from Apple, HBOMax and more.",
+        "url": "https://www.usatoday.com/story/money/reviewed/2022/11/30/best-cyber-monday-deals-2022/10798978002/",
+        "urlToImage": "https://s.yimg.com/ny/api/res/1.2/v63akp7MFLAVNyU9Pund_g--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02NzU-/https://media.zenfs.com/en/usa_today_money_325/db642e5b7a3df06148aab6b1555178ec",
+        "publishedAt": "2022-11-30T13:00:21Z",
+        "content": "Shop all the best Cyber Monday deals on home goods, tech, fashion and more.\r\nRecommendations are independently chosen by Revieweds editors. Purchases you make through our links may earn us and our pu… [+23609 chars]",
+        "sentiment": "Positive"
+      }
+}
+}
+
+
+
+
+
+
+
+
+
+News-Sentiment-Chart-API:
+Response body
+{
+  "message": "Success",
+  "data": [
+    {
+      "publishedAt": "30/11/2022",
+      "numberOfPositive": 0.16666666666666669,
+      "numberOfNegative": 0,
+      "numberOfNeutral": 0
+    },
+    {
+      "publishedAt": "30/11/2022",
+      "numberOfPositive": 0.9166666666666667,
+      "numberOfNegative": 0,
+      "numberOfNeutral": 0
+    },
+    {
+      "publishedAt": "30/11/2022",
+      "numberOfPositive": 1.3166666666666667,
+      "numberOfNegative": 0,
+      "numberOfNeutral": 0
+    },
+    {
+      "publishedAt": "30/11/2022",
+      "numberOfPositive": 1.3166666666666667,
+      "numberOfNegative": 0,
+      "numberOfNeutral": 0
+    }
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+Reddit-Mentions-API:
+Response body
+{
+  "message": "Success",
+  "data": [
+    {
+      "id": "z8e78n",
+      "name": "t3_z8e78n",
+      "source": "reddit.com",
+      "author": "ChrisDaMan07",
+      "title": "Savagery never looked so stylish",
+      "description": "Savagery never looked so stylish",
+      "url": "https://www.reddit.com/gallery/z8e78n",
+      "publishedAt": 1669774791,
+      "score": "16",
+      "selftext": "",
+      "upvoteRatio": "0.94",
+      "sentiment": "Positive"
+    },
+    {
+      "id": "z8s035",
+      "name": "t3_z8s035",
+      "source": "reddit.com",
+      "author": "EliRayne",
+      "title": "unique issue with ideapad 3 device drivers",
+      "description": "unique issue with ideapad 3 device drivers",
+      "url": "https://www.reddit.com/r/Lenovo/comments/z8s035/unique_issue_with_ideapad_3_device_drivers/",
+      "publishedAt": 1669816222,
+      "score": "1",
+      "selftext": "Hello. This one is a series of events, and now I am stuck. It's lengthy but trust me. I recently got my ideapad 3 (touchscreen+ fingerprint biometrics) fixed. They replaced the motherboard and the hard drive, as they were both shot 3 months into receiving the device. Originally they sent the device to Lenovo to fix, but Lenovo sent it back without repairing it.\n\nWhy? Well, I bought this computer off of Amazon, at a not so discounted price. I was on what seemed to be the official Lenovo page, and some companies do sell/ distribute through amazon. It has pretty good specs for a laptop, so I thought it worth the price. It even come with a one-year warranty which was registered on Lenovo, but the hard drive in the computer was not the original drive the computer was supposed to come with. I also came to find out it was registered under a completely different name. So- they sent it back because seller sucks. \n\nOkay, so it's refurbished. Fine. The place I got it fixed at honored my warranty and even installed Windows 11 for me, for free. Great! All fixed right? No. When I got the computer back, it did not recognize my biometrics, touch pad, touch screen, or audio system drives. So, any built-in devices simply do not work. I tried updating them, automatically and manually from device manager. I tried advanced settings update all drives. Computer still doesn't register them. I tried installing them manually off the website, but the site couldn't even detect my device, and said the serial number was invalid.  It also said it was shipped and registered in 2010 from Thailand. I try manually looking up the serial number, and it finds the device and the warranty, but support bridge still does not recognize my device and I cannot download the drives. \n\nA few questions, one, is this computer stolen? Should I even have this? Honestly, it's looking really sketchy to me.  Two, what can I do to fix this, is it a Windows 11 install issue? How do I install the drives if I can't even get them directly off the site? Should I bring it back to get it repaired again? I am totally stuck.",
+      "upvoteRatio": "1.0",
+      "sentiment": "Positive"
+    }
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+Reddit-Sentiment-Chart-API:
+Response body
+{
+  "message": "Success",
+  "data": [
+    {
+      "publishedAt": "30/11/2022",
+      "numberOfPositive": 0.5,
+      "numberOfNegative": 0,
+      "numberOfNeutral": 0
+    },
+    {
+      "publishedAt": "30/11/2022",
+      "numberOfPositive": 0.875,
+      "numberOfNegative": 0,
+      "numberOfNeutral": 0
+    },
+    {
+      "publishedAt": "30/11/2022",
+      "numberOfPositive": 0.875,
+      "numberOfNegative": 0,
+      "numberOfNeutral": 0
+    },
+    {
+      "publishedAt": "30/11/2022",
+      "numberOfPositive": 0.875,
+      "numberOfNegative": 0,
+      "numberOfNeutral": 0
+    }
+}
+}
+
+
+
+
+
+
+
+
+
+Comparison-API:
+	
+Response body
+{
+  "message": "Success",
+  "data": [
+    {
+      "publishedAt": "30/11/2022",
+      "numberOfMentions": 0
+    },
+    {
+      "publishedAt": "30/11/2022",
+      "numberOfMentions": 0
+    },
+    {
+      "publishedAt": "30/11/2022",
+      "numberOfMentions": 0
+    },
+    {
+      "publishedAt": "30/11/2022",
+      "numberOfMentions": 0
+    },
+    {
+      "publishedAt": "30/11/2022",
+      "numberOfMentions": 0
+    }
+}
+}
+
+
+
+
+Report-API:
