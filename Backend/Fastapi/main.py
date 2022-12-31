@@ -222,11 +222,13 @@ def create_user(request: Request):
     # Get the name and password from the request
     name = request.form["name"]
     password = request.form["password"]
+    email = request.form["email"]
 
     # Create a new user object
     user = users(
         u_name=name,
         u_password=password,
+        u_email=email,
         u_creation_at=datetime.utcnow()
     )
     try:
@@ -239,6 +241,16 @@ def create_user(request: Request):
         return {"message": 'Failed to create user'}
     # return {"name": name, "password": password}
     return {"message": "Successfully created user."}
+
+@app.post("/login/")
+def login(request: Request):
+    username = request.form["name"]
+    password = request.form["password"]
+    user = session.query(users).filter(users.u_name == username, users.u_password == password).first()
+    if user:
+        return {"status": "success", "user_id": user.u_id}
+    else:
+        return {"status": "error", "message": "Invalid username or password"}
 
 @app.get("/tables")
 def list_tables(db: Session = Depends(get_database_session)):
