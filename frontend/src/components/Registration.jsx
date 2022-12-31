@@ -45,6 +45,7 @@ export default function Registration() {
       )
         .then((res) => res.json())
         .then((data) => {
+          console.log("response: data",data)
           data.message === "Success"
             ? toast.success("You are successfully registered!") &&
               setTimeout(() => {
@@ -89,7 +90,7 @@ export default function Registration() {
                 </label>
                 <div className="mt-1">
                   <input
-                    id="email"
+                    id="username"
                     name="text"
                     type="text"
                     required

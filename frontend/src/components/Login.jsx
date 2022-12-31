@@ -28,7 +28,7 @@ export default function Login() {
     let values = { email, password };
     try {
       await fetch(
-        "https://media-monitoring-tool.herokuapp.com/api/v1/users/login",
+        "http://127.0.0.1:8000/login",
         {
           method: "POST",
           body: JSON.stringify(values),
@@ -40,6 +40,7 @@ export default function Login() {
       )
         .then((res) => res.json())
         .then((data) => {
+          console.log("response: ",data)
           if (data.message === "Success") {
             toast.success("You are successfully logged in!", {
               hideProgressBar: true,

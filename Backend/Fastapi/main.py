@@ -43,7 +43,10 @@ from fastapi import FastAPI, Request, Response, HTTPException
 from pydantic import BaseModel
 class UserStringRequest(BaseModel):
     user_string: str
-
+class userClass(BaseModel):
+    name: str
+    email: str
+    password: str
 
 def add_project(string,):
     strSplit = string.split(',')
@@ -62,16 +65,6 @@ def add_project(string,):
     session.commit()
     session.refresh(project)
     return project
-# def brand_exists(session, brand_name):
-#     return session.query(exists().where(namesNews.brand_name == brand_name)).scalar()
-# def competitor_exists(session, brand_name):
-#     return session.query(exists().where(namesNews.competitor_name == brand_name)).scalar()
-# def hashtag_exists(session, brand_name):
-#     return session.query(exists().where(namesNews.hashtag_name == brand_name)).scalar()
-# def namesNamesInsert(db: Session, brand_name: str, competitor_name: str, hashtag_name: str):
-#     name = namesNews(brand_name=brand_name, competitor_name=competitor_name, hashtag_name=hashtag_name)
-#     db.add(name)
-#     db.commit()
 
 def newsBrandInsert(db:session, rows: List[Dict[str, Any]]):
     db.bulk_insert_mappings(newsBrands, rows)
@@ -130,26 +123,7 @@ def apiCall(string):
     add_project(string)
     redditApi(string)
     return newsApi(string)
-    # url = ('https://newsapi.org/v2/everything?q=' + ' OR '.join(keywords)) + '&language=en' + '&sortBy=relevancy' + '&apiKey=1a8e8d019bb0420e8aa011b382aa8f76' + '&pageSize=100'
-
-    # response = requests.get(url)
-
-    # data = json.loads(response.content)
-    # if len(strSplit) == 3:
-    #     k1 = []
-    #     k2 = []
-    #     k3 = []
-    #     for key,_ in data.items():
-    #         totalResults = []
-    #         for result in data['articles']:
-    #             # print(result)
-    #             if re.search(keywords[0], result['content'], re.IGNORECASE):
-    #                 # print("Match found!",result)
-    #                 k1.append(result)
-    #             elif re.search(keywords[1], result['content'], re.IGNORECASE):
-    #                 k2.append(result)
-    #             elif re.search(keywords[2], result['content'], re.IGNORECASE):
-    #                 k3.append(result)
+    
 @app.post("/createProject")
 async def submit(request: Request, user_string_request: UserStringRequest):
     user_string = user_string_request.user_string
@@ -175,63 +149,50 @@ def add_user():
 @app.get("/createUser")
 def read_root(db: Session = Depends(get_database_session)):
     add_user()
-    # newMovie = Movie(name='Alice', desc="thisafa", type= 'fkajf', url='kjksvksv', rating=7)
-    # db.add(newMovie)
-    # db.commit()
-    # Movie.insert().values(name='Alice', desc="thisafa", type= 'fkajf', url='kjksvksv', rating=7)
-    
-    # users = db.query(Movie).all()
-    # for user in users:
-    #     print(f'Name: {user.name}')
-    #     return {"message": user.name}
-    #     break
+   
     return {"message": 'user'} 
 @app.get('/retrieved')
 def get_news_brand_by_id():
     # Retrieve a single row from the newsBrands table with the specified id
-    news_brand = session.query(newsBrands).filter(newsBrands.id == 139).first()
+    # news_brand = session.query(newsBrands).filter(newsBrands.id == 139).first()
+    username = 'shah@gmail.com'
+    password = 'Sasda@232gjh'
+    user = session.query(users).filter(users.u_email == username, users.u_password == password).first()
+    if user:
+        return {"status": "success", "user_id": user.u_id}
+    else:
+        return {"status": "error", "message": "Invalid username or password"}
     return news_brand
 
 @app.get('/insert')
 def insertOne():
-    # newsApi('lenovo,reno,iphone')
-
-    
-    # df = pd.DataFrame.from_dict(rows)
-    # rows = df.to_dict(orient='records')
     session.bulk_insert_mappings(newsBrands, rows)
     session.commit()
-
-
-    
-    # new_brand = {"n_p_brand": 'brand',
-    # "n_p_brand_mentions": {"key1": "value1", "key2": "value2"}}
-    # new_brand = newsBrands(**new_brand)
-    # session.add(new_brand)
-    # session.commit()
-    # session.refresh(new_brand)
     return {"inserted": 'success'}
 @app.get('/newsBrand')    
 def get_news_brands():
     # Retrieve all rows from the newsBrands table
     news_brands = session.query(newsBrands).all()
     return news_brands
+class UserRequest(BaseModel):
+    username: str
+    password: str
+    email: str
 
 @app.post("/users/")
-def create_user(request: Request):
-    # Get the name and password from the request
-    name = request.form["name"]
-    password = request.form["password"]
-    email = request.form["email"]
-
-    # Create a new user object
-    user = users(
-        u_name=name,
-        u_password=password,
-        u_email=email,
-        u_creation_at=datetime.utcnow()
-    )
+def create_user(request: Request, user_request: UserRequest):
     try:
+        name = user_request.username
+        password = user_request.password
+        email = user_request.email
+
+        user = users(
+            u_name=name,
+            u_password=password,
+            u_email=email,
+            u_creation_at=datetime.utcnow()
+        )
+            
     # Add the user to the database
         session.add(user)
         session.commit()
@@ -241,16 +202,22 @@ def create_user(request: Request):
         return {"message": 'Failed to create user'}
     # return {"name": name, "password": password}
     return {"message": "Successfully created user."}
+class UserloginRequest(BaseModel):
+    email: str
+    password: str
 
 @app.post("/login/")
-def login(request: Request):
-    username = request.form["name"]
-    password = request.form["password"]
-    user = session.query(users).filter(users.u_name == username, users.u_password == password).first()
-    if user:
-        return {"status": "success", "user_id": user.u_id}
-    else:
-        return {"status": "error", "message": "Invalid username or password"}
+def login(request: Request, user_request : UserloginRequest):
+    try:
+        email = user_request.email
+        password = user_request.password
+        user = session.query(users).filter(users.u_email == email, users.u_password == password).first()
+        if user:
+            return {"status": "success", "user_id": user.u_id}
+        else:
+            return {"status": "error", "message": "Invalid username or password"}
+    except: 
+        return {"message": 'Failed to create user'}
 
 @app.get("/tables")
 def list_tables(db: Session = Depends(get_database_session)):
