@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 export default function Registration() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [termsCheck, setTermsCheck] = useState(false);
 
@@ -28,11 +29,11 @@ export default function Registration() {
 
     setIsLoading(true);
 
-    let values = { email, password };
+    let values = { username,email, password };
 
     try {
       await fetch(
-        "https://media-monitoring-tool.herokuapp.com/api/v1/users/signup",
+        "http://127.0.0.1:8000/users",
         {
           method: "POST",
           body: JSON.stringify(values),
@@ -79,6 +80,27 @@ export default function Registration() {
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form className="space-y-6" onSubmit={signUp}>
               <div>
+                
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Username
+                </label>
+                <div className="mt-1">
+                  <input
+                    id="email"
+                    name="text"
+                    type="text"
+                    required
+                    value={username}
+                    className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                
                 <label
                   htmlFor="email"
                   className="block text-sm font-medium text-gray-700"
