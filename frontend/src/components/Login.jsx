@@ -49,8 +49,8 @@ export default function Login() {
             localStorage.setItem("userEmail", JSON.stringify({email:data.user_email, id:data.user_id, username:data.username}));
 
             setIsLoading(false);
-            navigate("/mentions");
-            // navigate("/monitor");
+            // navigate("/mentions");
+            navigate("/monitor");
 
            
           } else {

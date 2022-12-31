@@ -20,7 +20,7 @@ export default function MonitorBrand() {
     setIsLoading(true);
     try {
       await fetch(
-        "https://media-monitoring-tool.herokuapp.com/api/v1/users/create-brand",
+        "http://127.0.0.1:8000/createProject",
         {
           method: "POST",
           body: JSON.stringify({

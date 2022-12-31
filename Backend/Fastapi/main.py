@@ -126,7 +126,7 @@ def apiCall(string):
     
 @app.post("/createProject")
 async def submit(request: Request, user_string_request: UserStringRequest):
-    user_string = user_string_request.user_string
+    user_string = user_string_request.enterBrandCompetitorHashtag
     # apiCall(user_string)
     l1,l2,l3 = apiCall(user_string)
     await asyncio.sleep(1)
@@ -213,13 +213,8 @@ def login(request: Request, user_request : UserloginRequest):
         password = user_request.password
         user = session.query(users).filter(users.u_email == email, users.u_password == password).first()
         if user:
-<<<<<<< HEAD
             return {"message": "Success", "user_id": user.u_id, "user_email": user.u_email, "username": user.u_name}
             # return {"message": "Success"}
-=======
-            return {"message": "Success", "user_id": user.u_id, "user_email": user.u_email}
-            # return {'message': "Success"}
->>>>>>> c68f178da5e500ba1a68c070cf9ac1fd6891f507
         else:
             return {"status": "error", "message": "Invalid username or password"}
     except: 
