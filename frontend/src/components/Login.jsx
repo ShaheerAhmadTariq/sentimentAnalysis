@@ -42,6 +42,7 @@ export default function Login() {
         .then((data) => {
           console.log("response: ",data)
           if (data.message === "Success") {
+            
             toast.success("You are successfully logged in!", {
               hideProgressBar: true,
             });
