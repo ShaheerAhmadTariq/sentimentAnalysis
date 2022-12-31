@@ -150,7 +150,7 @@ def apiCall(string):
     #                 k2.append(result)
     #             elif re.search(keywords[2], result['content'], re.IGNORECASE):
     #                 k3.append(result)
-@app.post("/createProject")
+@app.post("/string")
 async def submit(request: Request, user_string_request: UserStringRequest):
     user_string = user_string_request.user_string
     # apiCall(user_string)
@@ -217,28 +217,7 @@ def get_news_brands():
     news_brands = session.query(newsBrands).all()
     return news_brands
 
-@app.post("/users/")
-def create_user(request: Request):
-    # Get the name and password from the request
-    name = request.form["name"]
-    password = request.form["password"]
 
-    # Create a new user object
-    user = users(
-        u_name=name,
-        u_password=password,
-        u_creation_at=datetime.utcnow()
-    )
-    try:
-    # Add the user to the database
-        session.add(user)
-        session.commit()
-    except:
-        session.rollback()
-        # err =  HTTPException(status_code=500, detail="Failed to create user.")
-        return {"message": 'Failed to create user'}
-    # return {"name": name, "password": password}
-    return {"message": "Successfully created user."}
 
 @app.get("/tables")
 def list_tables(db: Session = Depends(get_database_session)):

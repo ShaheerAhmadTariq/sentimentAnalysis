@@ -29,103 +29,59 @@ class projects(Base):
     p_hashtag = Column(String(100), unique=False, nullable=True)
     p_creation_at = Column(DateTime, default=datetime.utcnow)
     p_update_at = Column(DateTime, default=datetime.utcnow)
-    
+
+
+class namesNews(Base):
+    __tablename__ = "namesNews"
+    __table_args__ = {'extend_existing': True}
+
+    id = Column(Integer, primary_key=True)
+    brand_name = Column(String(100), unique=False, nullable=True)
+    competitor_name = Column(String(100), unique=False, nullable=True)
+    hashtag_name = Column(String(100), unique=False, nullable=True)
+
 class redditBrands(Base):
     __tablename__ = "redditBrands"
     __table_args__ = {'extend_existing': True}
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    
-    source_name = Column(String(255))
-    author = Column(String(255))
-    title = Column(Text)
-    description = Column(Text)
-    url = Column(String(255))
-    
-    published_at = Column(DateTime)
-    content = Column(Text)
-    name = Column(String(255))
+    id = Column(Integer, primary_key=True)
+    r_p_brand_mentions = Column(JSON)
 
 class redditCompetitor(Base):
     __tablename__ = "redditCompetitor"
     __table_args__ = {'extend_existing': True}
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    
-    source_name = Column(String(255))
-    author = Column(String(255))
-    title = Column(Text)
-    description = Column(Text)
-    url = Column(String(255))
-    
-    published_at = Column(DateTime)
-    content = Column(Text)
-    name = Column(String(255))
+    id = Column(Integer, primary_key=True)
+    r_p_competitor_mentions = Column(JSON)
 
 class redditHashtag(Base):
     __tablename__ = "redditHashtag"
     __table_args__ = {'extend_existing': True}
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    
-    source_name = Column(String(255))
-    author = Column(String(255))
-    title = Column(Text)
-    description = Column(Text)
-    url = Column(String(255))
-    
-    published_at = Column(DateTime)
-    content = Column(Text)
-    name = Column(String(255))
-
+    id = Column(Integer, primary_key=True)
+    r_p_hashtag_mentions = Column(JSON)
+# nn
 class newsBrands(Base):
     __tablename__ = "newsBrands"
     __table_args__ = {'extend_existing': True}
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    source_id = Column(Integer)
-    source_name = Column(String(255))
-    author = Column(String(255))
-    title = Column(String(255))
-    description = Column(Text)
-    url = Column(String(255))
-    url_to_image = Column(String(255))
-    published_at = Column(DateTime)
-    content = Column(Text)
-    name = Column(String(255))
+    id = Column(Integer, primary_key=True)
+    n_p_brand_mentions = Column(JSON)
 
 class newsCompetitor(Base):
     __tablename__ = "newsCompetitor"
     __table_args__ = {'extend_existing': True}
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    source_id = Column(Integer)
-    source_name = Column(String(255))
-    author = Column(String(255))
-    title = Column(String(255))
-    description = Column(Text)
-    url = Column(String(255))
-    url_to_image = Column(String(255))
-    published_at = Column(DateTime)
-    content = Column(Text)
-    name = Column(String(255))
+    id = Column(Integer, primary_key=True)
+    n_p_competitor_mentions = Column(JSON)
 
 class newsHashtag(Base):
     __tablename__ = "newsHashtag"
     __table_args__ = {'extend_existing': True}
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    source_id = Column(Integer)
-    source_name = Column(String(255))
-    author = Column(String(255))
-    title = Column(String(255))
-    description = Column(Text)
-    url = Column(String(255))
-    url_to_image = Column(String(255))
-    published_at = Column(DateTime)
-    content = Column(Text)
-    name = Column(String(255))
-    
+    id = Column(Integer, primary_key=True)
+    n_p_hashtag_mentions = Column(JSON)
+
 class projectSentiments(Base):
     __tablename__ = "projectSentiments"
     __table_args__ = {'extend_existing': True}
