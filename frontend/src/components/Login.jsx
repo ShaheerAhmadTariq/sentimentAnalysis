@@ -12,14 +12,14 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  var user = JSON.parse(localStorage.getItem("userEmail"));
+  // var user = localStorage.getItem("userEmail"));
 
-  useEffect(() => {
-    if (user) {
-      navigate("/mentions");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/mentions");
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   async function logIn(e) {
     e.preventDefault();
@@ -42,22 +42,17 @@ export default function Login() {
         .then((data) => {
           console.log("response: ",data)
           if (data.message === "Success") {
+            
             toast.success("You are successfully logged in!", {
               hideProgressBar: true,
             });
-            localStorage.setItem("userEmail", JSON.stringify(data.data?.email));
+            localStorage.setItem("userEmail", JSON.stringify({email:data.user_email, id:data.user_id, username:data.username}));
 
             setIsLoading(false);
+            navigate("/mentions");
+            // navigate("/monitor");
 
-            if (data.data.flag === true) {
-              setTimeout(() => {
-                navigate("/mentions");
-              }, 1500);
-            } else {
-              setTimeout(() => {
-                navigate("/monitor");
-              }, 1500);
-            }
+           
           } else {
             toast.error(data.message);
             setIsLoading(false);

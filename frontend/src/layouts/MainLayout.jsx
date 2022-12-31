@@ -2,33 +2,34 @@ import { Footer } from "../ui/Footer/Footer";
 import { Navbar } from "../ui/Navbar/Navbar";
 import { Sidebar } from "../ui/Sidebar/Sidebar";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Router, useNavigate } from "react-router-dom";
 
 export const MainLayout = ({ children }) => {
   const [showSideBar, setShowSideBar] = useState(true);
+  const [IsLoading, setIsLoading] = useState(true)
   const navigate = useNavigate();
 
   var user = JSON.parse(localStorage.getItem("userEmail"));
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     navigate("/login");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     const userData: any =
-  //       sessionStorage.getItem("userDataMS") ||
-  //       sessionStorage.getItem("LocalUser");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const userData=
+        sessionStorage.getItem("userDataMS") ||
+        sessionStorage.getItem("LocalUser");
 
-  //     if (!userData) {
-  //       Router.push("/");
-  //     } else {
-  //       setIsLoading(false);
-  //     }
-  //   }
-  // }, []);
+      if (!userData) {
+        Router.push("/");
+      } else {
+        setIsLoading(false);
+      }
+    }
+  }, []);
   return (
     <>
       <div>
