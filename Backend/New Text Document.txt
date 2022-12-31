@@ -1,0 +1,480 @@
+1: Action 22:42:39: INSTALL. 
+1: 1: MySQL Server 8.0 2: {B25E3578-EA46-4F9E-BD0F-089F3DC9DF10} 
+1: Action 22:42:39: FindRelatedProducts. Searching for related applications
+1: Action 22:42:39: AppSearch. Searching for installed applications
+1: Action 22:42:39: DwordToNumber. 
+1: Action 22:42:39: LaunchConditions. Evaluating launch conditions
+1: Action 22:42:39: ValidateProductID. 
+1: Action 22:42:39: CostInitialize. Computing space requirements
+1: Action 22:42:39: FileCost. Computing space requirements
+1: Action 22:42:39: CostFinalize. Computing space requirements
+1: Action 22:42:39: MigrateFeatureStates. Migrating feature states from related applications
+1: Action 22:42:39: InstallValidate. Validating install
+1: Action 22:42:40: SaveTargetDir. 
+1: Action 22:42:40: InstallInitialize. 
+1: Action 22:42:40: SetQtRemoveService. 
+1: Action 22:42:40: RemoveExistingProducts. Removing applications
+1: Action 22:42:40: ProcessComponents. Updating component registration
+1: Action 22:42:42: GenerateScript. Generating script operations for action:
+1: Updating component registration
+1: Action 22:42:42: UnpublishFeatures. Unpublishing Product Features
+1: Action 22:42:42: RemoveRegistryValues. Removing system registry values
+1: Action 22:42:42: RemoveShortcuts. Removing shortcuts
+1: Action 22:42:42: RemoveFiles. Removing files
+1: Action 22:42:42: InstallFiles. Copying new files
+1: File: Copying new files,  Directory: ,  Size: 
+1: Action 22:42:42: CreateShortcuts. Creating shortcuts
+1: Shortcut: Creating shortcuts
+1: Action 22:42:42: WriteRegistryValues. Writing system registry values
+1: Key: Writing system registry values, Name: , Value: 
+1: Action 22:42:42: RegisterUser. Registering user
+1: Action 22:42:42: RegisterProduct. Registering product
+1: Registering product
+1: Action 22:42:43: PublishFeatures. Publishing Product Features
+1: Feature: Publishing Product Features
+1: Action 22:42:43: PublishProduct. Publishing product information
+1: Action 22:42:43: InstallFinalize. 
+1: Action 22:42:43: ProcessComponents. Updating component registration
+1: Action 22:42:43: InstallFiles. Copying new files
+1: File: fido2.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 233472
+1: File: fido2.lib,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 54418
+1: File: harness-library.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 790016
+1: File: ibd2sdi.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6420080
+1: File: innochecksum.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6405752
+1: File: jemalloc.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 269312
+1: File: libcrypto-1_1-x64.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 3437568
+1: File: libmecab.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 1839616
+1: File: libprotobuf.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 2844672
+1: File: libprotobuf.lib,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 3976168
+1: File: libprotobuf-debug.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6240256
+1: File: libprotobuf-lite.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 598528
+1: File: libprotobuf-lite.lib,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 943314
+1: File: libprotobuf-lite-debug.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 1399296
+1: File: libsasl.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 110592
+1: File: libssl-1_1-x64.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 688640
+1: File: lz4_decompress.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6345856
+1: File: my_print_defaults.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6284928
+1: File: myisam_ftdump.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6542456
+1: File: myisamchk.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6660208
+1: File: myisamlog.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6503024
+1: File: myisampack.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6564472
+1: File: mysql.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 7322216
+1: File: mysql_config_editor.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6299784
+1: File: mysql_migrate_keyring.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 7292040
+1: File: mysql_secure_installation.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 7196816
+1: File: mysql_ssl_rsa_setup.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6323848
+1: File: mysql_tzinfo_to_sql.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6232712
+1: File: mysql_upgrade.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 7295096
+1: File: mysqladmin.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 7210104
+1: File: mysqlbinlog.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 7562872
+1: File: mysqlcheck.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 7216248
+1: File: mysqld.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 54641264
+1: File: mysqld_multi.pl,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 28776
+1: File: mysqldump.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 7280752
+1: File: mysqldumpslow.pl,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 7881
+1: File: mysqlharness_stdx.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 42112
+1: File: mysqlharness_tls.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 66688
+1: File: mysqlimport.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 7201400
+1: File: mysqlpump.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 7711344
+1: File: mysqlrouter.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 7730296
+1: File: mysqlrouter_connection_pool.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 65176
+1: File: mysqlrouter_http.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 271488
+1: File: mysqlrouter_http_auth_backend.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 115352
+1: File: mysqlrouter_http_auth_realm.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 38552
+1: File: mysqlrouter_io_component.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6269072
+1: File: mysqlrouter_keyring.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6311560
+1: File: mysqlrouter_lib.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 7499904
+1: File: mysqlrouter_metadata_cache.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 8042648
+1: File: mysqlrouter_passwd.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6283912
+1: File: mysqlrouter_plugin_info.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6267536
+1: File: mysqlrouter_routing.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6782088
+1: File: mysqlshow.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 7199856
+1: File: mysqlslap.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 7218800
+1: File: perror.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 7147632
+1: File: saslSCRAM.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 47104
+1: File: zlib_decompress.exe,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\bin\,  Size: 6251136
+1: File: ChangeLog,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\docs\,  Size: 22
+1: File: INFO_BIN,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\docs\,  Size: 8651
+1: File: INFO_SRC,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\docs\,  Size: 188
+1: File: sample_mysqlrouter.conf,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\docs\,  Size: 2213
+1: File: mysqlrouter.conf.sample,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\etc\,  Size: 1672
+1: File: errmsg.h,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\include\,  Size: 5685
+1: File: field_types.h,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\include\,  Size: 3030
+1: File: my_command.h,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\include\,  Size: 4407
+1: File: my_compress.h,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\include\,  Size: 3646
+1: File: my_list.h,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\include\,  Size: 2069
+1: File: mysql.h,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\include\,  Size: 33483
+1: File: client_plugin.h,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\include\mysql\,  Size: 8284
+1: File: mysql_com.h,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\include\,  Size: 37195
+1: File: plugin_auth_common.h,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\include\mysql\,  Size: 6866
+1: File: mysql_time.h,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\include\,  Size: 3554
+1: File: udf_registration_types.h,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\include\mysql\,  Size: 3827
+1: File: mysql_version.h,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\include\,  Size: 1120
+1: File: mysqld_error.h,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\include\,  Size: 259270
+1: File: mysqlx_ername.h,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\include\,  Size: 7304
+1: File: mysqlx_error.h,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\include\,  Size: 4211
+1: File: mysqlx_version.h,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\include\,  Size: 1840
+1: File: applink.c,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\include\openssl\,  Size: 3508
+1: File: connection_pool.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 35840
+1: File: http_auth_backend.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 41984
+1: File: http_auth_realm.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 45056
+1: File: http_server.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 6391296
+1: File: io.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 6233088
+1: File: keepalive.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 19456
+1: File: libmysql.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 7176704
+1: File: libmysql.lib,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 30676
+1: File: libprotobuf-lite.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 598528
+1: File: libprotobuf-lite.lib,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 943314
+1: File: char.bin,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_euc-jp\,  Size: 262496
+1: File: dicrc,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_euc-jp\,  Size: 693
+1: File: left-id.def,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_euc-jp\,  Size: 55910
+1: File: matrix.bin,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_euc-jp\,  Size: 3463716
+1: File: pos-id.def,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_euc-jp\,  Size: 1477
+1: File: rewrite.def,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_euc-jp\,  Size: 6241
+1: File: right-id.def,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_euc-jp\,  Size: 55910
+1: File: sys.dic,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_euc-jp\,  Size: 37779919
+1: File: unk.dic,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_euc-jp\,  Size: 5409
+1: File: char.bin,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_sjis\,  Size: 262496
+1: File: dicrc,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_sjis\,  Size: 693
+1: File: left-id.def,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_sjis\,  Size: 55910
+1: File: matrix.bin,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_sjis\,  Size: 3463716
+1: File: pos-id.def,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_sjis\,  Size: 1477
+1: File: rewrite.def,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_sjis\,  Size: 6241
+1: File: right-id.def,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_sjis\,  Size: 55910
+1: File: sys.dic,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_sjis\,  Size: 37635899
+1: File: unk.dic,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_sjis\,  Size: 5409
+1: File: char.bin,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_utf-8\,  Size: 262496
+1: File: dicrc,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_utf-8\,  Size: 693
+1: File: left-id.def,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_utf-8\,  Size: 55910
+1: File: matrix.bin,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_utf-8\,  Size: 3463716
+1: File: pos-id.def,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_utf-8\,  Size: 1477
+1: File: rewrite.def,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_utf-8\,  Size: 6241
+1: File: right-id.def,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_utf-8\,  Size: 55910
+1: File: sys.dic,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_utf-8\,  Size: 49199027
+1: File: unk.dic,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\dic\ipadic_utf-8\,  Size: 5690
+1: File: mecabrc,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\mecab\etc\,  Size: 1382
+1: File: metadata_cache.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 7208960
+1: File: mysqlclient.lib,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 43797870
+1: File: mysqlharness_stdx.lib,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 10392
+1: File: mysqlharness_tls.lib,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 22722
+1: File: mysqlrouter_connection_pool.lib,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 23086
+1: File: mysqlrouter_http.lib,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 45804
+1: File: mysqlrouter_http_auth_backend.lib,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 48066
+1: File: mysqlrouter_http_auth_realm.lib,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 11332
+1: File: mysqlrouter_io_component.lib,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 12642
+1: File: mysqlrouter_lib.lib,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 106360
+1: File: mysqlrouter_metadata_cache.lib,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 108530
+1: File: mysqlrouter_mysqlxmessages.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 150016
+1: File: mysqlrouter_mysqlxmessages.lib,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 2158
+1: File: mysqlrouter_routing.lib,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 48694
+1: File: adt_null.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 26112
+1: File: authentication_fido_client.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 31232
+1: File: authentication_kerberos_client.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 6238208
+1: File: authentication_ldap_sasl_client.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 43520
+1: File: authentication_oci_client.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 107008
+1: File: component_audit_api_message_emit.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 24576
+1: File: component_keyring_file.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 1181696
+1: File: component_log_filter_dragnet.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 32256
+1: File: component_log_sink_json.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 36352
+1: File: component_log_sink_syseventlog.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 17920
+1: File: component_mysqlbackup.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 44032
+1: File: component_query_attributes.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 14336
+1: File: component_reference_cache.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 45568
+1: File: component_validate_password.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 60416
+1: File: connection_control.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 45568
+1: File: ddl_rewriter.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 71168
+1: File: group_replication.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 1929216
+1: File: ha_example.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 30720
+1: File: ha_mock.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 40448
+1: File: keyring_file.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 94208
+1: File: keyring_udf.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 26112
+1: File: libpluginmecab.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 30720
+1: File: locking_service.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 13824
+1: File: mypluglib.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 14336
+1: File: mysql_clone.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 141312
+1: File: mysql_no_login.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 12288
+1: File: rewrite_example.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 13824
+1: File: rewriter.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 59904
+1: File: semisync_master.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 78848
+1: File: semisync_replica.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 35328
+1: File: semisync_slave.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 35840
+1: File: semisync_source.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 78336
+1: File: validate_password.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 47616
+1: File: version_token.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\plugin\,  Size: 50688
+1: File: burmesedict.dict,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 254438
+1: File: char.brk,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 13680
+1: File: cjdict.dict,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 2003566
+1: File: de.res,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 2988
+1: File: el.res,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 152
+1: File: en.res,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 1764
+1: File: en_US.res,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 68
+1: File: en_US_POSIX.res,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 156
+1: File: es.res,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 2168
+1: File: fr.res,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 1200
+1: File: it.res,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 676
+1: File: ja.res,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 304
+1: File: khmerdict.dict,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 445542
+1: File: laodict.dict,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 52102
+1: File: line.brk,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 24080
+1: File: line_cj.brk,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 24112
+1: File: line_loose.brk,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 24232
+1: File: line_loose_cj.brk,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 25096
+1: File: line_normal.brk,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 23904
+1: File: line_normal_cj.brk,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 24304
+1: File: pt.res,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 2284
+1: File: res_index.res,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 220
+1: File: root.res,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 644
+1: File: ru.res,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 332
+1: File: sent.brk,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 19216
+1: File: sent_el.brk,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 19232
+1: File: thaidict.dict,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 126135
+1: File: title.brk,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 11824
+1: File: word.brk,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 22232
+1: File: word_POSIX.brk,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 22240
+1: File: zh.res,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 272
+1: File: zh_Hant.res,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\brkitr\,  Size: 272
+1: File: unames.icu,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\private\icudt69l\,  Size: 283936
+1: File: rest_api.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 142336
+1: File: rest_connection_pool.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 94208
+1: File: rest_metadata_cache.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 105472
+1: File: rest_router.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 80384
+1: File: rest_routing.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 128000
+1: File: router_openssl.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 14848
+1: File: router_protobuf.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 11776
+1: File: routing.dll,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\lib\,  Size: 96768
+1: File: LICENSE,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\,  Size: 287627
+1: File: LICENSE.router,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\,  Size: 121396
+1: File: README,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\,  Size: 666
+1: File: README.router,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\,  Size: 679
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\bulgarian\,  Size: 372286
+1: File: armscii8.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 5961
+1: File: ascii.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 5947
+1: File: cp1250.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 8676
+1: File: cp1251.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 8762
+1: File: cp1256.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 6010
+1: File: cp1257.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 9343
+1: File: cp850.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 5947
+1: File: cp852.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 5963
+1: File: cp866.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 6054
+1: File: dec8.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 6970
+1: File: geostd8.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 5957
+1: File: greek.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 6169
+1: File: hebrew.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 5952
+1: File: hp8.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 5943
+1: File: Index.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 19475
+1: File: keybcs2.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 5970
+1: File: koi8r.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 5951
+1: File: koi8u.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 6973
+1: File: latin1.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 10251
+1: File: latin2.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 7673
+1: File: latin5.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 5950
+1: File: latin7.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 7879
+1: File: macce.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 8488
+1: File: macroman.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 8499
+1: File: README,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 1749
+1: File: swe7.xml,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\,  Size: 6971
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\czech\,  Size: 372208
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\danish\,  Size: 372208
+1: File: dictionary.txt,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\,  Size: 25575
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\dutch\,  Size: 373228
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\english\,  Size: 371449
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\estonian\,  Size: 371713
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\french\,  Size: 372856
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\german\,  Size: 379101
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\greek\,  Size: 378240
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\hungarian\,  Size: 372090
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\italian\,  Size: 373219
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\japanese\,  Size: 378895
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\korean\,  Size: 374489
+1: File: messages_to_clients.txt,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\,  Size: 624277
+1: File: messages_to_error_log.txt,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\,  Size: 378839
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\norwegian\,  Size: 371519
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\norwegian-ny\,  Size: 371572
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\polish\,  Size: 372378
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\portuguese\,  Size: 374409
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\romanian\,  Size: 373161
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\russian\,  Size: 386675
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\serbian\,  Size: 373830
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\slovak\,  Size: 371975
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\spanish\,  Size: 373103
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\swedish\,  Size: 372302
+1: File: errmsg.sys,  Directory: C:\Program Files\MySQL\MySQL Server 8.0\share\ukrainian\,  Size: 381298
+1: Action 22:42:52: CreateShortcuts. Creating shortcuts
+1: Shortcut: icon.ico
+1: Shortcut: Icon.MysqlCmdShell
+1: Shortcut: rpxm3ds_|MySQL 8.0 Command Line Client
+1: Shortcut: 7ejegqmo|MySQL 8.0 Command Line Client - Unicode
+1: Action 22:42:52: WriteRegistryValues. Writing system registry values
+1: Key: \SOFTWARE\MySQL AB\MySQL Server 8.0, Name: Location, Value: C:\Program Files\MySQL\MySQL Server 8.0\
+1: Key: \SOFTWARE\MySQL AB\MySQL Server 8.0, Name: Version, Value: 8.0.31
+1: Key: \SOFTWARE\MySQL AB\MySQL Server 8.0, Name: DataLocation, Value: C:\ProgramData\MySQL\MySQL Server 8.0
+1: Key: \SOFTWARE\MySQL AB\MySQL Server 8.0, Name: , Value: 
+1: Key: \Console\MySQL 8.0 Command Line Client - Unicode, Name: FaceName, Value: Lucida Console
+1: Key: \Console\MySQL 8.0 Command Line Client - Unicode, Name: FontWeight, Value: #400
+1: Key: \Console\MySQL 8.0 Command Line Client - Unicode, Name: , Value: 
+1: Key: \Software\MySQL AB\MySQL Server 8.0, Name: installed, Value: #1
+1: Action 22:42:52: RegisterProduct. Registering product
+1: {B25E3578-EA46-4F9E-BD0F-089F3DC9DF10}
+1: Action 22:42:52: PublishFeatures. Publishing Product Features
+1: Feature: RegKeys
+1: Feature: Client
+1: Feature: MYSQLSERVER
+1: Feature: DEVEL
+1: Feature: DOCUMENTATION
+1: Feature: INFO
+1: Feature: Readme
+1: Feature: ALWAYSINSTALL
+1: Feature: Router
+1: Feature: Server_Scripts
+1: Feature: MISC
+1: Feature: ProgramMenu
+1: Action 22:42:52: PublishProduct. Publishing product information
+1: Action 22:42:53: RollbackCleanup. Removing backup files
+1: 1: MySQL Server 8.0 2: {B25E3578-EA46-4F9E-BD0F-089F3DC9DF10} 3: 1 
+1: The action 'Install' for product 'MySQL Server 8.0.31' completed successfully.
+2: Action 22:42:56: INSTALL. 
+2: 1: MySQL Connector Python v8.0.31 2: {D46BFD4D-FC6F-4F53-96C8-50C3E9C79CD2} 
+2: Action 22:42:56: FindRelatedProducts. Searching for related applications
+2: Action 22:42:56: AppSearch. Searching for installed applications
+2: Action 22:42:56: SetInstallDirCurrentP310. 
+2: Action 22:42:56: LaunchConditions. Evaluating launch conditions
+2: Action 22:42:56: ValidateProductID. 
+2: Action 22:42:56: CostInitialize. Computing space requirements
+2: Action 22:42:56: FileCost. Computing space requirements
+2: Action 22:42:56: CostFinalize. Computing space requirements
+2: Action 22:42:56: InstallValidate. Validating install
+2: Action 22:42:57: InstallInitialize. 
+2: Action 22:42:57: RemoveExistingProducts. Removing applications
+2: Action 22:42:57: ProcessComponents. Updating component registration
+2: Action 22:42:57: GenerateScript. Generating script operations for action:
+2: Updating component registration
+2: Action 22:42:57: UnpublishFeatures. Unpublishing Product Features
+2: Action 22:42:57: RemoveFiles. Removing files
+2: Action 22:42:57: InstallFiles. Copying new files
+2: File: Copying new files,  Directory: ,  Size: 
+2: Action 22:42:57: RegisterUser. Registering user
+2: Action 22:42:57: RegisterProduct. Registering product
+2: Registering product
+2: Action 22:42:57: PublishFeatures. Publishing Product Features
+2: Feature: Publishing Product Features
+2: Action 22:42:57: PublishProduct. Publishing product information
+2: Action 22:42:57: InstallFinalize. 
+2: Action 22:42:57: ProcessComponents. Updating component registration
+2: Action 22:42:57: InstallFiles. Copying new files
+2: File: __init__.py,  Directory: C:\Program Files\MySQL\Connector Python 8.0\Examples\,  Size: 0
+2: File: abstracts.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 56000
+2: File: authentication_kerberos_client.dll,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\vendor\plugin\,  Size: 6248608
+2: File: authentication_kerberos_client.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\plugins\,  Size: 15125
+2: File: authentication_ldap_sasl_client.dll,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\vendor\plugin\,  Size: 53920
+2: File: authentication_ldap_sasl_client.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\plugins\,  Size: 19211
+2: File: authentication_oci_client.dll,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\vendor\plugin\,  Size: 117392
+2: File: authentication_oci_client.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\plugins\,  Size: 5922
+2: File: authentication.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 2910
+2: File: caching_sha2_password.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\plugins\,  Size: 3488
+2: File: _mysql_connector.cp310-win_amd64.pyd,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\,  Size: 60416
+2: File: _mysqlxpb.cp310-win_amd64.pyd,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\,  Size: 1361920
+2: File: CHANGES.txt,  Directory: C:\Program Files\MySQL\Connector Python 8.0\,  Size: 15179
+2: File: charsets.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 27492
+2: File: connection_cext.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 31371
+2: File: connection.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 59190
+2: File: constants.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 39871
+2: File: CONTRIBUTING.rst,  Directory: C:\Program Files\MySQL\Connector Python 8.0\,  Size: 6481
+2: File: conversion.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 21996
+2: File: cursor_cext.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 37047
+2: File: cursor.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 50495
+2: File: custom_types.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 1826
+2: File: dates.py,  Directory: C:\Program Files\MySQL\Connector Python 8.0\Examples\,  Size: 4111
+2: File: dbapi.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 2770
+2: File: dependency_links.txt,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql_connector_python-8.0.31-py3.10.egg-info\,  Size: 1
+2: File: base.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\django\,  Size: 21833
+2: File: client.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\django\,  Size: 3789
+2: File: compiler.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\django\,  Size: 1728
+2: File: creation.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\django\,  Size: 1538
+2: File: features.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\django\,  Size: 2088
+2: File: __init__.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\django\,  Size: 0
+2: File: introspection.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\django\,  Size: 17334
+2: File: operations.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\django\,  Size: 3919
+2: File: schema.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\django\,  Size: 2275
+2: File: validation.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\django\,  Size: 1546
+2: File: client_error.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\locales\eng\,  Size: 7491
+2: File: __init__.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\locales\eng\,  Size: 1444
+2: File: engines.py,  Directory: C:\Program Files\MySQL\Connector Python 8.0\Examples\,  Size: 2234
+2: File: errorcode.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 69343
+2: File: errors.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 10211
+2: File: INFO_BIN,  Directory: C:\Program Files\MySQL\Connector Python 8.0\,  Size: 97
+2: File: INFO_SRC ,  Directory: C:\Program Files\MySQL\Connector Python 8.0\,  Size: 107
+2: File: __init__.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 3211
+2: File: inserts.py,  Directory: C:\Program Files\MySQL\Connector Python 8.0\Examples\,  Size: 3159
+2: File: libcrypto-1_1-x64.dll,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\vendor\,  Size: 3303936
+2: File: libcrypto-1_1-x64.dll,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\,  Size: 3303936
+2: File: libmysql.dll,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\,  Size: 7187056
+2: File: libsasl.dll,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\vendor\,  Size: 120944
+2: File: libssl-1_1-x64.dll,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\vendor\,  Size: 659968
+2: File: libssl-1_1-x64.dll,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\,  Size: 659968
+2: File: LICENSE.txt,  Directory: C:\Program Files\MySQL\Connector Python 8.0\,  Size: 127538
+2: File: __init__.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\locales\,  Size: 2751
+2: File: microseconds.py,  Directory: C:\Program Files\MySQL\Connector Python 8.0\Examples\,  Size: 4243
+2: File: multi_resultsets.py,  Directory: C:\Program Files\MySQL\Connector Python 8.0\Examples\,  Size: 3399
+2: File: mysql_clear_password.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\plugins\,  Size: 1726
+2: File: __init__.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\,  Size: 0
+2: File: mysql_native_password.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\plugins\,  Size: 2848
+2: File: mysql_warnings.py,  Directory: C:\Program Files\MySQL\Connector Python 8.0\Examples\,  Size: 2448
+2: File: authentication.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\,  Size: 5439
+2: File: charsets.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\,  Size: 27492
+2: File: connection.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\,  Size: 118029
+2: File: constants.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\,  Size: 15220
+2: File: crud.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\,  Size: 25257
+2: File: dbdoc.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\,  Size: 3819
+2: File: client_error.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\locales\eng\,  Size: 7491
+2: File: __init__.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\locales\eng\,  Size: 1444
+2: File: errorcode.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\,  Size: 69343
+2: File: errors.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\,  Size: 8362
+2: File: expr.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\,  Size: 48049
+2: File: helpers.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\,  Size: 7240
+2: File: __init__.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\,  Size: 3556
+2: File: __init__.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\locales\,  Size: 2751
+2: File: mysqlx_connection_pb2.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\protobuf\,  Size: 10995
+2: File: mysqlx_crud_pb2.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\protobuf\,  Size: 50572
+2: File: mysqlx_cursor_pb2.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\protobuf\,  Size: 9301
+2: File: mysqlx_datatypes_pb2.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\protobuf\,  Size: 18174
+2: File: mysqlx_expect_pb2.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\protobuf\,  Size: 9219
+2: File: mysqlx_expr_pb2.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\protobuf\,  Size: 23037
+2: File: __init__.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\protobuf\,  Size: 19910
+2: File: mysqlx_notice_pb2.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\protobuf\,  Size: 18483
+2: File: mysqlx_pb2.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\protobuf\,  Size: 14782
+2: File: mysqlx_prepare_pb2.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\protobuf\,  Size: 12414
+2: File: mysqlx_resultset_pb2.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\protobuf\,  Size: 16158
+2: File: mysqlx_session_pb2.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\protobuf\,  Size: 8570
+2: File: mysqlx_sql_pb2.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\protobuf\,  Size: 5680
+2: File: protocol.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\,  Size: 40149
+2: File: result.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\,  Size: 30894
+2: File: statement.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysqlx\,  Size: 45831
+2: File: network.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 21024
+2: File: optionfiles.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 13144
+2: File: PKG-INFO,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql_connector_python-8.0.31-py3.10.egg-info\,  Size: 1600
+2: File: __init__.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\plugins\,  Size: 3217
+2: File: pooling.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 20438
+2: File: prepared_statements.py,  Directory: C:\Program Files\MySQL\Connector Python 8.0\Examples\,  Size: 3270
+2: File: protocol.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 32427
+2: File: README.txt,  Directory: C:\Program Files\MySQL\Connector Python 8.0\,  Size: 659
+2: File: README.rst,  Directory: C:\Program Files\MySQL\Connector Python 8.0\,  Size: 659
+2: File: requires.txt,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql_connector_python-8.0.31-py3.10.egg-info\,  Size: 156
+2: File: saslSCRAM.dll,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\vendor\,  Size: 57456
+2: File: sha256_password.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\plugins\,  Size: 1857
+2: File: SOURCES.txt,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql_connector_python-8.0.31-py3.10.egg-info\,  Size: 9247
+2: File: top_level.txt,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql_connector_python-8.0.31-py3.10.egg-info\,  Size: 40
+2: File: transaction.py,  Directory: C:\Program Files\MySQL\Connector Python 8.0\Examples\,  Size: 4285
+2: File: unicode.py,  Directory: C:\Program Files\MySQL\Connector Python 8.0\Examples\,  Size: 3250
+2: File: utils.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 18873
+2: File: version.py,  Directory: C:\Users\ELITE BOOK\AppData\Local\Programs\Python\Python310\Lib\site-packages\mysql\connector\,  Size: 1955
+2: File: warnings.py ,  Directory: C:\Program Files\MySQL\Connector Python 8.0\Examples\,  Size: 2542
+2: Action 22:42:59: RegisterProduct. Registering product
+2: {D46BFD4D-FC6F-4F53-96C8-50C3E9C79CD2}
+2: Action 22:42:59: PublishFeatures. Publishing Product Features
+2: Feature: Python310
+2: Feature: CpyCommon
+2: Feature: Complete
+2: Action 22:42:59: PublishProduct. Publishing product information
+2: Action 22:42:59: RollbackCleanup. Removing backup files
+2: 1: MySQL Connector Python v8.0.31 2: {D46BFD4D-FC6F-4F53-96C8-50C3E9C79CD2} 3: 1 
+2: The action 'Install' for product 'Connector/Python 8.0.31' completed successfully.
