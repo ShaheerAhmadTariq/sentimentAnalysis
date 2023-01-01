@@ -7,4 +7,7 @@ DATABASE_URL = "mysql+pymysql://root:root@localhost:3306/FIVER"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 session = SessionLocal()
+session1 = SessionLocal()
+session2 = SessionLocal()
+session3 = SessionLocal()
 Base = declarative_base()   

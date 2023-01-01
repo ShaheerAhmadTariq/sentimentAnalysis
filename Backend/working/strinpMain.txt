@@ -18,7 +18,6 @@ from typing import List, Dict, Any
 from datetime import datetime
 from reddit import redditApi
 import asyncio
-from sentiment import getNewsBrand
 origins = [
     
     "http://localhost:3000",
@@ -80,18 +79,19 @@ def newsApi(keywords):
     k1 = []
     k2 = []
     k3 = []
-    
+    def strip(value):
+        return value[:255]
     for result in data['articles']:
         date = result["publishedAt"]
         date = datetime.strptime(date, '%Y-%m-%dT%H:%M:%SZ').date()
         article_data = {
                 "source_id": 1,
-                "source_name": result["source"]["name"],
-                "author": result["author"],
-                "title": result["title"],
+                "source_name": strip(result["source"]["name"]),
+                "author": strip(result["author"]),
+                "title": strip(result["title"]),
                 "description": result["description"],
-                "url": result["url"],
-                "url_to_image": result["urlToImage"],
+                "url": strip(result["url"]),
+                "url_to_image": strip(result["urlToImage"]),
                 "published_at": date,
                 "content": result["content"],
             }
@@ -119,7 +119,7 @@ def newsApi(keywords):
 def apiCall(string):
     add_project(string)
     redditApi(string)
-    return newsApi(string)  
+    return newsApi(string)
 class UserStringRequest(BaseModel):
     enterBrandCompetitorHashtag: str
 @app.post("/createProject")
@@ -131,7 +131,7 @@ async def submit(request: Request, user_string_request: UserStringRequest):
     # if not user_string:
     #     raise HTTPException(status_code=422, detail="User string is required")
     # Do something with the user string here, such as storing it in a database or sending it to another API
-    return {"message" : "Success"}
+    return {"l1": l1, "l2": l2, 'l3': l3}
 def add_user():
     user = users(
         u_name='shah',

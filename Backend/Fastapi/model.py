@@ -36,15 +36,15 @@ class redditBrands(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     
-    source_name = Column(String(255))
-    author = Column(String(255))
+    source_name = Column(Text)
+    author = Column(Text)
     title = Column(Text)
     description = Column(Text)
-    url = Column(String(255))
+    url = Column(Text)
     
     published_at = Column(DateTime)
     content = Column(Text)
-    name = Column(String(255))
+    name = Column(Text)
 
 class redditCompetitor(Base):
     __tablename__ = "redditCompetitor"
@@ -52,15 +52,15 @@ class redditCompetitor(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     
-    source_name = Column(String(255))
-    author = Column(String(255))
+    source_name = Column(Text)
+    author = Column(Text)
     title = Column(Text)
     description = Column(Text)
-    url = Column(String(255))
+    url = Column(Text)
     
     published_at = Column(DateTime)
     content = Column(Text)
-    name = Column(String(255))
+    name = Column(Text)
 
 class redditHashtag(Base):
     __tablename__ = "redditHashtag"
@@ -68,15 +68,15 @@ class redditHashtag(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     
-    source_name = Column(String(255))
-    author = Column(String(255))
+    source_name = Column(Text)
+    author = Column(Text)
     title = Column(Text)
     description = Column(Text)
-    url = Column(String(255))
+    url = Column(Text)
     
     published_at = Column(DateTime)
     content = Column(Text)
-    name = Column(String(255))
+    name = Column(Text)
 
 class newsBrands(Base):
     __tablename__ = "newsBrands"
@@ -84,15 +84,15 @@ class newsBrands(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     source_id = Column(Integer)
-    source_name = Column(String(255))
-    author = Column(String(255))
-    title = Column(String(255))
+    source_name = Column(Text)
+    author = Column(Text)
+    title = Column(Text)
     description = Column(Text)
-    url = Column(String(255))
-    url_to_image = Column(String(255))
+    url = Column(Text)
+    url_to_image = Column(Text)
     published_at = Column(DateTime)
     content = Column(Text)
-    name = Column(String(255))
+    name = Column(Text)
 
 class newsCompetitor(Base):
     __tablename__ = "newsCompetitor"
@@ -100,15 +100,15 @@ class newsCompetitor(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     source_id = Column(Integer)
-    source_name = Column(String(255))
-    author = Column(String(255))
-    title = Column(String(255))
+    source_name = Column(Text)
+    author = Column(Text)
+    title = Column(Text)
     description = Column(Text)
-    url = Column(String(255))
-    url_to_image = Column(String(255))
+    url = Column(Text)
+    url_to_image = Column(Text)
     published_at = Column(DateTime)
     content = Column(Text)
-    name = Column(String(255))
+    name = Column(Text)
 
 class newsHashtag(Base):
     __tablename__ = "newsHashtag"
@@ -116,15 +116,15 @@ class newsHashtag(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     source_id = Column(Integer)
-    source_name = Column(String(255))
-    author = Column(String(255))
-    title = Column(String(255))
+    source_name = Column(Text)
+    author = Column(Text)
+    title = Column(Text)
     description = Column(Text)
-    url = Column(String(255))
-    url_to_image = Column(String(255))
+    url = Column(Text)
+    url_to_image = Column(Text)
     published_at = Column(DateTime)
     content = Column(Text)
-    name = Column(String(255))
+    name = Column(Text)
     
 class projectSentiments(Base):
     __tablename__ = "projectSentiments"
