@@ -18,7 +18,7 @@ from typing import List, Dict, Any
 from datetime import datetime
 from reddit import redditApi
 import asyncio
-from sentiment import getNewsBrand
+from sentiment import getNews
 origins = [
     
     "http://localhost:3000",
@@ -122,16 +122,24 @@ def apiCall(string):
     return newsApi(string)  
 class UserStringRequest(BaseModel):
     enterBrandCompetitorHashtag: str
+    email : dict
 @app.post("/createProject")
 async def submit(request: Request, user_string_request: UserStringRequest):
     user_string = user_string_request.enterBrandCompetitorHashtag
-    # apiCall(user_string)
+    
     l1,l2,l3 = apiCall(user_string)
-    await asyncio.sleep(1)
-    # if not user_string:
-    #     raise HTTPException(status_code=422, detail="User string is required")
-    # Do something with the user string here, such as storing it in a database or sending it to another API
-    return {"message" : "Success"}
+    userID = user_string_request.email['id']
+
+    p_id = session.query(projects).filter(projects.user_id == userID).first()
+    if p_id:
+        project = session.query(projects).filter(projects.user_id == userID, projects.p_id == p_id.p_id).first()
+        res = getNews(project.p_brand_name, project.p_competitor_name, project.p_hashtag) 
+        await asyncio.sleep(1)
+        return {"message" : "Success"}
+    else:
+        return {"message": "project not found"}
+    
+
 def add_user():
     user = users(
         u_name='shah',
@@ -161,7 +169,6 @@ def get_news_brand_by_id():
     else:
         return {"status": "error", "message": "Invalid username or password"}
     return news_brand
-
 @app.get('/insert')
 def insertOne():
     session.bulk_insert_mappings(newsBrands, rows)
@@ -224,3 +231,15 @@ def list_tables(db: Session = Depends(get_database_session)):
         result = conn.execute("SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema='FIVER'")
         tables = [row[0] for row in result]
         return {"tables": tables}
+
+@app.get('/sentiment')
+def sent():
+    try:
+        user_id = 1
+        p_id = 1
+        project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+        res = getNews(project.p_brand_name, project.p_competitor_name, project.p_hashtag) 
+        return res
+    except:
+        return {"message": "error"}
+        

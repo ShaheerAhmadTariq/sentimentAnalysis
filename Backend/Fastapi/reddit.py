@@ -26,7 +26,7 @@ def redditApi(keywords):
         client_secret = 'g7BpsSTakcZvdRyhogi5S3PHA3ri8A', 
         user_agent = user_agent
     )
-    limit = 10
+    limit = 2
     def api_call_1():
         if not session1.query(exists().where(redditBrands.name == keywords[0])).scalar():
             subreddit = reddit.subreddit(keywords[0])

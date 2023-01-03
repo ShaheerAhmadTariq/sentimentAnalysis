@@ -19,6 +19,7 @@ export default function MonitorBrand() {
     e.preventDefault();
     setIsLoading(true);
     try {
+      
       await fetch(
         "http://127.0.0.1:8000/createProject",
         {
@@ -35,6 +36,7 @@ export default function MonitorBrand() {
       )
         .then((res) => res.json())
         .then((data) => {
+          console.log("res",data)
           if (data.message === "Success") {
             console.log(data);
             setIsLoading(false);
