@@ -25,7 +25,7 @@ export default function MonitorBrand() {
           method: "POST",
           body: JSON.stringify({
             enterBrandCompetitorHashtag: brandKeywords,
-            email: userEmail,
+            email: userEmail.email,
           }),
           headers: {
             "Content-Type": "application/json",
@@ -36,8 +36,9 @@ export default function MonitorBrand() {
         .then((res) => res.json())
         .then((data) => {
           if (data.message === "Success") {
+            console.log(data);
             setIsLoading(false);
-            navigate("/mentions");
+            // navigate("/mentions");
           } else {
             toast.error(data.message);
             setIsLoading(false);
