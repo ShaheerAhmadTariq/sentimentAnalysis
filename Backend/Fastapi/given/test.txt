@@ -1,1 +1,7 @@
-{"positive":R_h_positive,"negative":R_h_negative, "neutral":R_h_neutral}
+    n_brands = getNewsCard(brand, days, newsBrands)
+    n_competitors = getNewsCard(competitor, days, newsCompetitor)
+    n_hashtag = getNewsCard(hashtag, days, newsHashtag)
+
+    r_brands = getNewsCard(brand, days, redditBrands)
+    r_competitors = getNewsCard(competitor, days, redditCompetitor)
+    r_hashtags = getNewsCard(hashtag, days, redditHashtag)

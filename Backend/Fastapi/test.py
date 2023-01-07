@@ -1,34 +1,20 @@
-from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String
-from sqlalchemy.engine import Inspector
-# Create a connection to the database
-engine = create_engine('mysql://root:root@localhost/FIVER')
+from database import session
+from model import newsBrands, Base
+from typing import List, Dict, Any
 
-# Create a MetaData object
-metadata = MetaData()
+def getSentiment(table: List[Dict[str, Any]]):
+    content = []
+    positive = 0
+    negative = 0
+    neutral = 0
+    for data in table:
+        print(data)
 
-# Define the table structure
-users_table = Table('users', metadata,
-    Column('id', Integer, primary_key=True),
-    Column('name', String(100)),
-    Column('email', String(100))
-)
 
-# Create the table
-metadata.create_all(engine)
+data = session.query(newsBrands).filter(newsBrands.name == 'lenovo').all()
+getSentiment(data)
+# for row in data:
+#     print(row)
 
-connection = engine.connect()
 
-# Create an Inspector object
-inspector = Inspector.from_engine(engine)
 
-# Get the list of table names in the database
-table_names = inspector.get_table_names()
-
-# Check if the table you want to check for exists in the list of table names
-if 'movie' in table_names:
-    print("Table exists")
-else:
-    print("Table does not exist")
-
-# Close the connection
-connection.close()
