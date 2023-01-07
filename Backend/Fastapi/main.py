@@ -244,8 +244,8 @@ def sent():
         return res
     except:
         return {"message": "error"}
-@app.get('/sentimentGraph')
-def sentimentGraph():
+@app.post('/sentimentGraph')
+def sentimentGraph(request : Request):
     # try:
         user_id = 1
         p_id = 1
@@ -254,7 +254,7 @@ def sentimentGraph():
         res = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag,days) 
         return res
     # except:
-        return {"message": "error"}
+        return {"message": "sentiment error"}
 @app.get('/graph')
 def graph():
     # try:
@@ -266,12 +266,12 @@ def graph():
         return {'err': 'some err occured'}
 @app.get('/cards')
 def card():
-    # try:
+    try:
         user_id = 1
         p_id = 1
         days = 30
         project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
         res = getCards(project.p_brand_name, project.p_competitor_name, project.p_hashtag,days) 
         return res
-    # except:
-        return {"message": "error"}
+    except:
+        return {"message": "card error"}

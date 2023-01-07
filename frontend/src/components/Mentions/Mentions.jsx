@@ -31,15 +31,11 @@ const Mentions = () => {
 
   useEffect(() => {
     async function card() {
-      let cards = await fetch("http://127.0.0.1:8000/cards", {
-      });
-
-      cards = await cards.json();
-      console.log(cards);
-    }
-
-    card();
-  }, []);
+     
+  let cards = await  fetch('http://127.0.0.1:8000/cards')
+  cards = await cards.json()
+ 
+}card()},  []);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [mentionsPerPage] = useState(10);

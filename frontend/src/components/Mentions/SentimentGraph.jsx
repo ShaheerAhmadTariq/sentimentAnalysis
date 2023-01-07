@@ -15,8 +15,9 @@ async function graph () {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Accept: "application/json",
+      body: {message:"Lol"},
     }
-    // body: {},
   })
   
   graphs = await graphs.json()
