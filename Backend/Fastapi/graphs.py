@@ -20,7 +20,17 @@ def joinDict(first: dict[str, Any],second: dict[str, Any]):
             h += value[2]
             new_dict[key] = [b,c,h]
     return new_dict
-
+def graph(result):
+    pos = {}
+    neg = {}
+    neutral = {}
+    for key in result.keys():
+        p,n,neu = result[key]
+        pos[key] = p
+        neg[key] = n
+        neutral[key] = neu
+    return pos,neg,neutral
+# pos,neg,neu = graph(result)
 def getGraphs(brand: str, competitor: str, hashtag: str, days: int ):
     n_brands = getNewsGraph(brand, days, newsBrands)
     n_competitors = getNewsGraph(competitor, days, newsCompetitor)
@@ -29,15 +39,15 @@ def getGraphs(brand: str, competitor: str, hashtag: str, days: int ):
     r_brands = getNewsGraph(brand, days, redditBrands)
     r_competitors = getNewsGraph(competitor, days, redditCompetitor)
     r_hashtags = getNewsGraph(hashtag, days, redditHashtag)
-                                                
+
     result = joinDict(n_brands,n_competitors)
     result = joinDict(result, n_hashtag)
     result = joinDict(result, r_brands)
     result = joinDict(result, r_competitors)
     result = joinDict(result, r_hashtags)
 
-
-    return result
+    pos,neg,neutral = graph(result)
+    return {"positive": pos, "negative": neg, "neutral":neutral}
     return n_brands, n_competitors, n_hashtag, r_brands, r_competitors, r_hashtags
 
 def getNewsGraph(name: str, days : int, table: str):
