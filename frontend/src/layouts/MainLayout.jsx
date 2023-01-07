@@ -17,19 +17,19 @@ export const MainLayout = ({ children }) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const userData=
-        sessionStorage.getItem("userDataMS") ||
-        sessionStorage.getItem("LocalUser");
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const userData=
+  //       sessionStorage.getItem("userDataMS") ||
+  //       sessionStorage.getItem("LocalUser");
 
-      if (!userData) {
-        Router.push("/");
-      } else {
-        setIsLoading(false);
-      }
-    }
-  }, []);
+  //     if (!userData) {
+  //       Router.push("/");
+  //     } else {
+  //       setIsLoading(false);
+  //     }
+  //   }
+  // }, []);
   return (
     <>
       <div>

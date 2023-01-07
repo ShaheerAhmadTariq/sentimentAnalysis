@@ -7,6 +7,7 @@ import Comparison from "./components/Comparison/Comparison";
 import Dashboard from "./components/Dashboard";
 import PageNotFound from "./components/PageNotFound";
 import Report from "./components/Reports/Report";
+import SentimentGraph from "./components/Mentions/SentimentGraph";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="report" element={<Report />} />
           <Route path="*" element={<PageNotFound />} />
+          <Route path="line" element={<SentimentGraph/>}/>
         </Routes>
       </div>
     </>

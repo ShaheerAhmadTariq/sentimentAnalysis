@@ -29,6 +29,18 @@ const Mentions = () => {
   const [finalRecord, setFinalRecord] = useState([]);
   const [finalData, setFinalData] = useState([]);
 
+  useEffect(() => {
+    async function card() {
+      let cards = await fetch("http://127.0.0.1:8000/cards", {
+      });
+
+      cards = await cards.json();
+      console.log(cards);
+    }
+
+    card();
+  }, []);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [mentionsPerPage] = useState(10);
 
@@ -54,8 +66,8 @@ const Mentions = () => {
   var prevDate = `${year2}-${month2}-${day2}`;
 
   useEffect(() => {
-    getNewsMentions();
-    getRedditMentions();
+    // getNewsMentions();
+    // getRedditMentions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [brandKey]);
   // getBrandListing
@@ -430,7 +442,7 @@ const Mentions = () => {
             <>
               <Card>
                 <CardBody>
-                  You don't have any project yet!{" "}
+                  You don't have any project yet!
                   <Link to="/monitor">
                     <button
                       type="button"

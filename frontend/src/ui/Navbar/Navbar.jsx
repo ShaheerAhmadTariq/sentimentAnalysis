@@ -37,7 +37,7 @@ export const Navbar = ({ handleSideBarStatus }) => {
   useEffect(() => {
     const users = JSON.parse(localStorage.getItem("userEmail"));
     if (users) {
-      setUsername(users);
+      setUsername(users.username);
     }
   }, []);
 

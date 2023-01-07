@@ -2,7 +2,7 @@
 import schema
 from database import SessionLocal, engine, session
 import model 
-from model import projects, users, newsBrands, newsCompetitor, newsHashtag
+from model import projects, users, newsBrands, newsCompetitor, newsHashtag, redditBrands
 from datetime import datetime
 from fastapi import FastAPI
 from fastapi import FastAPI, Depends, Request
@@ -19,6 +19,8 @@ from datetime import datetime
 from reddit import redditApi
 import asyncio
 from sentiment import getNews
+from graphs import getNewsGraph, getGraphs
+from cards import getCards
 origins = [
     
     "http://localhost:3000",
@@ -129,7 +131,7 @@ async def submit(request: Request, user_string_request: UserStringRequest):
     
     l1,l2,l3 = apiCall(user_string)
     userID = user_string_request.email['id']
-
+    
     p_id = session.query(projects).filter(projects.user_id == userID).first()
     if p_id:
         project = session.query(projects).filter(projects.user_id == userID, projects.p_id == p_id.p_id).first()
@@ -242,4 +244,34 @@ def sent():
         return res
     except:
         return {"message": "error"}
-        
+@app.get('/sentimentGraph')
+def sentimentGraph():
+    # try:
+        user_id = 1
+        p_id = 1
+        days = 30
+        project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+        res = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag,days) 
+        return res
+    # except:
+        return {"message": "error"}
+@app.get('/graph')
+def graph():
+    # try:
+        name = 'lenovo'
+        days = 30
+        result = getNewsGraph(name,days, redditBrands)
+        return {'message': result}
+    # except:
+        return {'err': 'some err occured'}
+@app.get('/cards')
+def card():
+    # try:
+        user_id = 1
+        p_id = 1
+        days = 30
+        project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+        res = getCards(project.p_brand_name, project.p_competitor_name, project.p_hashtag,days) 
+        return res
+    # except:
+        return {"message": "error"}

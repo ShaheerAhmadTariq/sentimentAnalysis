@@ -41,7 +41,7 @@ const sideNavigation = [
 
 export const Sidebar = ({ showSideBar }) => {
   useEffect(() => {
-    getBrands();
+    // getBrands();
   }, []);
 
   async function getBrands() {

@@ -26,7 +26,7 @@ export default function MonitorBrand() {
           method: "POST",
           body: JSON.stringify({
             enterBrandCompetitorHashtag: brandKeywords,
-            email: userEmail.email,
+            email: userEmail,
           }),
           headers: {
             "Content-Type": "application/json",
@@ -36,11 +36,12 @@ export default function MonitorBrand() {
       )
         .then((res) => res.json())
         .then((data) => {
-          console.log("res",data)
+          // console.log("res",data)
           if (data.message === "Success") {
             console.log(data);
             setIsLoading(false);
-            // navigate("/mentions");
+            localStorage.setItem("brandList",JSON.stringify(brandKeywords.split(",")))
+            navigate("/mentions");
           } else {
             toast.error(data.message);
             setIsLoading(false);
