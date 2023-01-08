@@ -21,6 +21,7 @@ import asyncio
 from sentiment import getNews
 from graphs import getNewsGraph, getGraphs
 from cards import getCards
+from newGraph import graph
 origins = [
     
     "http://localhost:3000",
@@ -244,26 +245,30 @@ def sent():
         return res
     except:
         return {"message": "error"}
-@app.post('/sentimentGraph')
-def sentimentGraph(request : Request):
+class sentimentGraphInput(BaseModel):
+    u_id: int
+    p_id: int
+    days: int
+@app.get('/sentimentGraph')
+# def sentimentGraph(request : Request, user_request: sentimentGraphInput):
+def sentimentGraph():
     # try:
+    #     # your code here
+    #     return {"message": "working"}
+    # except:
+    #     return {"message": "sentiment error"}
+    try:
         user_id = 1
         p_id = 1
         days = 30
         project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
-        res = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag,days) 
+        res = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
         return res
-    # except:
+    except:
+        session.rollback()
+        
         return {"message": "sentiment error"}
-@app.get('/graph')
-def graph():
-    # try:
-        name = 'lenovo'
-        days = 30
-        result = getNewsGraph(name,days, redditBrands)
-        return {'message': result}
-    # except:
-        return {'err': 'some err occured'}
+
 @app.get('/cards')
 def card():
     try:
@@ -274,4 +279,18 @@ def card():
         res = getCards(project.p_brand_name, project.p_competitor_name, project.p_hashtag,days) 
         return res
     except:
+        session.rollback()
         return {"message": "card error"}
+
+@app.get('/graph')
+def graphtest():
+    # try:
+        
+        user_id = 1
+        p_id = 1
+        days = 30
+        project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+        res = graph(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
+        return {'message': res}
+    # except:
+        return {'err': 'some err occured'} 

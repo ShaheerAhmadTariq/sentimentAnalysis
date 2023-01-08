@@ -34,7 +34,7 @@ const Mentions = () => {
      
   let cards = await  fetch('http://127.0.0.1:8000/cards')
   cards = await cards.json()
- 
+  console.log(cards);
 }card()},  []);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -75,7 +75,7 @@ const Mentions = () => {
     // encode to scape spaces
     const esc = encodeURIComponent;
     const url =
-      "https://media-monitoring-tool.herokuapp.com/api/v1/mentions/mentions?";
+      "http://127.0.0.1:8000/sentimentGraph";
     const params = {
       keyword: brandKey,
       startDate: prevDate,
@@ -102,7 +102,7 @@ const Mentions = () => {
     // encode to scape spaces
     const esc = encodeURIComponent;
     const url =
-      "https://media-monitoring-tool.herokuapp.com/api/v1/reddit/mentions/mentions?";
+      "http://127.0.0.1:8000/sentimentGraph";
     const params = {
       keyword: brandKey,
       limit: 100,
