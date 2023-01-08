@@ -1,7 +1,7 @@
-n_brands = getDatafromtable(brand, days, newsBrands)
-    n_competitors = getDatafromtable(competitor, days, newsCompetitor)
-    n_hashtag = getDatafromtable(hashtag, days, newsHashtag)
+n_brands = getNewsGraph(brand, days, newsBrands)
+        n_competitors = getNewsGraph(competitor, days, newsCompetitor)
+        n_hashtag = getNewsGraph(hashtag, days, newsHashtag)
 
-    r_brands = getDatafromtable(brand, days, redditBrands)
-    r_competitors = getDatafromtable(competitor, days, redditCompetitor)
-    r_hashtags = getDatafromtable(hashtag, days, redditHashtag)
+        r_brands = getNewsGraph(brand, days, redditBrands)
+        r_competitors = getNewsGraph(competitor, days, redditCompetitor)
+        r_hashtags = getNewsGraph(hashtag, days, redditHashtag)
