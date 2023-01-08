@@ -1,6 +1,6 @@
 from sqlalchemy.schema import Column, ForeignKey
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, DateTime, JSON, ForeignKey
+from sqlalchemy import Column, Integer, String, Date, JSON, ForeignKey, Date
 from sqlalchemy.types import String, Integer, Text
 from sqlalchemy.orm import relationship
 from database import Base
@@ -14,7 +14,7 @@ class users(Base):
     u_name = Column(String(100))
     u_email = Column(String(50), unique=True)
     u_password = Column(String(200))
-    u_creation_at = Column(DateTime, default=datetime.utcnow)
+    u_creation_at = Column(Date, default=datetime.utcnow)
 
 
 class projects(Base):
@@ -27,8 +27,8 @@ class projects(Base):
     p_brand_name = Column(String(100), unique=False, nullable=True)
     p_competitor_name = Column(String(100), unique=False, nullable=True)
     p_hashtag = Column(String(100), unique=False, nullable=True)
-    p_creation_at = Column(DateTime, default=datetime.utcnow)
-    p_update_at = Column(DateTime, default=datetime.utcnow)
+    p_creation_at = Column(Date, default=datetime.utcnow)
+    p_update_at = Column(Date, default=datetime.utcnow)
     
 class redditBrands(Base):
     __tablename__ = "redditBrands"
@@ -42,7 +42,7 @@ class redditBrands(Base):
     description = Column(Text)
     url = Column(Text)
     
-    published_at = Column(DateTime)
+    published_at = Column(Date)
     content = Column(Text)
     name = Column(Text)
 
@@ -58,7 +58,7 @@ class redditCompetitor(Base):
     description = Column(Text)
     url = Column(Text)
     
-    published_at = Column(DateTime)
+    published_at = Column(Date)
     content = Column(Text)
     name = Column(Text)
 
@@ -74,7 +74,7 @@ class redditHashtag(Base):
     description = Column(Text)
     url = Column(Text)
     
-    published_at = Column(DateTime)
+    published_at = Column(Date)
     content = Column(Text)
     name = Column(Text)
 
@@ -90,7 +90,7 @@ class newsBrands(Base):
     description = Column(Text)
     url = Column(Text)
     url_to_image = Column(Text)
-    published_at = Column(DateTime)
+    published_at = Column(Date)
     content = Column(Text)
     name = Column(Text)
 
@@ -106,7 +106,7 @@ class newsCompetitor(Base):
     description = Column(Text)
     url = Column(Text)
     url_to_image = Column(Text)
-    published_at = Column(DateTime)
+    published_at = Column(Date)
     content = Column(Text)
     name = Column(Text)
 
@@ -122,7 +122,7 @@ class newsHashtag(Base):
     description = Column(Text)
     url = Column(Text)
     url_to_image = Column(Text)
-    published_at = Column(DateTime)
+    published_at = Column(Date)
     content = Column(Text)
     name = Column(Text)
     
