@@ -10,6 +10,7 @@ import Report from "./components/Reports/Report";
 import SentimentGraph from "./components/Mentions/SentimentGraph";
 
 function App() {
+  
   return (
     <>
       <div className="h-screen">

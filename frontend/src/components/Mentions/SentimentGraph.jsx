@@ -9,28 +9,16 @@ const SentimentGraph = ({ brandKey, currentDate, prevDate }) => {
 const [days, setDays] = useState(30)
 
 useEffect(()=>{
-   
-async function graph () {
-  let graphs = await fetch("http://127.0.0.1:8000/sentimentGraph",  {
-    method: 'GET',
-    // body: JSON.stringify( {u_id:1,
-    //       p_id:1,
-    //       days:30}),
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: "application/json",
-      
-    }
-  })
-  
-  graphs = await graphs.json()
-  console.log(graphs);
-}
+  async function graph () {
+    let graphs = await fetch("http://localhost:8000/sentimentGraph")
+    
+    graphs = await graphs.json()
+    console.log(graphs);
+  }
+   graph();
   
 
-graph()
-
-},[days])
+},[])
 
   const [options, setOptions] = useState({
     chart: {

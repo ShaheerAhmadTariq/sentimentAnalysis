@@ -37,7 +37,7 @@ export default function Filter({
             </label>
           </div>
         </div> */}
-        <div className="relative ml-5 flex items-start">
+        {/* <div className="relative ml-5 flex items-start">
           <div className="flex h-5 items-center">
             <input
               id="comments"
@@ -57,8 +57,8 @@ export default function Filter({
               News
             </label>
           </div>
-        </div>
-        <div className="relative ml-5 flex items-start">
+        </div> */}
+        {/* <div className="relative ml-5 flex items-start">
           <div className="flex h-5 items-center">
             <input
               id="comments"
@@ -78,7 +78,7 @@ export default function Filter({
               Reddit
             </label>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* pagination */}
