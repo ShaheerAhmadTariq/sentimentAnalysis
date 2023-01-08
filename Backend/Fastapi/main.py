@@ -313,7 +313,7 @@ def getCount():
     days = 30
     project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
     res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
-    p_id = 2
+    p_id = 4
     
     project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
     res2 = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 

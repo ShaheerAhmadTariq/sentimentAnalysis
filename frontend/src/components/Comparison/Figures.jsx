@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 
-const Figures = ({ brandKey, currentDate, prevDate }) => {
+const Figures = ({ brandKey, currentDate, prevDate,data }) => {
   const [graphPositives, setGraphPositives] = useState([]);
   const [graphNegatives, setGraphNegatives] = useState([]);
   const [totalPos, setTotalPos] = useState("");
@@ -9,7 +9,7 @@ const Figures = ({ brandKey, currentDate, prevDate }) => {
   const [total, setTotal] = useState("");
 
   useEffect(() => {
-    getSentimentGraph();
+    // getSentimentGraph();
   }, []);
 
   useEffect(() => {
@@ -55,18 +55,18 @@ const Figures = ({ brandKey, currentDate, prevDate }) => {
   return (
     <div className="flex flex-col col-span-1">
       <div className="flex flex-col text-center my-2">
-        <span className="text-4xl font-[200] my-1">{total}</span>
+        <span className="text-4xl font-[200] my-1">{data.Total}</span>
         <span className="text-xs text-gray-700 my-1">Total</span>
       </div>
       <div className="flex flex-col text-center my-2">
         <span className="text-4xl font-[200] my-1 text-green-400">
-          {totalPos}
+          {data.Positive}
         </span>
         <span className="text-xs text-gray-700 my-1">Positive</span>
       </div>
       <div className="flex flex-col text-center my-2">
         <span className="text-4xl font-[200] my-1 text-rose-600">
-          {Math.abs(totalNeg)}
+          {data.Negative}
         </span>
         <span className="text-xs text-gray-700 my-1">Negative</span>
       </div>
