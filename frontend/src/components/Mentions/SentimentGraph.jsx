@@ -11,7 +11,7 @@ const [days, setDays] = useState(30)
 useEffect(()=>{
    
 async function graph () {
-  let graphs = await fetch("http://127.0.0.1:8000/sentimentGraph",  {
+  let graphs = await fetch("http://localhost:8000/sentimentGraph",  {
     method: 'GET',
     // body: JSON.stringify( {u_id:1,
     //       p_id:1,

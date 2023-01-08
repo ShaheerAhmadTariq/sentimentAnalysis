@@ -1,4 +1,5 @@
-from database import session,session1,session2,session3
+from database import session,session1,session2,session3 ,Base
+
 from model import newsBrands, newsCompetitor, newsHashtag, redditBrands, redditCompetitor, redditHashtag, Base
 from datetime import datetime, timedelta
 from sqlalchemy import select, func
@@ -58,6 +59,7 @@ def getGraphs(brand: str, competitor: str, hashtag: str, day: int ):
     #     session.expire_all()
     # except:
     #     return "err"
+    # try:
     n_brands = getNewsGraph(brand, days, newsBrands)
     n_competitors = getNewsGraph(competitor, days, newsCompetitor)
     n_hashtag = getNewsGraph2(hashtag, days, newsHashtag)
@@ -65,6 +67,15 @@ def getGraphs(brand: str, competitor: str, hashtag: str, day: int ):
     r_brands = getNewsGraph2(brand, days, redditBrands)
     r_competitors = getNewsGraph3(competitor, days, redditCompetitor)
     r_hashtags = getNewsGraph3(hashtag, days, redditHashtag)
+        # n_brands = getNewsGraph(brand, days, newsBrands, session)
+        # n_competitors = getNewsGraph(competitor, days, newsCompetitor, session)
+        # n_hashtag = getNewsGraph(hashtag, days, newsHashtag, session)
+
+        # r_brands = getNewsGraph(brand, days, redditBrands, session)
+        # r_competitors = getNewsGraph(competitor, days, redditCompetitor, session)
+        # r_hashtags = getNewsGraph(hashtag, days, redditHashtag, session)
+    # except:
+        # return {'err':'while running'}
     # session.close()
     # session1.close()
     # session2.close()
@@ -87,6 +98,7 @@ def getNewsGraph(name: str, one_month_ago : int, table: str):
     # return rows
     # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
     rows = session.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
+    
     # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
     # rows = session.query(table).all
     # stmt = select([table.content, func.date(table.published_at).label('published_at')]).where(table.published_at >= one_month_ago)

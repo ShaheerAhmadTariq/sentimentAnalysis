@@ -1,6 +1,6 @@
 # python -m uvicorn main:app --reload
 import schema
-from database import SessionLocal, engine, session
+from database import SessionLocal, engine, session, session1, session2
 import model 
 from model import projects, users, newsBrands, newsCompetitor, newsHashtag, redditBrands
 from datetime import datetime
@@ -22,6 +22,8 @@ from sentiment import getNews
 from graphs import getNewsGraph, getGraphs
 from cards import getCards
 from newGraph import graph
+from comparison import comparisonCountpie
+
 origins = [
     
     "http://localhost:3000",
@@ -46,6 +48,15 @@ def get_database_session():
 from fastapi import FastAPI, Request, Response, HTTPException
 from pydantic import BaseModel
 
+@app.middleware("http")
+async def db_session_middleware(request, call_next):
+    response = None
+    try:
+        request.state.db = SessionLocal()
+        response = await call_next(request)
+    finally:
+        request.state.db.close()
+    return response
 
 
 def add_project(string,):
@@ -252,20 +263,17 @@ class sentimentGraphInput(BaseModel):
 @app.get('/sentimentGraph')
 # def sentimentGraph(request : Request, user_request: sentimentGraphInput):
 def sentimentGraph():
+    
     # try:
-    #     # your code here
-    #     return {"message": "working"}
-    # except:
-    #     return {"message": "sentiment error"}
-    try:
         user_id = 1
         p_id = 1
         days = 30
-        project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+        project = session2.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+        print(project.p_brand_name)
         res = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
         return res
-    except:
-        session.rollback()
+    # except:
+        # session.rollback()
         
         return {"message": "sentiment error"}
 
@@ -279,7 +287,7 @@ def card():
         res = getCards(project.p_brand_name, project.p_competitor_name, project.p_hashtag,days) 
         return res
     except:
-        session.rollback()
+        # session.rollback()
         return {"message": "card error"}
 
 @app.get('/graph')
@@ -291,6 +299,29 @@ def graphtest():
         days = 30
         project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
         res = graph(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
+        session.close()
+        session1.close()
+        session2.close()
         return {'message': res}
     # except:
         return {'err': 'some err occured'} 
+
+@app.get('/CountComparison')
+def getCount():
+    user_id = 1
+    p_id = 1
+    days = 30
+    project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+    res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
+    return res
+@app.get('/comaprisonLineChart')
+def getline():
+    user_id = 1
+    p_id = 1
+    days = 60
+    project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+    res = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
+    p_id = 2
+    project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+    res = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
+    return res
