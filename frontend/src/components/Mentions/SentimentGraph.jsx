@@ -8,13 +8,13 @@ import Chart from "react-apexcharts";
 const SentimentGraph = ({ brandKey, currentDate, prevDate }) => {
 const [days, setDays] = useState(30)
 
+async function graph () {
+  let graphs = await fetch("http://localhost:8000/sentimentGraph")
+  
+  graphs = await graphs.json()
+  console.log(graphs);
+}
 useEffect(()=>{
-  async function graph () {
-    let graphs = await fetch("http://localhost:8000/sentimentGraph")
-    
-    graphs = await graphs.json()
-    console.log(graphs);
-  }
    graph();
   
 

@@ -40,7 +40,7 @@ export default function MonitorBrand() {
           if (data.message === "Success") {
             console.log(data);
             setIsLoading(false);
-            localStorage.setItem("brandList",JSON.stringify(brandKeywords.split(",damv")))
+            localStorage.setItem("brandList",JSON.stringify(brandKeywords.split(",")))
             navigate("/mentions");
           } else {
             toast.error(data.message);
