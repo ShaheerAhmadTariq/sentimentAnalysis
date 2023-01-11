@@ -1,7 +1,6 @@
-n_brands = getNewsGraph(brand, days, newsBrands)
-        n_competitors = getNewsGraph(competitor, days, newsCompetitor)
-        n_hashtag = getNewsGraph(hashtag, days, newsHashtag)
-
-        r_brands = getNewsGraph(brand, days, redditBrands)
-        r_competitors = getNewsGraph(competitor, days, redditCompetitor)
-        r_hashtags = getNewsGraph(hashtag, days, redditHashtag)
+query = (
+        session.query(table.published_at, func.count(table.id))
+        .filter(table.published_at >= one_month_ago)
+        .group_by(table.published_at)
+        .all()
+    )
