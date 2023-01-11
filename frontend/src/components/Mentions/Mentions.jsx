@@ -17,6 +17,8 @@ import { Loader } from "../../ui/Loader";
 import { reddit } from "../../assets";
 
 const Mentions = () => {
+  const [days, setDays] = useState(30)
+
   const [newsmentions, setNewsMentions] = useState([]);
   const [redditmentions, setRedditMentions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +35,20 @@ const Mentions = () => {
   useEffect(() => {
     async function card() {
      
-  let cards = await  fetch('http://localhost:8000/cards')
+  // let cards = await  fetch('http://localhost:8000/cards')
+
+  let p_id =JSON.parse( localStorage.getItem("brandList"))
+  let {id} =JSON.parse( localStorage.getItem("userEmail"))
+  let cards = await fetch('http://localhost:8000/cards/', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({p_id: p_id[0].p_id,days,u_id:id}),
+})
+
+
+
   cards = await cards.json()
 
   let positive=cards[0];
@@ -55,7 +70,7 @@ const Mentions = () => {
 
 
 
-}card()},  []);
+}card()},  [days]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [mentionsPerPage] = useState(10);
@@ -181,6 +196,7 @@ const Mentions = () => {
                 </button>
                 {!redditCheck ? (
                   <SentimentGraph
+                  days={days} setDays={setDays}
                     brandKey={brandKey}
                     currentDate={currentDate}
                     prevDate={prevDate}

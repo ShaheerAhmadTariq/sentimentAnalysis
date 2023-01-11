@@ -131,9 +131,10 @@ def newsApi(keywords):
     return len(k1),len(k2),len(k3)
 
 def apiCall(string):
-    add_project(string)
+    project = add_project(string)
     redditApi(string)
-    return newsApi(string)  
+    newsApi(string)  
+    return project.p_id
 class UserStringRequest(BaseModel):
     enterBrandCompetitorHashtag: str
     email : dict
@@ -141,15 +142,16 @@ class UserStringRequest(BaseModel):
 async def submit(request: Request, user_string_request: UserStringRequest):
     user_string = user_string_request.enterBrandCompetitorHashtag
     
-    l1,l2,l3 = apiCall(user_string)
+    p_id = apiCall(user_string)
     userID = user_string_request.email['id']
     
-    p_id = session.query(projects).filter(projects.user_id == userID).first()
+    # p_id = session.query(projects).filter(projects.user_id == userID).first()
     if p_id:
-        project = session.query(projects).filter(projects.user_id == userID, projects.p_id == p_id.p_id).first()
+        project = session.query(projects).filter(projects.user_id == userID, projects.p_id == p_id).first()
         res = getNews(project.p_brand_name, project.p_competitor_name, project.p_hashtag) 
         await asyncio.sleep(1)
-        return {"message" : "Success", "p_id": p_id.p_id}
+
+        return {"message" : "Success", "p_id": p_id}
     else:
         return {"message": "project not found"}
     
@@ -277,10 +279,13 @@ def sentimentGraph(request : Request, user_request: sentimentGraphInput):
         
         return {"message": "sentiment error"}
 
-
+class sentimentCardInput(BaseModel):
+    u_id: int
+    p_id: int
+    days: int
 @app.post('/cards')
 # def card():
-def card (request : Request, user_request: sentimentGraphInput):
+def card (request : Request, user_request: sentimentCardInput):
     try:
         user_id = user_request.u_id
         p_id = user_request.p_id

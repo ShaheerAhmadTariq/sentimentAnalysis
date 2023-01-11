@@ -5,24 +5,24 @@ import Chart from "react-apexcharts";
 
 
 
-const SentimentGraph = ({ brandKey, currentDate, prevDate }) => {
-  const [days, setDays] = useState(30)
+const SentimentGraph = ({ brandKey, currentDate, prevDate,days,setDays }) => {
   const [options, setOptions] = useState({});
   const [series, setSeries] = useState([]);
   const [loader,setLoader]=useState(true)
   let months=['Jan','Feb','Mar','Apr','May',"Jun",'Jul','Aug','Sep','Oct','Nov','Dec']
   
-async function graph () {
-  // let graphs = await fetch(`http://localhost:8000/sentimentGraph/`)
-let p_id =JSON.parse( localStorage.getItem("brandList"))
-let {u_id} =JSON.parse( localStorage.getItem("userEmail"))
- let graphs = await fetch('https://localhost:8000/sentimentGraph/', {
-  method: 'POST',
+  async function graph () {
+    // let graphs = await fetch(`http://localhost:8000/sentimentGraph/`)
+    let p_id =JSON.parse( localStorage.getItem("brandList"))
+    let {id} =JSON.parse( localStorage.getItem("userEmail"))
+    let graphs = await fetch('http://localhost:8000/sentimentGraph/', {
+      method: 'POST',
   headers: {
     'Content-Type': 'application/json',
   },
-  body: JSON.stringify({p_id: p_id[0].p_id,days,u_id}),
+  body: JSON.stringify({p_id: p_id[0].p_id,days,u_id:id}),
 })
+console.log({p_id:p_id[0].p_id,days,id});
   
   graphs = await graphs.json()
   console.log(graphs);
@@ -432,3 +432,5 @@ useEffect(()=>{
 };
 
 export default SentimentGraph;
+
+
