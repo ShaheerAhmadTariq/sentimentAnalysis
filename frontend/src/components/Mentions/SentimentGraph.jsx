@@ -6,21 +6,33 @@ import Chart from "react-apexcharts";
 
 
 const SentimentGraph = ({ brandKey, currentDate, prevDate }) => {
-const [days, setDays] = useState(30)
-
+  const [days, setDays] = useState(30)
+  const [options, setOptions] = useState({});
+  const [series, setSeries] = useState([]);
+  const [loader,setLoader]=useState(true)
+  let months=['Jan','Feb','Mar','Apr','May',"Jun",'Jul','Aug','Sep','Oct','Nov','Dec']
+  
 async function graph () {
-  let graphs = await fetch("http://localhost:8000/sentimentGraph")
+  let graphs = await fetch(`http://localhost:8000/sentimentGraph/`)
   
   graphs = await graphs.json()
-  console.log(graphs);
-}
-useEffect(()=>{
-   graph();
-  
 
-},[])
+  let Dates=Object.keys(graphs.negative);
+  let options={month:'short',day:'numeric'}
 
-  const [options, setOptions] = useState({
+  Dates=Dates.map((elm)=>{
+    let date=new Date(elm);
+    return date.toLocaleDateString('en-US',options)
+  })
+
+
+  let negativeValues=Object.values(graphs.negative)
+
+  let positiveValues=Object.values(graphs.positive)
+
+  let neutralValues=Object.values(graphs.neutral)
+
+  setOptions({
     chart: {
       type: "line",
       stacked: true,
@@ -53,19 +65,7 @@ useEffect(()=>{
       },
     },
     colors: ["#73CCE0", "#ACD687", "#E0D45C"],
-    labels: [
-      "01/01/2003",
-      "02/01/2003",
-      "03/01/2003",
-      "04/01/2003",
-      "05/01/2003",
-      "06/01/2003",
-      "07/01/2003",
-      "08/01/2003",
-      "09/01/2003",
-      "10/01/2003",
-      "11/01/2003",
-    ],
+    labels:Dates ,
     markers: {
       size: 1,
       fillColor: ["#ffffff"],
@@ -132,27 +132,36 @@ useEffect(()=>{
         },
       },
     },
-  });
+  })
+
+  setSeries(
+    [
+      {
+        name: "Number of positive",
+        type: "line",
+        data: positiveValues,
+      },
+      {
+        name: "Number of negative",
+        type: "line",
+        data: negativeValues,
+      },
+      {
+        name: "Number of nuetral",
+        type: "line",
+        data: neutralValues,
+      },
+    ]
+  )
+ 
+}
+useEffect(()=>{
+   graph();
+},[])
+
 
   // console.log(options.labels);
 
-  const [series, setSeries] = useState([
-    {
-      name: "Number of positive",
-      type: "line",
-      data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-    },
-    {
-      name: "Number of negative",
-      type: "line",
-      data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
-    },
-    {
-      name: "Number of nuetral",
-      type: "line",
-      data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
-    },
-  ]);
 
   // get
   // async function getSentimentGraph() {

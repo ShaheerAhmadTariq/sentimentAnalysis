@@ -28,6 +28,7 @@ const Mentions = () => {
   const [neutralCheck, setNeutralCheck] = useState(false);
   const [finalRecord, setFinalRecord] = useState([]);
   const [finalData, setFinalData] = useState([]);
+  
 
   useEffect(() => {
     async function card() {
@@ -52,7 +53,6 @@ const Mentions = () => {
   setFinalData([...positive,...negative,...neutral])
   setFinalRecord([...positive,...negative,...neutral])
 
-  console.log(cards)
 
 
 }card()},  []);
@@ -285,13 +285,8 @@ const Mentions = () => {
                             </div>
                             <div
                               className="mt-2 space-y-4 text-sm text-gray-700"
-                              dangerouslySetInnerHTML={{
-                                __html:
-                                  m.selftext === "" || !m.selftext
-                                    ? m.description
-                                    : m.selftext,
-                              }}
                             />
+                            {m.description.length>=176?m.description.substring(0,176):m.description}
                             <div className="mt-6 flex justify-between space-x-8">
                               <div className="flex space-x-6">
                                 <span className="inline-flex items-center text-sm">
