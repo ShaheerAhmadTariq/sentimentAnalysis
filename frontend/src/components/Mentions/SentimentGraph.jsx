@@ -13,9 +13,19 @@ const SentimentGraph = ({ brandKey, currentDate, prevDate }) => {
   let months=['Jan','Feb','Mar','Apr','May',"Jun",'Jul','Aug','Sep','Oct','Nov','Dec']
   
 async function graph () {
-  let graphs = await fetch(`http://localhost:8000/sentimentGraph/`)
+  // let graphs = await fetch(`http://localhost:8000/sentimentGraph/`)
+let p_id =JSON.parse( localStorage.getItem("brandList"))
+let {u_id} =JSON.parse( localStorage.getItem("userEmail"))
+ let graphs = await fetch('https://localhost:8000/sentimentGraph/', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({p_id: p_id[0].p_id,days,u_id}),
+})
   
   graphs = await graphs.json()
+  console.log(graphs);
 
   let Dates=Object.keys(graphs.negative);
   let options={month:'short',day:'numeric'}
@@ -157,7 +167,7 @@ async function graph () {
 }
 useEffect(()=>{
    graph();
-},[])
+},[days])
 
 
   // console.log(options.labels);

@@ -64,7 +64,8 @@ const Mentions = () => {
   const firstPageIndex = lastPageIndex - mentionsPerPage;
   const currentMentions = finalData?.slice(firstPageIndex, lastPageIndex);
 
-  var brandKey = JSON.parse(localStorage.getItem("brandList"));
+  var brandKey = JSON.parse(localStorage.getItem("brandList"))
+  brandKey=brandKey[0].brandNames
   brandKey = brandKey?.at(-1);
 
   const date = new Date();
