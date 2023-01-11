@@ -77,7 +77,7 @@ def redditApi(keywords):
             redditCompetitorInsert(session2, k2)
 
     def api_call_3():
-        if not session2.query(exists().where(redditHashtag.name == keywords[2])).scalar():
+        if not session3.query(exists().where(redditHashtag.name == keywords[2])).scalar():
             k3 = []
             subreddit = reddit.subreddit(keywords[2])
             for submission in subreddit.hot(limit=limit):
@@ -101,6 +101,7 @@ def redditApi(keywords):
             redditHashtagInsert(session2, k3)
 
     # create three threads, one for each API call
+    
     thread1 = threading.Thread(target=api_call_1)
     thread2 = threading.Thread(target=api_call_2)
     thread3 = threading.Thread(target=api_call_3)
