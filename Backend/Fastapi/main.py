@@ -260,14 +260,14 @@ class sentimentGraphInput(BaseModel):
     u_id: int
     p_id: int
     days: int
-@app.get('/sentimentGraph')
-# def sentimentGraph(request : Request, user_request: sentimentGraphInput):
-def sentimentGraph():
+@app.post('/sentimentGraph')
+def sentimentGraph(request : Request, user_request: sentimentGraphInput):
+# def sentimentGraph():
     
     # try:
-        user_id = 1
-        p_id = 1
-        days = 30
+        user_id = user_request.u_id
+        p_id = user_request.p_id
+        days = user_request.days
         project = session2.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
         print(project.p_brand_name)
         res = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
@@ -277,12 +277,14 @@ def sentimentGraph():
         
         return {"message": "sentiment error"}
 
-@app.get('/cards')
-def card():
+
+@app.post('/cards')
+# def card():
+def card (request : Request, user_request: sentimentGraphInput):
     try:
-        user_id = 1
-        p_id = 1
-        days = 30
+        user_id = user_request.u_id
+        p_id = user_request.p_id
+        days = user_request.days
         project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
         res = getCards(project.p_brand_name, project.p_competitor_name, project.p_hashtag,days) 
         return res
@@ -293,7 +295,7 @@ def card():
 @app.get('/graph')
 def graphtest():
     # try:
-        
+
         user_id = 1
         p_id = 1
         days = 30
@@ -305,28 +307,34 @@ def graphtest():
         return {'message': res}
     # except:
         return {'err': 'some err occured'} 
-
-@app.get('/CountComparison')
-def getCount():
-    user_id = 1
-    p_id = 1
-    days = 30
+class countComaparisonModel(BaseModel):
+    u_id: int
+    p_id1: int
+    p_id2: int
+    days: int
+@app.post('/CountComparison')
+# def getCount():
+def getCount (request : Request, user_request: countComaparisonModel):
+    user_id = user_request.u_id
+    p_id = user_request.p_id1
+    days = user_request.days
     project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
     res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
-    p_id = 2
+    p_id = user_request.p_id2
     
     project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
     res2 = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
     return {"project01": res, "project02": res2}
 
-@app.get('/comaprisonLineChart')
-def getline():
-    user_id = 1
-    p_id = 1
-    days = 30
+@app.post('/comaprisonLineChart')
+# def getline():
+def getline(request : Request, user_request: countComaparisonModel):
+    user_id = user_request.u_id
+    p_id = user_request.p_id1
+    days = user_request.days
     project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
     res = comparisonLineChart(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
-    # p_id = 2
-    # project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
-    # res = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
-    return res
+    p_id = user_request.p_id2
+    project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+    res2 = comparisonLineChart(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
+    return {"project01": res, "project02": res2}

@@ -97,7 +97,7 @@ def getNewsGraph(name: str, one_month_ago : int, table: str):
     # rows = session.query(table).all
     # return rows
     # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
-    rows = session.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
+    rows = session3.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
     
     # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
     # rows = session.query(table).all

@@ -28,13 +28,33 @@ const Mentions = () => {
   const [neutralCheck, setNeutralCheck] = useState(false);
   const [finalRecord, setFinalRecord] = useState([]);
   const [finalData, setFinalData] = useState([]);
+  
 
   useEffect(() => {
     async function card() {
      
-  let cards = await  fetch('http://127.0.0.1:8000/cards')
+  let cards = await  fetch('http://localhost:8000/cards')
   cards = await cards.json()
-  console.log(cards);
+
+  let positive=cards[0];
+  let negative=cards[1];
+  let neutral=cards[2];
+
+  positive=positive.map((elm,ind)=>{
+      return {...elm,sentiment:"Positive"}
+  })
+  negative=negative.map((elm,ind)=>{
+      return {...elm,sentiment:"Negative"}
+  })
+  neutral=neutral.map((elm,ind)=>{
+      return {...elm,sentiment:"Neutral"}
+  })
+
+  setFinalData([...positive,...negative,...neutral])
+  setFinalRecord([...positive,...negative,...neutral])
+
+
+
 }card()},  []);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -265,13 +285,8 @@ const Mentions = () => {
                             </div>
                             <div
                               className="mt-2 space-y-4 text-sm text-gray-700"
-                              dangerouslySetInnerHTML={{
-                                __html:
-                                  m.selftext === "" || !m.selftext
-                                    ? m.description
-                                    : m.selftext,
-                              }}
                             />
+                            {m.description.length>=176?m.description.substring(0,176):m.description}
                             <div className="mt-6 flex justify-between space-x-8">
                               <div className="flex space-x-6">
                                 <span className="inline-flex items-center text-sm">

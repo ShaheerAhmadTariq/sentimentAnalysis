@@ -15,6 +15,7 @@ import { Loader } from "../../ui/Loader";
 const Comparison = () => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [data,setData]=useState(undefined)
   // const [brandList, setBrandList] = useState([]);
   const [secondProject, setSecondProject] = useState("");
 
@@ -40,6 +41,20 @@ const Comparison = () => {
   useEffect(() => {
     if (brandList?.length > 1) setIsLoading(false);
   }, [brandList]);
+
+  async function getData(){
+    let resp=await fetch('http://localhost:8000/CountComparison');
+    resp=await resp.json();
+    console.log(resp);
+    setData(resp)
+  }
+
+
+  useEffect(()=>{
+    getData();
+  },[])
+
+  
   return (
     <MainLayout>
       {brandList?.length <= 1 ? (
@@ -89,7 +104,7 @@ const Comparison = () => {
                   </div>
                 </CardBody>
               </Card>
-              {secondProject?.length > 0 ? (
+              {/* {secondProject?.length > 0 ? (
                 <Card className="my-4">
                   <CardBody>
                     <div>
@@ -102,39 +117,88 @@ const Comparison = () => {
                     </div>
                   </CardBody>
                 </Card>
-              ) : null}
-              <Card className="my-4">
-                <CardBody>
-                  <p className="capitalize">{brandKey}</p>
+              ) : null} */}
 
-                  <div className="grid grid-cols-[repeat(auto-fit,_15.666666%)] gap-5 m-auto justify-center">
-                    <Figures
-                      brandKey={brandKey}
-                      currentDate={currentDate}
-                      prevDate={prevDate}
-                    />
-                    <div className="col-span-2">
-                      <div className="">
-                        <SourcesChart
-                          brandKey={brandKey}
-                          currentDate={currentDate}
-                          prevDate={prevDate}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-span-2">
-                      <div className="">
-                        <SentimentChart
-                          brandKey={brandKey}
-                          currentDate={currentDate}
-                          prevDate={prevDate}
-                        />
-                      </div>
+
+
+              {data?
+              <>
+              <Card className="my-4">
+              <CardBody>
+                <p className="capitalize">{Object.keys(data)[0]}</p>
+
+                <div className="grid grid-cols-[repeat(auto-fit,_15.666666%)] gap-5 m-auto justify-center">
+                  <Figures
+                    data={data.project01}
+                    brandKey={brandKey}
+                    currentDate={currentDate}
+                    prevDate={prevDate}
+                  />
+                  <div className="col-span-2">
+                    <div className="">
+                      <SourcesChart
+                        brandKey={brandKey}
+                        currentDate={currentDate}
+                        prevDate={prevDate}
+                        data={data.project01}
+                      />
                     </div>
                   </div>
-                </CardBody>
-              </Card>
-              {secondProject?.length > 0 ? (
+                  <div className="col-span-2">
+                    <div className="">
+                      <SentimentChart
+                        data={data.project01}
+                        brandKey={brandKey}
+                        currentDate={currentDate}
+                        prevDate={prevDate}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </CardBody>
+            </Card>
+              <Card className="my-4">
+              <CardBody>
+                <p className="capitalize">{Object.keys(data)[1]}</p>
+
+                <div className="grid grid-cols-[repeat(auto-fit,_15.666666%)] gap-5 m-auto justify-center">
+                  <Figures
+                    data={data.project02}
+                    brandKey={brandKey}
+                    currentDate={currentDate}
+                    prevDate={prevDate}
+                  />
+                  <div className="col-span-2">
+                    <div className="">
+                      <SourcesChart
+                        brandKey={brandKey}
+                        currentDate={currentDate}
+                        prevDate={prevDate}
+                        data={data.project02}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-span-2">
+                    <div className="">
+                      <SentimentChart
+                        data={data.project02}
+                        brandKey={brandKey}
+                        currentDate={currentDate}
+                        prevDate={prevDate}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </CardBody>
+            </Card>
+            </>
+              :null}
+
+
+
+
+
+              {/* {secondProject?.length > 0 ? (
                 <Card className="my-4">
                   <CardBody>
                     <p className="capitalize">{secondProject}</p>
@@ -166,7 +230,7 @@ const Comparison = () => {
                     </div>
                   </CardBody>
                 </Card>
-              ) : null}
+              ) : null} */}
             </>
           )}
         </div>
