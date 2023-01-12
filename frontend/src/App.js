@@ -8,6 +8,8 @@ import Dashboard from "./components/Dashboard";
 import PageNotFound from "./components/PageNotFound";
 import Report from "./components/Reports/Report";
 import SentimentGraph from "./components/Mentions/SentimentGraph";
+import ContactUs from "./components/ContactUs";
+import AboutUs from "./components/AboutUs";
 
 function App() {
   
@@ -24,6 +26,8 @@ function App() {
           <Route path="report" element={<Report />} />
           <Route path="*" element={<PageNotFound />} />
           <Route path="line" element={<SentimentGraph/>}/>
+          <Route path="contact" element={<ContactUs/>}/>
+          <Route path="about" element={<AboutUs/>}/>
         </Routes>
       </div>
     </>
