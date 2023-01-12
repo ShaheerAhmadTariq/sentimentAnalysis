@@ -59,11 +59,11 @@ async def db_session_middleware(request, call_next):
     return response
 
 
-def add_project(string,):
+def add_project(string,userID):
     strSplit = string.split(',')
     keywords = strSplit
     project = projects(
-    user_id=1,
+    user_id=userID,
     p_brand_name=keywords[0],
     p_competitor_name=keywords[1],
     p_hashtag=keywords[2],
@@ -130,8 +130,8 @@ def newsApi(keywords):
     session.close()
     return len(k1),len(k2),len(k3)
 
-def apiCall(string):
-    project = add_project(string)
+def apiCall(string, userID):
+    project = add_project(string, userID)
     redditApi(string)
     newsApi(string)  
     return project.p_id
@@ -139,17 +139,18 @@ class UserStringRequest(BaseModel):
     enterBrandCompetitorHashtag: str
     email : dict
 @app.post("/createProject")
-async def submit(request: Request, user_string_request: UserStringRequest):
+# async def submit(request: Request, user_string_request: UserStringRequest):
+def submit(request: Request, user_string_request: UserStringRequest):
     user_string = user_string_request.enterBrandCompetitorHashtag
-    
-    p_id = apiCall(user_string)
     userID = user_string_request.email['id']
+    p_id = apiCall(user_string,userID)
+    
     
     # p_id = session.query(projects).filter(projects.user_id == userID).first()
     if p_id:
         project = session.query(projects).filter(projects.user_id == userID, projects.p_id == p_id).first()
         res = getNews(project.p_brand_name, project.p_competitor_name, project.p_hashtag) 
-        await asyncio.sleep(1)
+        # await asyncio.sleep(1)
 
         return {"message" : "Success", "p_id": p_id}
     else:
@@ -170,9 +171,9 @@ def add_user():
 
 @app.get("/createUser")
 def read_root(db: Session = Depends(get_database_session)):
-    add_user()
+    user = add_user()
    
-    return {"message": 'user'} 
+    return {"message": 'user','u_id': user.u_id} 
 @app.get('/retrieved')
 def get_news_brand_by_id():
     # Retrieve a single row from the newsBrands table with the specified id
@@ -312,24 +313,31 @@ def graphtest():
         return {'message': res}
     # except:
         return {'err': 'some err occured'} 
+        
 class countComaparisonModel(BaseModel):
     u_id: int
     p_id1: int
     p_id2: int
     days: int
-@app.post('/CountComparison')
-# def getCount():
-def getCount (request : Request, user_request: countComaparisonModel):
-    user_id = user_request.u_id
-    p_id = user_request.p_id1
-    days = user_request.days
+@app.get('/CountComparison')
+def getCount():
+# def getCount (request : Request, user_request: countComaparisonModel):
+    # user_id = user_request.u_id
+    # p_id = user_request.p_id1
+    # days = user_request.days
+    user_id = 1
+    p_id = 1
+    days = 30
     project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
     res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
-    p_id = user_request.p_id2
+    # p_id = user_request.p_id2
+    name1 = project.p_brand_name
+    p_id = 2
     
     project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
     res2 = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
-    return {"project01": res, "project02": res2}
+    name2 = project.p_brand_name
+    return {name1: res, name2: res2}
 
 @app.post('/comaprisonLineChart')
 # def getline():
@@ -343,3 +351,15 @@ def getline(request : Request, user_request: countComaparisonModel):
     project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
     res2 = comparisonLineChart(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
     return {"project01": res, "project02": res2}
+
+
+class getProjectsModel(BaseModel):
+    u_id: int
+@app.post('/getProjects')
+def getProjects(request : Request, user_request: getProjectsModel):
+    try :
+        user_id = user_request.u_id
+        project = session.query(projects).filter(projects.user_id == user_id).all()
+        return project
+    except:
+        return {"error while fetching projects"}

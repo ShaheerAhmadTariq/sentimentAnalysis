@@ -1,0 +1,42 @@
+login/signup ---> forgot password
+remove start your free trial 
+
+Enter keywords page
+navbar, handle comma seprated string
+backend ---> if data already available then check date (24 hours) and update tables
+
+mentions page
+add a refresh button
+card ----> dp, date, source
+filters ----> by influencer name, checkout readdit/news, sort (by default desending) , chart by pos, neg, neutral,
+                   highlight by source name
+
+navbar 
+welcome, about us, contact buttons, signup buttons, brand logo (text---> automated product sensing  and sentimenst **APSS)
+
+sidebar
+add a project button
+dashboard button 
+remove report button
+
+comparison page
+line chart with pos,neg,neutral
+project name in pie charts, show percentage in seperate (not in pie chart)
+
+
+dashboard page 
+show user project, add, delete
+backend on update ---> run /createProject again with existing values and time >= project creation date
+
+
+reports page
+number of mentions single line, 
+sentiment line --> pos,neg,neutral
+sources pie chart
+source by name line --> most active categories
+mentions by number 
+
+
+Welcome
+About us 
+contact us 

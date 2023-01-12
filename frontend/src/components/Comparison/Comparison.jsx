@@ -20,8 +20,8 @@ const Comparison = () => {
   const [secondProject, setSecondProject] = useState("");
 
   var brandKey = JSON.parse(localStorage.getItem("brandList"));
-  brandKey = brandKey?.at(-1).replace(/^\s+/g, "");
-
+  // brandKey = brandKey?.at(-1).replace(/^\s+/g, "");
+console.log("Brand Key",brandKey)
   const date = new Date();
 
   var day = date.getDate();
@@ -37,7 +37,6 @@ const Comparison = () => {
   var prevDate = `${year2}-${month2}-${day2}`;
 
   var brandList = JSON.parse(localStorage.getItem("brandList"));
-
   useEffect(() => {
     if (brandList?.length > 1) setIsLoading(false);
   }, [brandList]);
@@ -75,7 +74,7 @@ const Comparison = () => {
         </div>
       ) : (
         <div className="m-4 min-h-screen">
-          {isLoading ? (
+          {isLoading ? ( 
             <Loader className="text-indigo-600" />
           ) : (
             <>

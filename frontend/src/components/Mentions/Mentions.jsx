@@ -50,7 +50,7 @@ const Mentions = () => {
 
 
   cards = await cards.json()
-
+  console.log("res",cards)
   let positive=cards[0];
   let negative=cards[1];
   let neutral=cards[2];
