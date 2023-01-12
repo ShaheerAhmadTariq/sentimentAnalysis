@@ -24,6 +24,8 @@ function App() {
           <Route path="report" element={<Report />} />
           <Route path="*" element={<PageNotFound />} />
           <Route path="line" element={<SentimentGraph/>}/>
+          <Route path="contact" element={<ContactUs/>}/>
+          <Route path="about" element={<AboutUs/>}/>
         </Routes>
       </div>
     </>
