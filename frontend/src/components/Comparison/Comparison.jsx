@@ -16,11 +16,11 @@ const Comparison = () => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data,setData]=useState(undefined)
-  // const [brandList, setBrandList] = useState([]);
+  const [brandList, setBrandList] = useState(JSON.parse(localStorage.getItem("brandList")));
   const [secondProject, setSecondProject] = useState("");
 
   var brandKey = JSON.parse(localStorage.getItem("brandList"));
-  brandKey = brandKey?.at(-1).replace(/^\s+/g, "");
+  // brandKey = brandKey?.at(-1).replace(/^\s+/g, "");
 
   const date = new Date();
 
@@ -36,7 +36,6 @@ const Comparison = () => {
   var year2 = date.getFullYear();
   var prevDate = `${year2}-${month2}-${day2}`;
 
-  var brandList = JSON.parse(localStorage.getItem("brandList"));
 
   useEffect(() => {
     if (brandList?.length > 1) setIsLoading(false);
@@ -46,18 +45,19 @@ const Comparison = () => {
     let resp=await fetch('http://localhost:8000/CountComparison');
     resp=await resp.json();
     console.log(resp);
+    // setBrandList([...brandList,...resp])
     setData(resp)
   }
 
-
+console.log("BrandList", brandList)
   useEffect(()=>{
     getData();
   },[])
 
-  
+
   return (
     <MainLayout>
-      {brandList?.length <= 1 ? (
+      {brandList?.length > 1 ? (
         <div className="m-4 min-h-screen">
           <Card>
             <CardBody>
@@ -79,7 +79,8 @@ const Comparison = () => {
             <Loader className="text-indigo-600" />
           ) : (
             <>
-              <ProjectsModal
+            {/* New Comment 1 */}
+              {/* <ProjectsModal
                 open={open}
                 setOpen={setOpen}
                 brandList={brandList}
@@ -103,7 +104,8 @@ const Comparison = () => {
                     />
                   </div>
                 </CardBody>
-              </Card>
+              </Card> */}
+              {/* Old Comments */}
               {/* {secondProject?.length > 0 ? (
                 <Card className="my-4">
                   <CardBody>
@@ -123,6 +125,7 @@ const Comparison = () => {
 
               {data?
               <>
+              {/* Card Comments */}
               <Card className="my-4">
               <CardBody>
                 <p className="capitalize">{Object.keys(data)[0]}</p>
@@ -146,12 +149,12 @@ const Comparison = () => {
                   </div>
                   <div className="col-span-2">
                     <div className="">
-                      <SentimentChart
+                      {/* <SentimentChart
                         data={data.project01}
                         brandKey={brandKey}
                         currentDate={currentDate}
                         prevDate={prevDate}
-                      />
+                      /> */}
                     </div>
                   </div>
                 </div>

@@ -5,12 +5,12 @@ import Chart from "react-apexcharts";
 
 const SentimentChart = ({ brandKey, currentDate, prevDate,data }) => {
 
-  const [series, setSeries] = useState([data.news,data.reddit]);
-  
+  const [series, setSeries] = useState([data?.news,data?.reddit]);
+
   useEffect(()=>{
-       setSeries([data.news,data.reddit])
+       setSeries([data?.news,data?.reddit])
   },[data])
-  
+
   const [options, setOptions] = useState({
     labels:['News',"Reddit"],
     chart: {
@@ -43,7 +43,7 @@ const SentimentChart = ({ brandKey, currentDate, prevDate,data }) => {
   });
 
 
- 
+
 
   return (
     <div id="chart">

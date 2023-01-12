@@ -5,12 +5,12 @@ import Chart from "react-apexcharts";
 
 const SourcesChart = ({ brandKey, currentDate, prevDate ,data}) => {
 
-  
-  
-  const [series, setSeries] = useState([data.Postive,data.Negative]);
-  
+
+
+  const [series, setSeries] = useState([data?.Postive,data?.Negative]);
+
   useEffect(()=>{
-       setSeries([data.Positive,data.Negative])
+       setSeries([data?.Positive,data?.Negative])
   },[data])
 
 
@@ -45,10 +45,10 @@ const SourcesChart = ({ brandKey, currentDate, prevDate ,data}) => {
     ],
   });
 
- 
 
 
-  
+
+
 
 
   // get

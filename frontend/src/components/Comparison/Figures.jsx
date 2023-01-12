@@ -55,18 +55,18 @@ const Figures = ({ brandKey, currentDate, prevDate,data }) => {
   return (
     <div className="flex flex-col col-span-1">
       <div className="flex flex-col text-center my-2">
-        <span className="text-4xl font-[200] my-1">{data.Total}</span>
+        <span className="text-4xl font-[200] my-1">{data?.Total}</span>
         <span className="text-xs text-gray-700 my-1">Total</span>
       </div>
       <div className="flex flex-col text-center my-2">
         <span className="text-4xl font-[200] my-1 text-green-400">
-          {data.Positive}
+          {data?.Positive}
         </span>
         <span className="text-xs text-gray-700 my-1">Positive</span>
       </div>
       <div className="flex flex-col text-center my-2">
         <span className="text-4xl font-[200] my-1 text-rose-600">
-          {data.Negative}
+          {data?.Negative}
         </span>
         <span className="text-xs text-gray-700 my-1">Negative</span>
       </div>
