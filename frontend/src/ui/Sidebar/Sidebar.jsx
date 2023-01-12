@@ -75,6 +75,9 @@ export const Sidebar = ({ showSideBar }) => {
   }
   var brandKey = JSON.parse(localStorage.getItem("brandList"));
   var brandKeys = JSON.parse(localStorage.getItem("brandList"));
+  brandKey=brandKey[0].brandNames
+  brandKeys=brandKeys[0].brandNames
+  console.log(brandKey);
   brandKey = brandKey?.at(-1);
 
   return (

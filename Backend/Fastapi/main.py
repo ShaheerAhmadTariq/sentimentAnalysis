@@ -150,6 +150,7 @@ async def submit(request: Request, user_string_request: UserStringRequest):
         project = session.query(projects).filter(projects.user_id == userID, projects.p_id == p_id).first()
         res = getNews(project.p_brand_name, project.p_competitor_name, project.p_hashtag) 
         await asyncio.sleep(1)
+
         return {"message" : "Success", "p_id": p_id}
     else:
         return {"message": "project not found"}
