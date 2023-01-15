@@ -17,7 +17,7 @@ import { Loader } from "../../ui/Loader";
 import { reddit } from "../../assets";
 
 const Mentions = () => {
-  const [days, setDays] = useState(30)
+  const [days, setDays] = useState(30);
 
   const [newsmentions, setNewsMentions] = useState([]);
   const [redditmentions, setRedditMentions] = useState([]);
@@ -30,47 +30,42 @@ const Mentions = () => {
   const [neutralCheck, setNeutralCheck] = useState(false);
   const [finalRecord, setFinalRecord] = useState([]);
   const [finalData, setFinalData] = useState([]);
-  
 
   useEffect(() => {
     async function card() {
-     
-  // let cards = await  fetch('http://localhost:8000/cards')
+      // let cards = await  fetch('http://localhost:8000/cards')
 
-  let p_id =JSON.parse( localStorage.getItem("brandList"))
-  let {id} =JSON.parse( localStorage.getItem("userEmail"))
-  let cards = await fetch('http://localhost:8000/cards/', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({p_id: 1,days,u_id:id}),
-})
+      let p_id = JSON.parse(localStorage.getItem("brandList"));
+      let { id } = JSON.parse(localStorage.getItem("userEmail"));
+      let cards = await fetch("http://localhost:8000/cards/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ p_id: 1, days, u_id: id }),
+      });
 
+      cards = await cards.json();
 
+      let positive = cards[0];
+      let negative = cards[1];
+      let neutral = cards[2];
 
-  cards = await cards.json()
+      positive = positive.map((elm, ind) => {
+        return { ...elm, sentiment: "Positive" };
+      });
+      negative = negative.map((elm, ind) => {
+        return { ...elm, sentiment: "Negative" };
+      });
+      neutral = neutral.map((elm, ind) => {
+        return { ...elm, sentiment: "Neutral" };
+      });
 
-  let positive=cards[0];
-  let negative=cards[1];
-  let neutral=cards[2];
-
-  positive=positive.map((elm,ind)=>{
-      return {...elm,sentiment:"Positive"}
-  })
-  negative=negative.map((elm,ind)=>{
-      return {...elm,sentiment:"Negative"}
-  })
-  neutral=neutral.map((elm,ind)=>{
-      return {...elm,sentiment:"Neutral"}
-  })
-
-  setFinalData([...positive,...negative,...neutral])
-  setFinalRecord([...positive,...negative,...neutral])
-
-
-
-}card()},  [days]);
+      setFinalData([...positive, ...negative, ...neutral]);
+      setFinalRecord([...positive, ...negative, ...neutral]);
+    }
+    card();
+  }, [days]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [mentionsPerPage] = useState(10);
@@ -79,8 +74,8 @@ const Mentions = () => {
   const firstPageIndex = lastPageIndex - mentionsPerPage;
   const currentMentions = finalData?.slice(firstPageIndex, lastPageIndex);
 
-  var brandKey = JSON.parse(localStorage.getItem("brandList"))
-  brandKey=brandKey[0].brandNames
+  var brandKey = JSON.parse(localStorage.getItem("brandList"));
+  brandKey = brandKey[0].brandNames;
   brandKey = brandKey?.at(-1);
 
   const date = new Date();
@@ -110,8 +105,7 @@ const Mentions = () => {
 
     // encode to scape spaces
     const esc = encodeURIComponent;
-    const url =
-      "http://127.0.0.1:8000/sentimentGraph";
+    const url = "http://127.0.0.1:8000/sentimentGraph";
     const params = {
       keyword: brandKey,
       startDate: prevDate,
@@ -137,8 +131,7 @@ const Mentions = () => {
 
     // encode to scape spaces
     const esc = encodeURIComponent;
-    const url =
-      "http://127.0.0.1:8000/sentimentGraph";
+    const url = "http://127.0.0.1:8000/sentimentGraph";
     const params = {
       keyword: brandKey,
       limit: 100,
@@ -194,9 +187,11 @@ const Mentions = () => {
                 <button className="text-gray-500 text-sm">
                   Show Sentiment
                 </button>
+                {/* Graph */}
                 {!redditCheck ? (
                   <SentimentGraph
-                  days={days} setDays={setDays}
+                    days={days}
+                    setDays={setDays}
                     brandKey={brandKey}
                     currentDate={currentDate}
                     prevDate={prevDate}
@@ -300,10 +295,10 @@ const Mentions = () => {
                                 </a>
                               </h2>
                             </div>
-                            <div
-                              className="mt-2 space-y-4 text-sm text-gray-700"
-                            />
-                            {m.description.length>=176?m.description.substring(0,176):m.description}
+                            <div className="mt-2 space-y-4 text-sm text-gray-700" />
+                            {m.description.length >= 176
+                              ? m.description.substring(0, 176)
+                              : m.description}
                             <div className="mt-6 flex justify-between space-x-8">
                               <div className="flex space-x-6">
                                 <span className="inline-flex items-center text-sm">
