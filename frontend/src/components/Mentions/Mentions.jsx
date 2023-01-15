@@ -44,13 +44,13 @@ const Mentions = () => {
   headers: {
     'Content-Type': 'application/json',
   },
-  body: JSON.stringify({p_id: p_id[0].p_id,days,u_id:id}),
+  body: JSON.stringify({p_id: 1,days,u_id:id}),
 })
 
 
 
   cards = await cards.json()
-  console.log("res",cards)
+
   let positive=cards[0];
   let negative=cards[1];
   let neutral=cards[2];

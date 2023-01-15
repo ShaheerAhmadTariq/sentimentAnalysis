@@ -6,7 +6,7 @@ nltk.download('vader_lexicon')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
 from datetime import datetime
 sia = SIA()
-def getNews(brand: str, competitor: str, hashtag: str):
+def getNews(brand: str, competitor: str, hashtag: str, p_id: int):
     brands = session.query(newsBrands).filter(newsBrands.name == brand).all()
     N_b_positive,N_b_negative,N_b_neutral = getSentiment(brands)
     competitors = session.query(newsCompetitor).filter(newsCompetitor.name == competitor).all()
@@ -46,7 +46,7 @@ def getNews(brand: str, competitor: str, hashtag: str):
 
     p_sentiments = {"positive": p_Positve, "negative": p_negative, "neutral": p_neutral}
     sentiment = projectSentiments(
-        project_id = 1,
+        project_id = p_id,
         r_p_brand_sentiments = r_p_brand_sentiments,
         r_p_competitor_sentiments = r_p_competitor_sentiments,
         r_p_hashtag_sentiments = r_p_hashtag_sentiments,

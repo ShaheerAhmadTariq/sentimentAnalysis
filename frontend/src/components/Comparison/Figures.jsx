@@ -27,7 +27,7 @@ const Figures = ({ brandKey, currentDate, prevDate,data }) => {
     // encode to scape spaces
     const esc = encodeURIComponent;
     const url =
-      "https://media-monitoring-tool.herokuapp.com/api/v1/mentions/show-sentiment-chart?";
+      "http://localhost:8000/CountComparison/";  
     const params = {
       keyword: brandKey,
       startDate: prevDate,
@@ -40,7 +40,7 @@ const Figures = ({ brandKey, currentDate, prevDate,data }) => {
       .map((k) => `${esc(k)}=${esc(params[k])}`)
       .join("&");
 
-    await fetch(url + query)
+    await fetch(url )
       .then((res) => res.json())
       .then((data) => {
         if (data) {

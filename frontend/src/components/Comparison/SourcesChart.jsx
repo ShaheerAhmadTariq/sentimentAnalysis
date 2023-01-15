@@ -23,7 +23,7 @@ const SourcesChart = ({ brandKey, currentDate, prevDate ,data}) => {
     },
 
     dataLabels: {
-      enabled: true,
+      enabled: false,
     },
     legend: {
       show: true,

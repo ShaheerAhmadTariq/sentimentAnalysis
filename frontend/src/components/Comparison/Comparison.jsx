@@ -20,8 +20,9 @@ const Comparison = () => {
   const [secondProject, setSecondProject] = useState("");
 
   var brandKey = JSON.parse(localStorage.getItem("brandList"));
-  // brandKey = brandKey?.at(-1).replace(/^\s+/g, "");
-console.log("Brand Key",brandKey)
+  brandKey=brandKey[0].brandNames
+  brandKey = brandKey?.at(-1).replace(/^\s+/g, "");
+
   const date = new Date();
 
   var day = date.getDate();
@@ -37,12 +38,24 @@ console.log("Brand Key",brandKey)
   var prevDate = `${year2}-${month2}-${day2}`;
 
   var brandList = JSON.parse(localStorage.getItem("brandList"));
+  brandList=brandList[0].brandNames
+
   useEffect(() => {
     if (brandList?.length > 1) setIsLoading(false);
   }, [brandList]);
 
   async function getData(){
-    let resp=await fetch('http://localhost:8000/CountComparison');
+    
+    let p_id =JSON.parse( localStorage.getItem("brandList"))
+    let {id} =JSON.parse( localStorage.getItem("userEmail"))
+    // let resp=await fetch('http://localhost:8000/CountComparison'); //line chart of comparison
+   let resp = await fetch('http://localhost:8000/CountComparison/', {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({p_id1: 1,p_id2: 5,days:30,u_id:id}),
+})
     resp=await resp.json();
     console.log(resp);
     setData(resp)
@@ -53,7 +66,7 @@ console.log("Brand Key",brandKey)
     getData();
   },[])
 
-  
+        
   return (
     <MainLayout>
       {brandList?.length <= 1 ? (
@@ -74,7 +87,7 @@ console.log("Brand Key",brandKey)
         </div>
       ) : (
         <div className="m-4 min-h-screen">
-          {isLoading ? ( 
+          {isLoading ? (
             <Loader className="text-indigo-600" />
           ) : (
             <>

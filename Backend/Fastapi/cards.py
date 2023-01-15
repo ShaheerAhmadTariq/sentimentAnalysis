@@ -13,6 +13,9 @@ def getCards(brand: str, competitor: str, hashtag: str, days: int ):
     positive = []
     negative = []
     neutral = []
+    n_Positive = []
+    n_Negative = []
+    n_Neutral = []
     pos,neg,neu = getNewsCard(brand, days, newsBrands)
     positive.extend(pos)
     negative.extend(neg)
@@ -26,19 +29,20 @@ def getCards(brand: str, competitor: str, hashtag: str, days: int ):
     negative.extend(neg)
     neutral.extend(neu)
     pos,neg,neu = getNewsCard(brand, days, redditBrands)
-    positive.extend(pos)
-    negative.extend(neg)
-    neutral.extend(neu)
+    n_Positive.extend(pos)
+    n_Negative.extend(neg)
+    n_Neutral.extend(neu)
     pos,neg,neu = getNewsCard(competitor, days, redditCompetitor)
-    positive.extend(pos)
-    negative.extend(neg)
-    neutral.extend(neu)
+    n_Positive.extend(pos)
+    n_Negative.extend(neg)
+    n_Neutral.extend(neu)
     pos,neg,neu = getNewsCard(hashtag, days, redditHashtag)
-    positive.extend(pos)
-    negative.extend(neg)
-    neutral.extend(neu)
+    n_Positive.extend(pos)
+    n_Negative.extend(neg)
+    n_Neutral.extend(neu)
 
-    return positive,negative,neutral
+    return {"NewsApi": [positive,negative,neutral], "Reddit": [n_Positive,n_Negative,n_Neutral]}
+    # return positive,negative,neutral,n_Positive,n_Negative,n_Neutral
 
     # tables = [newsBrands, newsCompetitor, newsHashtag, redditBrands, redditCompetitor, redditHashtag]
     # for table in tables:

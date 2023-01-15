@@ -82,7 +82,7 @@ def comparisonCountpie(brand: str, competitor: str, hashtag: str, day: int ):
     Mentions = newsCount + redditCount
     # print(result.p_sentiments['neutral'])
 
-    return {"Total": Mentions, "Positive": result.p_sentiments['positive'], "Negative": result.p_sentiments['negative'],"news":newsCount, "reddit": redditCount}
+    return {"name": brand,"Total": Mentions, "Positive": result.p_sentiments['positive'], "Negative": result.p_sentiments['negative'],"NewsApi":newsCount, "Reddit": redditCount}
     return newsCount, redditCount
 def getCount(table : Base, name: str):
     count = (
