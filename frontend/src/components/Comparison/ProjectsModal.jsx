@@ -7,8 +7,8 @@ export default function ProjectsModal({
   setOpen,
   brandList,
   isLoading,
-  setSecondProject,
-  secondProject,
+  setSelectedProjects,
+  selectedProjects,
 }) {
   const cancelButtonRef = useRef(null);
 
@@ -64,19 +64,30 @@ export default function ProjectsModal({
                             <Loader />
                           ) : (
                             <div className="space-y-4">
-                              {brandList.map((p, idx) => (
+                              {brandList?.map((p, idx) => (
                                 <div key={idx} className="flex items-center">
                                   <input
                                     name="project-name"
-                                    type="radio"
-                                    value={p}
+                                    type="checkbox"
+                                    id="checkBoxOptions"
+                                    checked={selectedProjects.includes(p.p_id)}
                                     onChange={(e) =>
-                                      setSecondProject(e.target.value)
+                                      e.target.checked
+                                        ? setSelectedProjects([
+                                            ...selectedProjects,
+                                            p.p_id,
+                                          ])
+                                        : setSelectedProjects(
+                                            selectedProjects.filter(
+                                              (item) => item !== p.p_id
+                                            )
+                                          )
                                     }
                                     className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                   />
                                   <label className="ml-3 block text-sm font-medium capitalize text-gray-700">
-                                    {p}
+                                    {p.p_id}: {p.p_brand_name}{" "}
+                                    {p.p_competitor_name} {p.p_hashtag}
                                   </label>
                                 </div>
                               ))}
@@ -92,8 +103,8 @@ export default function ProjectsModal({
                     type="button"
                     className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
                     onClick={() =>
-                      !secondProject
-                        ? alert("Select a project to compare first")
+                      selectedProjects?.length !== 2
+                        ? alert("Select only 2 projects to compare")
                         : setOpen(false)
                     }
                   >
@@ -103,8 +114,8 @@ export default function ProjectsModal({
                     type="button"
                     className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-1 sm:mt-0 sm:text-sm"
                     onClick={() =>
-                      !secondProject
-                        ? alert("Select a project to compare first")
+                      selectedProjects?.length !== 2
+                        ? alert("Select only 2 projects to compare")
                         : setOpen(false)
                     }
                     ref={cancelButtonRef}

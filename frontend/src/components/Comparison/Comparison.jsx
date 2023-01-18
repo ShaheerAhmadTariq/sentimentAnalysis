@@ -16,8 +16,8 @@ const Comparison = () => {
   const [open, setOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(undefined);
-  // const [brandList, setBrandList] = useState([]);
-  const [secondProject, setSecondProject] = useState("");
+  const [brandList, setBrandList] = useState([]);
+  const [selectedProjects, setSelectedProjects] = useState([]);
 
   var brandKey = JSON.parse(localStorage.getItem("brandList"));
   brandKey = brandKey[0].brandNames;
@@ -37,20 +37,15 @@ const Comparison = () => {
   var year2 = date.getFullYear();
   var prevDate = `${year2}-${month2}-${day2}`;
 
-  var brandList = JSON.parse(localStorage.getItem("brandList"));
-  brandList = brandList[0].brandNames;
-
   useEffect(() => {
     if (brandList?.length > 1) setIsLoading(false);
   }, [brandList]);
 
-  // Function to get chart data of given project ids'
+  // Function to get pie chart data of given project ids'
   async function getData() {
-    let brandList = JSON.parse(localStorage.getItem("brandList"));
-    let p_id = brandList[0]?.p_id;
     let { id } = JSON.parse(localStorage.getItem("userEmail"));
-    if (!id || !p_id) {
-      alert("No user or product id found");
+    if (!id) {
+      alert("No user id found");
       return;
     }
     let resp = await fetch("http://localhost:8000/CountComparison/", {
@@ -58,7 +53,12 @@ const Comparison = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ p_id1: 2, p_id2: 4, days: 30, u_id: 1 }),
+      body: JSON.stringify({
+        p_id1: selectedProjects[0],
+        p_id2: selectedProjects[1],
+        days: 30,
+        u_id: id,
+      }),
     });
     resp = await resp.json();
     console.log("Count Comparison", resp);
@@ -68,7 +68,18 @@ const Comparison = () => {
   // Single Line Chart API Call
   async function getComparisonLineChart() {
     try {
-      const res = await fetch("http://localhost:8000/comaprisonLineChart");
+      const res = await fetch("http://localhost:8000/comaprisonLineChart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          u_id: 1,
+          p_id1: 1,
+          p_id2: 2,
+          days: 30,
+        }),
+      });
       const lineChart = await res.json();
       console.log("Line Chart", lineChart);
     } catch (error) {
@@ -92,6 +103,7 @@ const Comparison = () => {
       });
       const data = await res.json();
       console.log("Projects", data);
+      setBrandList(data);
     } catch (error) {
       console.log(error);
     }
@@ -99,16 +111,17 @@ const Comparison = () => {
 
   // Fetch single line comparison project on component load
   useEffect(() => {
-    getComparisonLineChart();
+    getProjects();
   }, []);
 
   // Fetches all the projects for comparison on every change of `secondProject` value
   useEffect(() => {
-    if (secondProject) {
+    if (selectedProjects.length === 2) {
+      // Must be called after the above function
+      getComparisonLineChart();
       getData();
-      getProjects();
     }
-  }, [secondProject]);
+  }, [selectedProjects]);
 
   return (
     <MainLayout>
@@ -139,26 +152,29 @@ const Comparison = () => {
                 setOpen={setOpen}
                 brandList={brandList}
                 isLoading={isLoading}
-                secondProject={secondProject}
-                setSecondProject={setSecondProject}
+                selectedProjects={selectedProjects}
+                setSelectedProjects={setSelectedProjects}
               />
               <Card className="my-4">
                 <CardBody>
                   <Filters open={open} setOpen={setOpen} />
                 </CardBody>
               </Card>
-              <Card>
-                <CardBody>
-                  <div>
-                    <p className="capitalize">{brandKey}</p>
-                    <Graph1
-                      brandKey={brandKey}
-                      currentDate={currentDate}
-                      prevDate={prevDate}
-                    />
-                  </div>
-                </CardBody>
-              </Card>
+              {/* Main Graph Card */}
+              {selectedProjects.length === 2 && (
+                <Card>
+                  <CardBody>
+                    <div>
+                      <p className="capitalize">{brandKey}</p>
+                      <Graph1
+                        brandKey={brandKey}
+                        currentDate={currentDate}
+                        prevDate={prevDate}
+                      />
+                    </div>
+                  </CardBody>
+                </Card>
+              )}
               {/* {secondProject?.length > 0 ? (
                 <Card className="my-4">
                   <CardBody>
