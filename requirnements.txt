@@ -2,11 +2,12 @@ login/signup ---> forgot password
 remove start your free trial 
 
 Enter keywords page
-navbar, handle comma seprated string
+navbar, handle comma seprated string, 
 backend ---> if data already available then check date (24 hours) and update tables
 
 mentions page
-add a refresh button
+add a refresh button which will refresh all charts by again calling the api
+line chart (set neg,neutral line), cards
 card ----> dp, date, source
 filters ----> by influencer name, checkout readdit/news, sort (by default desending) , chart by pos, neg, neutral,
                    highlight by source name
