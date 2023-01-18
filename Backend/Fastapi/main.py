@@ -37,9 +37,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 model.Base.metadata.create_all(bind=engine)
-
 def get_database_session():
     try:
         db = SessionLocal()
@@ -136,27 +134,36 @@ def apiCall(string, userID):
     redditApi(string)
     newsApi(string)
     return project.p_id
+
+
 class UserStringRequest(BaseModel):
     enterBrandCompetitorHashtag: str
     email : dict
+# Enter Keywords Page
+# inputs are written in UserStringRequest
 @app.post("/createProject")
 # async def submit(request: Request, user_string_request: UserStringRequest):
 def submit(request: Request, user_string_request: UserStringRequest):
     user_string = user_string_request.enterBrandCompetitorHashtag
     userID = user_string_request.email['id']
     p_id = apiCall(user_string,userID)
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 4b0e4a533c5aa35ce019090ab09ed01469ef02ba
     # p_id = session.query(projects).filter(projects.user_id == userID).first()
     if p_id:
         project = session.query(projects).filter(projects.user_id == userID, projects.p_id == p_id).first()
         res = getNews(project.p_brand_name, project.p_competitor_name, project.p_hashtag,p_id)
         # await asyncio.sleep(1)
-
         return {"message" : "Success", "p_id": p_id}
     else:
         return {"message": "project not found"}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4b0e4a533c5aa35ce019090ab09ed01469ef02ba
 
 def add_user():
     user = users(
@@ -173,8 +180,12 @@ def add_user():
 @app.get("/createUser")
 def read_root(db: Session = Depends(get_database_session)):
     user = add_user()
+<<<<<<< HEAD
 
     return {"message": 'user','u_id': user.u_id}
+=======
+    return {"message": 'user','u_id': user.u_id} 
+>>>>>>> 4b0e4a533c5aa35ce019090ab09ed01469ef02ba
 @app.get('/retrieved')
 def get_news_brand_by_id():
     # Retrieve a single row from the newsBrands table with the specified id
@@ -187,6 +198,7 @@ def get_news_brand_by_id():
     else:
         return {"status": "error", "message": "Invalid username or password"}
     return news_brand
+<<<<<<< HEAD
 @app.get('/insert')
 def insertOne():
     session.bulk_insert_mappings(newsBrands, rows)
@@ -197,11 +209,15 @@ def get_news_brands():
     # Retrieve all rows from the newsBrands table
     news_brands = session.query(newsBrands).all()
     return news_brands
+=======
+
+
+
+>>>>>>> 4b0e4a533c5aa35ce019090ab09ed01469ef02ba
 class UserRequest(BaseModel):
     username: str
     password: str
     email: str
-
 @app.post("/users/")
 def create_user(request: Request, user_request: UserRequest):
     try:
@@ -228,7 +244,6 @@ def create_user(request: Request, user_request: UserRequest):
 class UserloginRequest(BaseModel):
     email: str
     password: str
-
 @app.post("/login/")
 def login(request: Request, user_request : UserloginRequest):
     try:
@@ -326,7 +341,7 @@ class countComaparisonModel(BaseModel):
     p_id1: int
     p_id2: int
     days: int
-@app.post('/CountComparison')
+@app.post('/CountComparison/')
 # def getCount():
 def getCount (request : Request, user_request: countComaparisonModel):
     user_id = user_request.u_id
@@ -346,11 +361,23 @@ def getCount (request : Request, user_request: countComaparisonModel):
     res2 = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
     name2 = project.p_brand_name
     return {"project01": res, "project02": res2}
+<<<<<<< HEAD
     # except:
     #     return {'Error':"Project not found"}
 @app.get('/comaprisonLineChart')
 def getline():
 # def getline(request : Request, user_request: countComaparisonModel):
+=======
+
+class lineComaparisonModel(BaseModel):
+    u_id: int
+    p_id1: int
+    p_id2: int
+    days: int
+@app.post('/comaprisonLineChart/')
+# def getline():
+def getline(request : Request, user_request: lineComaparisonModel):
+>>>>>>> 4b0e4a533c5aa35ce019090ab09ed01469ef02ba
     # user_id = user_request.u_id
     # p_id = user_request.p_id1
     # days = user_request.days
@@ -398,15 +425,24 @@ def projectupdatefunction():
     return {"time": time.days, "res": res}
 
 
-@app.get('/mentionsSingleLineChart')
-def getline():
+class sentimentGraphSingleInput(BaseModel):
+    u_id: int
+    p_id: int
+    days: int
+  
+@app.post('/mentionsSingleLineChart')
+def getline(request : Request, user_request: sentimentGraphSingleInput):  
+# def getline():
 # def getline(request : Request, user_request: countComaparisonModel):
     # user_id = user_request.u_id
     # p_id = user_request.p_id1
     # days = user_request.days
-    user_id = 1
-    p_id = 1
-    days = 30
+    # user_id = 1
+    # p_id = 1
+    # days = 30
+    user_id = user_request.u_id
+    p_id = user_request.p_id
+    days = user_request.days
     project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
     res = comparisonLineChart(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
     return res
