@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 
-const Figures = ({ brandKey, currentDate, prevDate,data }) => {
+const Figures = ({ brandKey, currentDate, prevDate, data }) => {
   const [graphPositives, setGraphPositives] = useState([]);
   const [graphNegatives, setGraphNegatives] = useState([]);
   const [totalPos, setTotalPos] = useState("");
@@ -26,8 +26,7 @@ const Figures = ({ brandKey, currentDate, prevDate,data }) => {
     var gNegatives = [];
     // encode to scape spaces
     const esc = encodeURIComponent;
-    const url =
-      "http://localhost:8000/CountComparison/";  
+    const url = "http://localhost:8000/CountComparison/";
     const params = {
       keyword: brandKey,
       startDate: prevDate,
@@ -40,7 +39,7 @@ const Figures = ({ brandKey, currentDate, prevDate,data }) => {
       .map((k) => `${esc(k)}=${esc(params[k])}`)
       .join("&");
 
-    await fetch(url )
+    await fetch(url)
       .then((res) => res.json())
       .then((data) => {
         if (data) {

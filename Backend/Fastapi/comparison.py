@@ -1,4 +1,4 @@
-from database import session,session1,session2,session3, SessionLocal
+from database import session,session1,session2,session3, SessionLocal, session6
 from model import newsBrands, newsCompetitor, newsHashtag, redditBrands, redditCompetitor, redditHashtag, Base, projectSentiments
 from datetime import datetime, timedelta
 from sqlalchemy import select, func, Integer
@@ -40,7 +40,7 @@ def comparisonLineChart(brand: str, competitor: str, hashtag: str, day: int ):
 
     return result
 
-def getNewsGraph(name: str, one_month_ago : int, table: str): 
+def getNewsGraph(name: str, one_month_ago : int, table: str):
     query = (
         session3.query(newsBrands.published_at, func.count(newsBrands.id).label("count").cast(Integer))
         .filter(newsBrands.published_at >= one_month_ago)
@@ -50,7 +50,7 @@ def getNewsGraph(name: str, one_month_ago : int, table: str):
     result_as_dict = [{row[0].strftime("%Y-%m-%d"):row[1]} for row in query]
     return result_as_dict
 
-# def getNewsGraph(name: str, one_month_ago : int, table: str): 
+# def getNewsGraph(name: str, one_month_ago : int, table: str):
 #     query = (
 #         session.query(table.published_at, func.count(table.id))
 #         .filter(table.published_at >= one_month_ago)
@@ -60,7 +60,7 @@ def getNewsGraph(name: str, one_month_ago : int, table: str):
 #     result_as_dict = [{"published_at": row[0].strftime("%Y-%m-%d"), "count": row[1]} for row in query]
 #     return result_as_dict
     # rows = session.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
-    
+
 
     # content_dict = defaultdict(list)
     # for row in rows:
@@ -77,7 +77,7 @@ def comparisonCountpie(brand: str, competitor: str, hashtag: str, day: int ):
     redditCount += getCount(redditCompetitor, competitor)
     redditCount += getCount(redditHashtag, hashtag)
     session6 = SessionLocal()
-    result = session6.query(projectSentiments).filter(projectSentiments.project_id == 1).first()
+    result = session6.query(projectSentiments).filter(projectSentiments.project_id == 2).first()
     # Total = result.p_sentiments['neutral'] + result.p_sentiments['negative'] + result.p_sentiments['positive']
     Mentions = newsCount + redditCount
     # print(result.p_sentiments['neutral'])
@@ -86,7 +86,7 @@ def comparisonCountpie(brand: str, competitor: str, hashtag: str, day: int ):
     return newsCount, redditCount
 def getCount(table : Base, name: str):
     count = (
-    session.query(table)
+    session6.query(table)
     .filter(table.name == name)
     .count()
     )

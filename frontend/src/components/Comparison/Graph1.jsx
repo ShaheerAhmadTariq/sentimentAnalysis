@@ -6,7 +6,7 @@ const Graph1 = ({ brandKey, currentDate, prevDate }) => {
   const [options, setOptions] = useState({
     chart: {
       type: "line",
-      stacked: true,
+      stacked: false,
       fontFamily: "Open-Sans, sans-serif",
     },
     stroke: {

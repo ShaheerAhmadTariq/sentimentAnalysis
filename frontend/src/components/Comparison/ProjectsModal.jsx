@@ -8,6 +8,7 @@ export default function ProjectsModal({
   brandList,
   isLoading,
   setSecondProject,
+  secondProject,
 }) {
   const cancelButtonRef = useRef(null);
 
@@ -42,7 +43,7 @@ export default function ProjectsModal({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+              <div className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                 <div>
                   <div className="divide-y">
                     <Dialog.Title
@@ -90,20 +91,28 @@ export default function ProjectsModal({
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
-                    onClick={() => setOpen(false)}
+                    onClick={() =>
+                      !secondProject
+                        ? alert("Select a project to compare first")
+                        : setOpen(false)
+                    }
                   >
                     Compare
                   </button>
                   <button
                     type="button"
                     className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-1 sm:mt-0 sm:text-sm"
-                    onClick={() => setOpen(false)}
+                    onClick={() =>
+                      !secondProject
+                        ? alert("Select a project to compare first")
+                        : setOpen(false)
+                    }
                     ref={cancelButtonRef}
                   >
                     Cancel
                   </button>
                 </div>
-              </Dialog.Panel>
+              </div>
             </Transition.Child>
           </div>
         </div>
