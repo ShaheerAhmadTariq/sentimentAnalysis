@@ -19,7 +19,7 @@ from datetime import datetime
 from reddit import redditApi
 import asyncio
 from sentiment import getNews
-from graphs import getNewsGraph, getGraphs
+from graphs import getNewsGraph, getGraphs, getSingleLineChart
 from cards import getCards
 from newGraph import graph
 from comparison import comparisonCountpie, comparisonLineChart
@@ -265,8 +265,9 @@ def sentimentGraph(request : Request, user_request: sentimentGraphInput):
         # days = 30
         project = session2.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
         print(project.p_brand_name)
-        res = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
-        return res
+        multiGraphs = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
+        singleGraph = getSingleLineChart(multiGraphs)
+        return {'multiGraph':multiGraphs, "singleGraph":singleGraph}
     # except:
         # session.rollback()
         
@@ -397,7 +398,6 @@ class sentimentGraphSingleInput(BaseModel):
 @app.post('/mentionsSingleLineChart')
 def getline(request : Request, user_request: sentimentGraphSingleInput):  
 # def getline():
-# def getline(request : Request, user_request: countComaparisonModel):
     # user_id = user_request.u_id
     # p_id = user_request.p_id1
     # days = user_request.days

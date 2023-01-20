@@ -10,6 +10,16 @@ from typing import List, Dict, Any
 # from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
 # sia = SIA()
 from sentiment import sia
+
+def getSingleLineChart(input: dict[str,Any]):
+    pos = input['positive']
+    neg = input['negative']
+    neutral = input['neutral']
+    finalDict= {}
+    for keys in pos.keys():
+        finalDict[keys] = pos[keys] + neg[keys] + neutral[keys]
+    return {"result": finalDict}
+
 def joinDict(first: dict[str, Any],second: dict[str, Any]):
     new_dict = {**first, **second}
     for key in new_dict.keys():
