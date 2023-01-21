@@ -296,8 +296,7 @@ def card (request : Request, user_request: sentimentCardInput):
 
 @app.get('/graph')
 def graphtest():
-    # try:
-
+    try:
         user_id = 1
         p_id = 1
         days = 30
@@ -307,8 +306,8 @@ def graphtest():
         session1.close()
         session2.close()
         return {'message': res}
-    # except:
-        return {'err': 'some err occured'} 
+    except:
+        return {'err': 'some err occured while trying '} 
 
 class countComaparisonModel(BaseModel):
     u_id: int
