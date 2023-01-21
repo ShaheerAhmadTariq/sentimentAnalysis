@@ -18,6 +18,7 @@ const Comparison = () => {
   const [data, setData] = useState(undefined);
   const [brandList, setBrandList] = useState([]);
   const [selectedProjects, setSelectedProjects] = useState([]);
+  const [lineChartData, setlineChartData] = useState();
 
   var brandKey = JSON.parse(localStorage.getItem("brandList"));
   brandKey = brandKey[0].brandNames;
@@ -61,7 +62,6 @@ const Comparison = () => {
       }),
     });
     resp = await resp.json();
-    console.log("Count Comparison", resp);
     setData(resp);
   }
 
@@ -81,7 +81,7 @@ const Comparison = () => {
         }),
       });
       const lineChart = await res.json();
-      console.log("Line Chart", lineChart);
+      setlineChartData(lineChart);
     } catch (error) {
       console.log(error);
     }
@@ -102,7 +102,6 @@ const Comparison = () => {
         body: JSON.stringify({ u_id: id }),
       });
       const data = await res.json();
-      console.log("Projects", data);
       setBrandList(data);
     } catch (error) {
       console.log(error);
@@ -167,6 +166,7 @@ const Comparison = () => {
                     <div>
                       <p className="capitalize">{brandKey}</p>
                       <Graph1
+                        lineChart={lineChartData}
                         brandKey={brandKey}
                         currentDate={currentDate}
                         prevDate={prevDate}

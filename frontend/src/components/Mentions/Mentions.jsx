@@ -30,6 +30,7 @@ const Mentions = () => {
   const [neutralCheck, setNeutralCheck] = useState(false);
   const [finalRecord, setFinalRecord] = useState([]);
   const [finalData, setFinalData] = useState([]);
+  const [multiGraph, setmultiGraph] = useState(true);
 
   useEffect(() => {
     async function card() {
@@ -176,21 +177,25 @@ const Mentions = () => {
                   Show Sentiment
                 </button>
                 {/* Graph */}
-                {!redditCheck ? (
-                  <SentimentGraph
-                    days={days}
-                    setDays={setDays}
-                    brandKey={brandKey}
-                    currentDate={currentDate}
-                    prevDate={prevDate}
+                <div className="flex space-x-2 items-center">
+                  <label className="text-sm">
+                    {multiGraph ? "Multi Graph" : "Single Graph"}
+                  </label>
+                  <input
+                    type="checkbox"
+                    checked={multiGraph}
+                    onChange={(e) => setmultiGraph(!multiGraph)}
                   />
-                ) : (
-                  <RedditSentiment
-                    brandKey={brandKey}
-                    currentDate={currentDate}
-                    prevDate={prevDate}
-                  />
-                )}
+                </div>
+
+                <SentimentGraph
+                  days={days}
+                  setDays={setDays}
+                  brandKey={brandKey}
+                  currentDate={currentDate}
+                  prevDate={prevDate}
+                  multiGraph={multiGraph}
+                />
               </div>
             </CardBody>
           </Card>

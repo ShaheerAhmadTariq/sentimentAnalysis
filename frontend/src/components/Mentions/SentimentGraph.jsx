@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import Chart from "react-apexcharts";
+import { dateSort } from "../../utils/helperFunctions";
 
-const SentimentGraph = ({ brandKey, currentDate, prevDate, days, setDays }) => {
+const SentimentGraph = ({
+  brandKey,
+  currentDate,
+  prevDate,
+  days,
+  setDays,
+  multiGraph,
+}) => {
   const [options, setOptions] = useState({});
   const [series, setSeries] = useState([]);
   const [loader, setLoader] = useState(true);
@@ -21,6 +29,28 @@ const SentimentGraph = ({ brandKey, currentDate, prevDate, days, setDays }) => {
     "Dec",
   ];
 
+  function multiGraphValues(graph) {
+    let Dates = dateSort(Object.keys(graph.negative));
+
+    let negativeValues = Object.values(graph.negative);
+
+    let positiveValues = Object.values(graph.positive);
+
+    let neutralValues = Object.values(graph.neutral);
+    return {
+      Dates,
+      values: { negativeValues, positiveValues, neutralValues },
+    };
+  }
+
+  function singleGraphValues(graph) {
+    let Dates = dateSort(Object.keys(graph));
+    let values = Object.values(graph);
+    return {
+      Dates,
+      values,
+    };
+  }
   async function graph() {
     // let graphs = await fetch(`http://localhost:8000/sentimentGraph/`)
     let p_id = JSON.parse(localStorage.getItem("brandList"));
@@ -32,28 +62,14 @@ const SentimentGraph = ({ brandKey, currentDate, prevDate, days, setDays }) => {
       },
       body: JSON.stringify({ p_id: p_id[0].p_id, days, u_id: id }),
     });
-    console.log({ p_id: p_id[0].p_id, days, id });
 
     graphs = await graphs.json();
-    console.log(graphs);
 
     // Dates Sorting
-    let Dates = Object.keys(graphs.negative);
-    let options = { month: "short", day: "numeric" };
 
-    Dates = Dates.map((elm) => {
-      return new Date(elm);
-    }).sort();
-
-    Dates = Dates.sort((a, b) => a < b).map((elm) =>
-      elm.toLocaleDateString("en-US", options)
-    );
-
-    let negativeValues = Object.values(graphs.negative);
-
-    let positiveValues = Object.values(graphs.positive);
-
-    let neutralValues = Object.values(graphs.neutral);
+    let graphValues = multiGraph
+      ? multiGraphValues(graphs.multiGraph)
+      : singleGraphValues(graphs.singleGraph.result);
 
     setOptions({
       chart: {
@@ -88,7 +104,7 @@ const SentimentGraph = ({ brandKey, currentDate, prevDate, days, setDays }) => {
         },
       },
       colors: ["#73CCE0", "#ACD687", "#E0D45C"],
-      labels: Dates,
+      labels: graphValues.Dates,
       markers: {
         size: 1,
         fillColor: ["#ffffff"],
@@ -157,29 +173,38 @@ const SentimentGraph = ({ brandKey, currentDate, prevDate, days, setDays }) => {
       },
     });
 
-    setSeries([
-      {
-        name: "Number of positive",
-        type: "line",
-        data: positiveValues,
-      },
-      {
-        name: "Number of negative",
-        type: "line",
-        data: negativeValues,
-      },
-      {
-        name: "Number of nuetral",
-        type: "line",
-        data: neutralValues,
-      },
-    ]);
+    const series = multiGraph
+      ? [
+          {
+            name: "Number of positive",
+            type: "line",
+            data: graphValues.values.positiveValues,
+          },
+          {
+            name: "Number of negative",
+            type: "line",
+            data: graphValues.values.negativeValues,
+          },
+          {
+            name: "Number of nuetral",
+            type: "line",
+            data: graphValues.values.neutralValues,
+          },
+        ]
+      : [
+          {
+            name: "values",
+            type: "line",
+            data: graphValues.values,
+          },
+        ];
+
+    setSeries(series);
   }
   useEffect(() => {
     graph();
-  }, [days]);
+  }, [days, multiGraph]);
 
-  useEffect(() => {}, []);
   return (
     <>
       <div className="flex h-5 items-center">
