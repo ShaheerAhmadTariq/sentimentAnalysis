@@ -296,8 +296,7 @@ def card (request : Request, user_request: sentimentCardInput):
 
 @app.get('/graph')
 def graphtest():
-    # try:
-
+    try:
         user_id = 1
         p_id = 1
         days = 30
@@ -307,8 +306,8 @@ def graphtest():
         session1.close()
         session2.close()
         return {'message': res}
-    # except:
-        return {'err': 'some err occured'}
+    except:
+        return {'err': 'some err occured while trying '}
 
 class countComaparisonModel(BaseModel):
     u_id: int
@@ -370,26 +369,47 @@ def getProjects(request : Request, user_request: getProjectsModel):
     except:
         return {"error while fetching projects"}
 
-@app.get('/deleteProject')
-def deleteProjectfunction():
+class deleteProjectModel(BaseModel):
+    u_id: int
+    p_id: int
+
+@app.post('/deleteProject')
+def deleteProjectfunction(request : Request, user_request: deleteProjectModel):
+# def deleteProjectfunction():
     # Delete a specific project and its associated projectSentiments by its id
-    project_id = 39
-    session.query(projectSentiments).filter(projectSentiments.project_id.in_(session.query(projects.p_id).filter(projects.p_id == project_id))).delete(synchronize_session='fetch')
-    session.query(projects).filter(projects.p_id == project_id).delete()
-    session.commit()
+    # project_id = 39
+    user_id = user_request.u_id
+    project_id = user_request.p_id
+    project = session.query(projects).filter(projects.user_id == user_id).all()
+    for p in project:
+        if p.p_id == project_id:
+            session.query(projectSentiments).filter(projectSentiments.project_id.in_(session.query(projects.p_id).filter(projects.p_id == project_id))).delete(synchronize_session='fetch')
+            session.query(projects).filter(projects.p_id == project_id).delete()
+            session.commit()
+            return {'message': 'successfully deleted'}
+    return {'message': 'Project not found'}
 
-@app.get('/updateProject')
-def projectupdatefunction():
-    p_id =  28
-    user_id = 1
-    project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
-    creationDate = project.p_creation_at
-    current_date = datetime.now().date()
-    time = current_date - creationDate
-    if time.days > 1:
-        res = updateTables([project.p_brand_name, project.p_competitor_name, project.p_hashtag], creationDate)
-    return {"time": time.days, "res": res}
-
+class updateProjectModel(BaseModel):
+    u_id: int
+    p_id: int
+@app.post('/updateProject')
+# def projectupdatefunction():
+def projectupdatefunction(request : Request, user_request: updateProjectModel):
+    # p_id =  28
+    # user_id = 1
+    try:
+        user_id = user_request.u_id
+        p_id = user_request.p_id
+        project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+        creationDate = project.p_creation_at
+        current_date = datetime.now().date()
+        time = current_date - creationDate
+        if time.days > 1:
+            res = updateTables([project.p_brand_name, project.p_competitor_name, project.p_hashtag], creationDate)
+        # return {"time": time.days, "res": res}
+        return {'message': "Successfully updated"}
+    except:
+        return {'message': "Project Not Found"}
 
 class sentimentGraphSingleInput(BaseModel):
     u_id: int
