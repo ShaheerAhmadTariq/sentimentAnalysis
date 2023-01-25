@@ -1,5 +1,5 @@
 import {
-  // HomeIcon,
+  HomeIcon,
   // StarIcon,
   ChatBubbleOvalLeftIcon,
   ChartPieIcon,
@@ -12,11 +12,11 @@ let iconClass =
   "h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900";
 
 const sideNavigation = [
-  // {
-  //   name: "Dashboard",
-  //   href: "/dashboard",
-  //   icon: <HomeIcon className={iconClass} />,
-  // },
+  {
+    name: "Dashboard",
+    href: "/dashboard",
+    icon: <HomeIcon className={iconClass} />,
+  },
   // {
   //   name: "Projects",
   //   href: "/projects",
@@ -75,8 +75,8 @@ export const Sidebar = ({ showSideBar }) => {
   }
   var brandKey = JSON.parse(localStorage.getItem("brandList"));
   var brandKeys = JSON.parse(localStorage.getItem("brandList"));
-  brandKey=brandKey[0].brandNames
-  brandKeys=brandKeys[0].brandNames
+  brandKey = brandKey[0].brandNames;
+  brandKeys = brandKeys[0].brandNames;
   console.log(brandKey);
   brandKey = brandKey?.at(-1);
 
