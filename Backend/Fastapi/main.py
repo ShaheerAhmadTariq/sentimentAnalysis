@@ -1,13 +1,13 @@
 # python -m uvicorn main:app --reload
 import schema
-from database import SessionLocal, engine, session, session1, session2
+from database import SessionLocal, engine, session, session1, session2, session6
 import model
 from model import projects, users, newsBrands, newsCompetitor, newsHashtag, redditBrands, projectSentiments
 from datetime import datetime
 from fastapi import FastAPI
 from fastapi import FastAPI, Depends, Request
 from sqlalchemy.orm import Session
-from sqlalchemy import exists
+from sqlalchemy import exists, update
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 import re
@@ -431,3 +431,23 @@ def getline(request : Request, user_request: sentimentGraphSingleInput):
     project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
     res = comparisonLineChart(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
     return res
+
+class forgetPasswordModel(BaseModel):
+    u_email: str
+    p_id: int
+
+@app.post('/forgetPassword')
+def getPassword(request : Request, user_request: forgetPasswordModel):
+# def updatePassword():
+    # user_id = user_request.u_id
+    p_id = user_request.p_id
+    user_email = user_request.u_email
+    try:
+        # user_id = 1
+        # user_email = 'shah@gmail.com'
+        # p_id = 'Qwerty12@34'
+        session.query(users).filter(users.u_email == user_email).update({users.u_password: p_id})
+        session.commit()
+        return {"message":"password updated"}
+    except:
+        return {"message":"User not found"}
