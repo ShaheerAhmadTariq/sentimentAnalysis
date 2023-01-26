@@ -430,3 +430,4 @@ def getline(request : Request, user_request: sentimentGraphSingleInput):
     project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
     res = comparisonLineChart(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days) 
     return res
+
