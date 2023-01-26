@@ -27,32 +27,33 @@ export default function Login() {
 
     let values = { email, password };
     try {
-      await fetch(
-        "http://127.0.0.1:8000/login",
-        {
-          method: "POST",
-          body: JSON.stringify(values),
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        }
-      )
+      await fetch("http://127.0.0.1:8000/login", {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
         .then((res) => res.json())
         .then((data) => {
-          console.log("response: ",data)
+          console.log("response: ", data);
           if (data.message === "Success") {
-            
             toast.success("You are successfully logged in!", {
               hideProgressBar: true,
             });
-            localStorage.setItem("userEmail", JSON.stringify({email:data.user_email, id:data.user_id, username:data.username}));
+            localStorage.setItem(
+              "userEmail",
+              JSON.stringify({
+                email: data.user_email,
+                id: data.user_id,
+                username: data.username,
+              })
+            );
 
             setIsLoading(false);
             // navigate("/mentions");
             navigate("/monitor");
-
-           
           } else {
             toast.error(data.message);
             setIsLoading(false);
@@ -150,7 +151,7 @@ export default function Login() {
 
                 <div className="text-sm">
                   <a
-                    href="/#"
+                    href="/forgot-password"
                     className="font-medium text-indigo-600 hover:text-indigo-500"
                   >
                     Forgot your password?
