@@ -58,8 +58,22 @@ const Dashboard = () => {
       });
       const data = await res.json();
       alert(data.message);
-      setcurrentProjects(
-        currentProjects.filter((item) => item.p_id !== projectId)
+      const modifiedProjects = currentProjects.filter(
+        (item) => item.p_id !== projectId
+      );
+      setcurrentProjects(modifiedProjects);
+      localStorage.setItem(
+        "brandList",
+        JSON.stringify([
+          {
+            p_id: modifiedProjects[0].p_id,
+            brandNames: [
+              modifiedProjects[0].p_brand_name,
+              modifiedProjects[0].p_competitor_name,
+              modifiedProjects[0].p_hashtag,
+            ],
+          },
+        ])
       );
     } catch (error) {
       console.log(error);

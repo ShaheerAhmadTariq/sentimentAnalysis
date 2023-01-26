@@ -18,10 +18,11 @@ export default function MonitorBrand() {
   function splitKeywords(brandKeywords) {
     let keywords = brandKeywords.split(",");
     if (keywords.length === 1) {
-      return (keywords = [...keywords, null, null]);
+      keywords = [...keywords, "null", "null"];
     } else if (keywords.length === 2) {
-      return (keywords = [...keywords, null]);
-    } else return keywords;
+      keywords = [...keywords, "null"];
+    }
+    return keywords.join(",");
   }
 
   async function createBrand(e) {
@@ -50,7 +51,7 @@ export default function MonitorBrand() {
             localStorage.setItem(
               "brandList",
               JSON.stringify([
-                { p_id: data.p_id, brandNames: brandKeywordsArray },
+                { p_id: data.p_id, brandNames: brandKeywordsArray.split(",") },
               ])
             );
 
