@@ -79,35 +79,6 @@ const Report = () => {
         <h1 className="text-black text-3xl font-bold tracking-wider">
           Reports Page
         </h1>
-        {graphs && (
-          <>
-            <h2 className="text-3xl font-semibold underline">
-              Number of Mentions
-            </h2>
-            <SentimentGraph
-              days={singleGraphDays}
-              setDays={setsingleGraphDays}
-              brandKey={brandKey}
-              currentDate={currentDate}
-              prevDate={prevDate}
-              multiGraph={false}
-              graphsValue={graphs}
-              displayDateFilter={false}
-            />
-            <h2 className="text-3xl font-semibold underline">Senitment</h2>
-            <SentimentGraph
-              days={days}
-              setDays={setDays}
-              brandKey={brandKey}
-              currentDate={currentDate}
-              prevDate={prevDate}
-              graphsValue={graphs}
-              multiGraph={true}
-              displayDateFilter={false}
-            />
-          </>
-        )}
-
         <div className="col-span-2">
           <div className="">
             {data && (
@@ -151,6 +122,34 @@ const Report = () => {
             )}
           </div>
         </div>
+        {graphs && (
+          <>
+            <h2 className="text-3xl font-semibold underline">
+              Number of Mentions
+            </h2>
+            <SentimentGraph
+              days={singleGraphDays}
+              setDays={setsingleGraphDays}
+              brandKey={brandKey}
+              currentDate={currentDate}
+              prevDate={prevDate}
+              multiGraph={false}
+              graphsValue={graphs}
+              displayDateFilter={false}
+            />
+            <h2 className="text-3xl font-semibold underline">Senitment</h2>
+            <SentimentGraph
+              days={days}
+              setDays={setDays}
+              brandKey={brandKey}
+              currentDate={currentDate}
+              prevDate={prevDate}
+              graphsValue={graphs}
+              multiGraph={true}
+              displayDateFilter={false}
+            />
+          </>
+        )}
       </div>
     </MainLayout>
   );

@@ -59,13 +59,13 @@ const Figures = ({ brandKey, currentDate, prevDate, data }) => {
       </div>
       <div className="flex flex-col text-center my-2">
         <span className="text-4xl font-[200] my-1 text-green-400">
-          {data.Positive},{((data.Positive / data.Total) * 100).toFixed(0)}%
+          {data.Positive}
         </span>
         <span className="text-xs text-gray-700 my-1">Positive</span>
       </div>
       <div className="flex flex-col text-center my-2">
         <span className="text-4xl font-[200] my-1 text-rose-600">
-          {data.Negative}, {((data.Negative / data.Total) * 100).toFixed(0)}%
+          {data.Negative}
         </span>
         <span className="text-xs text-gray-700 my-1">Negative</span>
       </div>
