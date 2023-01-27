@@ -9,6 +9,10 @@ const Dashboard = () => {
   const user = JSON.parse(localStorage.getItem("userEmail"));
   const [allProjects, setallProjects] = useState([]);
   const [currentProjects, setcurrentProjects] = useState([]);
+  // const [currentProject, setcurrentProject] = useState(
+  //   JSON.parse(localStorage.getItem("brandList"))[0]
+  // );
+  const [currentProject, setcurrentProject] = useState({});
   async function getUserProjects() {
     if (!user) return;
     try {
@@ -22,6 +26,27 @@ const Dashboard = () => {
       const projects = await res.json();
       setallProjects(projects);
       setcurrentProjects(projects);
+      setcurrentProject({
+        p_id: projects[0].p_id,
+        brandNames: [
+          projects[0].p_brand_name,
+          projects[0].p_competitor_name,
+          projects[0].p_hashtag,
+        ],
+      });
+      localStorage.setItem(
+        "brandList",
+        JSON.stringify([
+          {
+            p_id: projects[0].p_id,
+            brandNames: [
+              projects[0].p_brand_name,
+              projects[0].p_competitor_name,
+              projects[0].p_hashtag,
+            ],
+          },
+        ])
+      );
     } catch (error) {
       console.log(error);
     }
@@ -80,6 +105,22 @@ const Dashboard = () => {
     }
   }
 
+  const changeCurrentProject = (item) => {
+    setcurrentProject(item);
+    localStorage.setItem(
+      "brandList",
+      JSON.stringify([
+        {
+          p_id: item.p_id,
+          brandNames: [
+            item.p_brand_name,
+            item.p_competitor_name,
+            item.p_hashtag,
+          ],
+        },
+      ])
+    );
+  };
   return (
     <MainLayout>
       <div className="m-4 min-h-screen">
@@ -99,6 +140,7 @@ const Dashboard = () => {
             </button>
             <Table>
               <Table.Head>
+                <Table.HeadCell>Select Project</Table.HeadCell>
                 <Table.HeadCell>Project ID</Table.HeadCell>
                 <Table.HeadCell>Brand Name</Table.HeadCell>
                 <Table.HeadCell>Competitor Name</Table.HeadCell>
@@ -111,6 +153,15 @@ const Dashboard = () => {
               <Table.Body>
                 {currentProjects?.map((item, index) => (
                   <Table.Row key={index}>
+                    <Table.Cell>
+                      <input
+                        onChange={() => changeCurrentProject(item)}
+                        type="checkbox"
+                        name=""
+                        checked={currentProject.p_id === item.p_id}
+                        id=""
+                      />
+                    </Table.Cell>
                     <Table.Cell>{item.p_id}</Table.Cell>
                     <Table.Cell>{item.p_brand_name}</Table.Cell>
                     <Table.Cell>{item.p_competitor_name}</Table.Cell>

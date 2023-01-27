@@ -53,7 +53,7 @@ export default function Login() {
 
             setIsLoading(false);
             // navigate("/mentions");
-            navigate("/monitor");
+            navigate("/dashboard");
           } else {
             toast.error(data.message);
             setIsLoading(false);

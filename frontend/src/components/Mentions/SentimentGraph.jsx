@@ -10,6 +10,8 @@ const SentimentGraph = ({
   days,
   setDays,
   multiGraph,
+  displayDateFilter = true,
+  graphsValue = undefined,
 }) => {
   const [options, setOptions] = useState({});
   const [series, setSeries] = useState([]);
@@ -30,6 +32,7 @@ const SentimentGraph = ({
   ];
 
   function multiGraphValues(graph) {
+    if (!graph) return;
     let Dates = dateSort(Object.keys(graph.negative));
 
     let negativeValues = Object.values(graph.negative);
@@ -52,25 +55,29 @@ const SentimentGraph = ({
     };
   }
   async function graph() {
-    // let graphs = await fetch(`http://localhost:8000/sentimentGraph/`)
-    let p_id = JSON.parse(localStorage.getItem("brandList"));
-    let { id } = JSON.parse(localStorage.getItem("userEmail"));
-    let graphs = await fetch("http://localhost:8000/sentimentGraph/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ p_id: p_id[0].p_id, days, u_id: id }),
-    });
+    let graphValues;
+    if (!graphsValue) {
+      // let graphs = await fetch(`http://localhost:8000/sentimentGraph/`)
+      let p_id = JSON.parse(localStorage.getItem("brandList"));
+      let { id } = JSON.parse(localStorage.getItem("userEmail"));
+      let graphs = await fetch("http://localhost:8000/sentimentGraph/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ p_id: p_id[0].p_id, days, u_id: id }),
+      });
 
-    graphs = await graphs.json();
-
-    // Dates Sorting
-
-    let graphValues = multiGraph
-      ? multiGraphValues(graphs.multiGraph)
-      : singleGraphValues(graphs.singleGraph.result);
-
+      graphs = await graphs.json();
+      graphValues = multiGraph
+        ? multiGraphValues(graphs.multiGraph)
+        : singleGraphValues(graphs.singleGraph.result);
+      // Dates Sorting
+    } else {
+      graphValues = multiGraph
+        ? multiGraphValues(graphsValue.multiGraph)
+        : singleGraphValues(graphsValue.singleGraph.result);
+    }
     setOptions({
       chart: {
         type: "line",
@@ -203,68 +210,72 @@ const SentimentGraph = ({
   }
   useEffect(() => {
     graph();
-  }, [days, multiGraph]);
+  }, [days, multiGraph, graphsValue]);
 
   return (
     <>
-      <div className="flex h-5 items-center">
-        <div className="ml-2 text-sm">
-          <label htmlFor="07days" className="font-medium text-green-500">
-            07 Days
-          </label>
-        </div>
-        <input
-          id="07days"
-          aria-describedby="positve-description"
-          name="days"
-          checked={days === 7 ? true : false}
-          type="radio"
-          onChange={() => {
-            setDays(7);
-          }}
-          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-        />
-      </div>
+      {displayDateFilter && (
+        <>
+          <div className="flex h-5 items-center">
+            <div className="ml-2 text-sm">
+              <label htmlFor="07days" className="font-medium text-green-500">
+                07 Days
+              </label>
+            </div>
+            <input
+              id="07days"
+              aria-describedby="positve-description"
+              name="days"
+              checked={days === 7 ? true : false}
+              type="radio"
+              onChange={() => {
+                setDays(7);
+              }}
+              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+            />
+          </div>
 
-      <div className="flex h-5 items-center">
-        <div className="ml-2 text-sm">
-          <label htmlFor="15days" className="font-medium text-green-500">
-            15 Days
-          </label>
-        </div>
-        <input
-          id="15days"
-          aria-describedby="positve-description"
-          checked={days == 15 ? true : false}
-          name="days"
-          type="radio"
-          // checked={positiveCheck}
-          onChange={() => {
-            setDays(15);
-          }}
-          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-        />
-      </div>
+          <div className="flex h-5 items-center">
+            <div className="ml-2 text-sm">
+              <label htmlFor="15days" className="font-medium text-green-500">
+                15 Days
+              </label>
+            </div>
+            <input
+              id="15days"
+              aria-describedby="positve-description"
+              checked={days == 15 ? true : false}
+              name="days"
+              type="radio"
+              // checked={positiveCheck}
+              onChange={() => {
+                setDays(15);
+              }}
+              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+            />
+          </div>
 
-      <div className="flex h-5 items-center">
-        <div className="ml-2 text-sm">
-          <label htmlFor="30days" className="font-medium text-green-500">
-            30 Days
-          </label>
-        </div>
-        <input
-          id="30days"
-          aria-describedby="positve-description"
-          checked={days == 30 ? true : false}
-          name="days"
-          type="radio"
-          // checked={positiveCheck}
-          onChange={() => {
-            setDays(30);
-          }}
-          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-        />
-      </div>
+          <div className="flex h-5 items-center">
+            <div className="ml-2 text-sm">
+              <label htmlFor="30days" className="font-medium text-green-500">
+                30 Days
+              </label>
+            </div>
+            <input
+              id="30days"
+              aria-describedby="positve-description"
+              checked={days == 30 ? true : false}
+              name="days"
+              type="radio"
+              // checked={positiveCheck}
+              onChange={() => {
+                setDays(30);
+              }}
+              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+            />
+          </div>
+        </>
+      )}
 
       <Chart options={options} series={series} type="line" height={500} />
     </>

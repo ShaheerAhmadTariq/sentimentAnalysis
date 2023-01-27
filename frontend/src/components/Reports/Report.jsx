@@ -5,10 +5,12 @@ import SentimentGraph from "../Mentions/SentimentGraph";
 
 const Report = () => {
   const [days, setDays] = useState(30);
+  const [singleGraphDays, setsingleGraphDays] = useState(30);
   const [data, setData] = useState(undefined);
   var brandKey = JSON.parse(localStorage.getItem("brandList"));
   brandKey = brandKey[0].brandNames;
   brandKey = brandKey?.at(-1);
+  const [graphs, setgraphs] = useState(undefined);
 
   const date = new Date();
 
@@ -44,8 +46,28 @@ const Report = () => {
     setData(resp);
   }
 
+  async function getGraphData() {
+    try {
+      let p_id = JSON.parse(localStorage.getItem("brandList"));
+      let { id } = JSON.parse(localStorage.getItem("userEmail"));
+      let graphs = await fetch("http://localhost:8000/sentimentGraph/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ p_id: p_id[0].p_id, days, u_id: id }),
+      });
+
+      graphs = await graphs.json();
+      setgraphs(graphs);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
-    getData();
+    // getData();
+    getGraphData();
   }, []);
 
   return (
@@ -54,22 +76,31 @@ const Report = () => {
         <h1 className="text-black text-3xl font-bold tracking-wider">
           Reports Page
         </h1>
-        <SentimentGraph
-          days={days}
-          setDays={setDays}
-          brandKey={brandKey}
-          currentDate={currentDate}
-          prevDate={prevDate}
-          multiGraph={false}
-        />
-        <SentimentGraph
-          days={days}
-          setDays={setDays}
-          brandKey={brandKey}
-          currentDate={currentDate}
-          prevDate={prevDate}
-          multiGraph={true}
-        />
+        {graphs && (
+          <>
+            <SentimentGraph
+              days={singleGraphDays}
+              setDays={setsingleGraphDays}
+              brandKey={brandKey}
+              currentDate={currentDate}
+              prevDate={prevDate}
+              multiGraph={false}
+              graphsValue={graphs}
+              displayDateFilter={false}
+            />
+            <SentimentGraph
+              days={days}
+              setDays={setDays}
+              brandKey={brandKey}
+              currentDate={currentDate}
+              prevDate={prevDate}
+              graphsValue={graphs}
+              multiGraph={true}
+              displayDateFilter={false}
+            />
+          </>
+        )}
+
         <div className="col-span-2">
           <div className="">
             {data && (
