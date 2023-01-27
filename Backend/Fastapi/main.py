@@ -71,9 +71,9 @@ def add_project(string,userID):
     )
 
     # add_project( new_project)
-    session.add(project)
-    session.commit()
-    session.refresh(project)
+    session1.add(project)
+    session1.commit()
+    session1.refresh(project)
     return project
 
 def newsBrandInsert(db:session, rows: List[Dict[str, Any]]):
@@ -143,17 +143,18 @@ class UserStringRequest(BaseModel):
 # inputs are written in UserStringRequest
 @app.post("/createProject")
 # async def submit(request: Request, user_string_request: UserStringRequest):
-def submit(request: Request, user_string_request: UserStringRequest):
+async def submit(request: Request, user_string_request: UserStringRequest):
     user_string = user_string_request.enterBrandCompetitorHashtag
     userID = user_string_request.email['id']
-    p_id = apiCall(user_string,userID)
-    # p_id = session.query(projects).filter(projects.user_id == userID).first()
-    if p_id:
+    try:
+        p_id = apiCall(user_string,userID)
+        # p_id = session.query(projects).filter(projects.user_id == userID).first()
+        # if p_id:
         project = session.query(projects).filter(projects.user_id == userID, projects.p_id == p_id).first()
         res = getNews(project.p_brand_name, project.p_competitor_name, project.p_hashtag,p_id)
         # await asyncio.sleep(1)
         return {"message" : "Success", "p_id": p_id}
-    else:
+    except:
         return {"message": "project not found"}
 
 def add_user():
@@ -325,14 +326,14 @@ def getCount (request : Request, user_request: countComaparisonModel):
     # days = 30
     # try:
     project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
-    res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
-    p_id = user_request.p_id2
-    name1 = project.p_brand_name
+    res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id)
+    p_id2 = user_request.p_id2
+    # name1 = project.p_brand_name
     # p_id = 2
 
-    project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
-    res2 = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
-    name2 = project.p_brand_name
+    project = session1.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id2).first()
+    res2 = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id2)
+    # name2 = project.p_brand_name
     return {"project01": res, "project02": res2}
 
 class lineComaparisonModel(BaseModel):
@@ -343,19 +344,24 @@ class lineComaparisonModel(BaseModel):
 @app.post('/comaprisonLineChart/')
 # def getline():
 def getline(request : Request, user_request: lineComaparisonModel):
-    # user_id = user_request.u_id
-    # p_id = user_request.p_id1
-    # days = user_request.days
-    user_id = 1
-    p_id = 1
-    days = 30
+    user_id = user_request.u_id
+    p_id = user_request.p_id1
+    days = user_request.days
+    # user_id = 1
+    # p_id = 1
+    # days = 30
     project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
     res = comparisonLineChart(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
-    # p_id = user_request.p_id2
-    p_id = 2
+    p_id = user_request.p_id2
+    
+    # p_id = 3
     project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
     res2 = comparisonLineChart(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
-    return {"project01": res, "project02": res2}
+    
+    result =  {"project01": res, "project02": res2}
+    result["project01"] = sorted(result["project01"], key=lambda x: datetime.strptime(next(iter(x)), "%Y-%m-%d"))
+    result["project02"] = sorted(result["project01"], key=lambda x: datetime.strptime(next(iter(x)), "%Y-%m-%d"))
+    return result
 
 
 class getProjectsModel(BaseModel):
@@ -451,3 +457,17 @@ def getPassword(request : Request, user_request: forgetPasswordModel):
         return {"message":"password updated"}
     except:
         return {"message":"User not found"}
+
+
+# Report page
+class reportPieModel(BaseModel):
+    u_id: int
+    p_id1: int
+@app.post('/reportPieChart/')
+def reportPie(request : Request, user_request: reportPieModel):
+    user_id = user_request.u_id
+    p_id = user_request.p_id1
+    days = 30
+    project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+    res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id)
+    return {"project01": res}

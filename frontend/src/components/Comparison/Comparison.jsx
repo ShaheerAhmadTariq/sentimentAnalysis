@@ -67,6 +67,7 @@ const Comparison = () => {
 
   // Single Line Chart API Call
   async function getComparisonLineChart() {
+    let { id } = JSON.parse(localStorage.getItem("userEmail"));
     try {
       const res = await fetch("http://localhost:8000/comaprisonLineChart", {
         method: "POST",
@@ -74,9 +75,9 @@ const Comparison = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          u_id: 1,
-          p_id1: 1,
-          p_id2: 2,
+          u_id: id,
+          p_id1: selectedProjects[0],
+          p_id2: selectedProjects[1],
           days: 30,
         }),
       });

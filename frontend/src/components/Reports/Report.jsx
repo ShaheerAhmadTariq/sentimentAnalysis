@@ -30,15 +30,13 @@ const Report = () => {
       alert("No user id found");
       return;
     }
-    let resp = await fetch("http://localhost:8000/CountComparison/", {
+    let resp = await fetch("http://localhost:8000/reportPieChart/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         p_id1: 1,
-        p_id2: 2,
-        days: 30,
         u_id: id,
       }),
     });

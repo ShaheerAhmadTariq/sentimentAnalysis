@@ -68,7 +68,7 @@ def getNewsGraph(name: str, one_month_ago : int, table: str):
 
     # return sentiment_dict
 
-def comparisonCountpie(brand: str, competitor: str, hashtag: str, day: int ):
+def comparisonCountpie(brand: str, competitor: str, hashtag: str, day: int, p_id: int ):
     newsCount =  getCount(newsBrands, brand)
     newsCount += getCount(newsCompetitor, competitor)
     newsCount += getCount(newsHashtag, hashtag)
@@ -77,7 +77,7 @@ def comparisonCountpie(brand: str, competitor: str, hashtag: str, day: int ):
     redditCount += getCount(redditCompetitor, competitor)
     redditCount += getCount(redditHashtag, hashtag)
     session6 = SessionLocal()
-    result = session6.query(projectSentiments).filter(projectSentiments.project_id == 2).first()
+    result = session6.query(projectSentiments).filter(projectSentiments.project_id == p_id).first()
     # Total = result.p_sentiments['neutral'] + result.p_sentiments['negative'] + result.p_sentiments['positive']
     Mentions = newsCount + redditCount
     # print(result.p_sentiments['neutral'])
