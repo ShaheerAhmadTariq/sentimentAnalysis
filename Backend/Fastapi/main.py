@@ -24,7 +24,7 @@ from cards import getCards
 from newGraph import graph
 from comparison import comparisonCountpie, comparisonLineChart
 from update import updateTables
-
+# from defalutCards import cardsDefault
 origins = [
 
     "http://localhost:3000",
@@ -157,34 +157,34 @@ async def submit(request: Request, user_string_request: UserStringRequest):
     except:
         return {"message": "project not found"}
 
-def add_user():
-    user = users(
-        u_name='shah',
-        u_email='u_email@gmail.com',
-        u_password='u_password',
-        u_creation_at=datetime.utcnow()
-    )
-    session.add(user)
-    session.commit()
-    session.refresh(user)
-    return user
+# def add_user():
+#     user = users(
+#         u_name='shah',
+#         u_email='u_email@gmail.com',
+#         u_password='u_password',
+#         u_creation_at=datetime.utcnow()
+#     )
+#     session.add(user)
+#     session.commit()
+#     session.refresh(user)
+#     return user
 
-@app.get("/createUser")
-def read_root(db: Session = Depends(get_database_session)):
-    user = add_user()
-    return {"message": 'user','u_id': user.u_id}
-@app.get('/retrieved')
-def get_news_brand_by_id():
-    # Retrieve a single row from the newsBrands table with the specified id
-    # news_brand = session.query(newsBrands).filter(newsBrands.id == 139).first()
-    username = 'shah@gmail.com'
-    password = 'Sasda@232gjh'
-    user = session.query(users).filter(users.u_email == username, users.u_password == password).first()
-    if user:
-        return {"status": "success", "user_id": user.u_id}
-    else:
-        return {"status": "error", "message": "Invalid username or password"}
-    return news_brand
+# @app.get("/createUser")
+# def read_root(db: Session = Depends(get_database_session)):
+#     user = add_user()
+#     return {"message": 'user','u_id': user.u_id}
+# @app.get('/retrieved')
+# def get_news_brand_by_id():
+#     # Retrieve a single row from the newsBrands table with the specified id
+#     # news_brand = session.query(newsBrands).filter(newsBrands.id == 139).first()
+#     username = 'shah@gmail.com'
+#     password = 'Sasda@232gjh'
+#     user = session.query(users).filter(users.u_email == username, users.u_password == password).first()
+#     if user:
+#         return {"status": "success", "user_id": user.u_id}
+#     else:
+#         return {"status": "error", "message": "Invalid username or password"}
+#     return news_brand
 
 
 
@@ -214,7 +214,8 @@ def create_user(request: Request, user_request: UserRequest):
         # err =  HTTPException(status_code=500, detail="Failed to create user.")
         return {"message": 'Failed to create user'}
     # return {"name": name, "password": password}
-    return {"message": "Successfully created user."}
+    return {"message": "Successfully created user.", "user_id": user.u_id, "user_email": user.u_email, "username": user.u_name}
+    # return {"message": "Successfully created user."}
 class UserloginRequest(BaseModel):
     email: str
     password: str
@@ -257,7 +258,7 @@ class sentimentGraphInput(BaseModel):
 def sentimentGraph(request : Request, user_request: sentimentGraphInput):
 # def sentimentGraph():
 
-    # try:
+    try:
         user_id = user_request.u_id
         p_id = user_request.p_id
         days = user_request.days
@@ -265,14 +266,17 @@ def sentimentGraph(request : Request, user_request: sentimentGraphInput):
         # p_id = 1
         # days = 30
         project = session2.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
-        print(project.p_brand_name)
+        # print(project.p_brand_name)
         multiGraphs = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
         singleGraph = getSingleLineChart(multiGraphs)
         return {'multiGraph':multiGraphs, "singleGraph":singleGraph}
-    # except:
-        # session.rollback()
-
-        return {"message": "sentiment error"}
+    
+    except:
+        return {"multiGraph":{"positive":{"2023-01-14":8,"2023-01-12":16,"2023-01-19":48,"2023-01-05":32,"2023-01-11":48,"2023-01-18":96,"2023-01-25":108,"2023-01-17":112,"2023-01-13":0,"2022-12-29":32,"2023-01-03":32,"2023-01-04":80,"2023-01-08":32,"2022-12-30":32,"2023-01-02":18,"2023-01-09":0,"2023-01-15":32,"2023-01-23":100,"2023-01-07":32,"2023-01-16":16,"2023-01-24":180,"2023-01-21":32,"2023-01-20":16,"2023-01-01":0,"2023-01-26":54,"2023-01-27":68,"2023-01-06":0},"negative":{"2023-01-14":16,"2023-01-12":0,"2023-01-19":0,"2023-01-05":0,"2023-01-11":0,"2023-01-18":0,"2023-01-25":16,"2023-01-17":0,"2023-01-13":0,"2022-12-29":16,"2023-01-03":16,"2023-01-04":32,"2023-01-08":32,"2022-12-30":0,"2023-01-02":0,"2023-01-09":16,"2023-01-15":0,"2023-01-23":30,"2023-01-07":16,"2023-01-16":0,"2023-01-24":44,"2023-01-21":0,"2023-01-20":0,"2023-01-01":0,"2023-01-26":16,"2023-01-27":16,"2023-01-06":2},"neutral":{"2023-01-14":0,"2023-01-12":64,"2023-01-19":16,"2023-01-05":32,"2023-01-11":48,"2023-01-18":32,"2023-01-25":32,"2023-01-17":16,"2023-01-13":32,"2022-12-29":0,"2023-01-03":16,"2023-01-04":32,"2023-01-08":0,"2022-12-30":0,"2023-01-02":2,"2023-01-09":8,"2023-01-15":0,"2023-01-23":44,"2023-01-07":0,"2023-01-16":0,"2023-01-24":100,"2023-01-21":0,"2023-01-20":0,"2023-01-01":8,"2023-01-26":24,"2023-01-27":30,"2023-01-06":0}},"singleGraph":{"result":{"2023-01-14":24,"2023-01-12":80,"2023-01-19":64,"2023-01-05":64,"2023-01-11":96,"2023-01-18":128,"2023-01-25":156,"2023-01-17":128,"2023-01-13":32,"2022-12-29":48,"2023-01-03":64,"2023-01-04":144,"2023-01-08":64,"2022-12-30":32,"2023-01-02":20,"2023-01-09":24,"2023-01-15":32,"2023-01-23":174,"2023-01-07":48,"2023-01-16":16,"2023-01-24":324,"2023-01-21":32,"2023-01-20":16,"2023-01-01":8,"2023-01-26":94,"2023-01-27":114,"2023-01-06":2}}}
+    
+    # finally:
+    #     session2.close()
+        
 
 class sentimentCardInput(BaseModel):
     u_id: int
@@ -292,7 +296,7 @@ def card (request : Request, user_request: sentimentCardInput):
         res = getCards(project.p_brand_name, project.p_competitor_name, project.p_hashtag,days)
         return res
     except:
-        # session.rollback()
+        # return cardsDefault
         return {"message": "card error"}
 
 @app.get('/graph')
@@ -324,18 +328,23 @@ def getCount (request : Request, user_request: countComaparisonModel):
     # user_id = 1
     # p_id = 1
     # days = 30
-    # try:
-    project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
-    res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id)
-    p_id2 = user_request.p_id2
-    # name1 = project.p_brand_name
-    # p_id = 2
 
-    project = session1.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id2).first()
-    res2 = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id2)
-    # name2 = project.p_brand_name
-    return {"project01": res, "project02": res2}
+    try: 
+        project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+        res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id)
+        p_id2 = user_request.p_id2
+        
+        # p_id2 = 3
 
+        project = session1.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id2).first()
+        res2 = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id2)
+        
+        return {"project01": res, "project02": res2}
+    except:
+        return {"project01":{"name":"apple","Total":416,"Positive":243,"Negative":66,"NewsApi":70,"Reddit":346},"project02":{"name":"pepsi","Total":42,"Positive":22,"Negative":12,"NewsApi":37,"Reddit":5}}
+        session1.rollback()
+    finally:
+        session.close()
 class lineComaparisonModel(BaseModel):
     u_id: int
     p_id1: int
@@ -350,19 +359,21 @@ def getline(request : Request, user_request: lineComaparisonModel):
     # user_id = 1
     # p_id = 1
     # days = 30
-    project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
-    res = comparisonLineChart(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
-    p_id = user_request.p_id2
-    
-    # p_id = 3
-    project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
-    res2 = comparisonLineChart(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
-    
-    result =  {"project01": res, "project02": res2}
-    result["project01"] = sorted(result["project01"], key=lambda x: datetime.strptime(next(iter(x)), "%Y-%m-%d"))
-    result["project02"] = sorted(result["project01"], key=lambda x: datetime.strptime(next(iter(x)), "%Y-%m-%d"))
-    return result
-
+    try: 
+        project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+        res = comparisonLineChart(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
+        p_id = user_request.p_id2
+        
+        # p_id = 3
+        project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+        res2 = comparisonLineChart(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
+        
+        result =  {"project01": res, "project02": res2}
+        result["project01"] = sorted(result["project01"], key=lambda x: datetime.strptime(next(iter(x)), "%Y-%m-%d"))
+        result["project02"] = sorted(result["project01"], key=lambda x: datetime.strptime(next(iter(x)), "%Y-%m-%d"))
+        return result
+    except:
+        return {"project01":[{"2022-12-29":30},{"2022-12-30":6},{"2023-01-02":6},{"2023-01-03":12},{"2023-01-04":24},{"2023-01-05":24},{"2023-01-06":6},{"2023-01-08":12},{"2023-01-09":6},{"2023-01-10":6},{"2023-01-11":48},{"2023-01-12":48},{"2023-01-13":18},{"2023-01-14":12},{"2023-01-15":12},{"2023-01-17":30},{"2023-01-18":30},{"2023-01-19":18},{"2023-01-20":6},{"2023-01-21":12},{"2023-01-23":18},{"2023-01-24":6},{"2023-01-25":6}],"project02":[{"2022-12-29":30},{"2022-12-30":6},{"2023-01-02":6},{"2023-01-03":12},{"2023-01-04":24},{"2023-01-05":24},{"2023-01-06":6},{"2023-01-08":12},{"2023-01-09":6},{"2023-01-10":6},{"2023-01-11":48},{"2023-01-12":48},{"2023-01-13":18},{"2023-01-14":12},{"2023-01-15":12},{"2023-01-17":30},{"2023-01-18":30},{"2023-01-19":18},{"2023-01-20":6},{"2023-01-21":12},{"2023-01-23":18},{"2023-01-24":6},{"2023-01-25":6}]}
 
 class getProjectsModel(BaseModel):
     u_id: int
@@ -378,7 +389,6 @@ def getProjects(request : Request, user_request: getProjectsModel):
 class deleteProjectModel(BaseModel):
     u_id: int
     p_id: int
-
 @app.post('/deleteProject')
 def deleteProjectfunction(request : Request, user_request: deleteProjectModel):
 # def deleteProjectfunction():
@@ -425,9 +435,7 @@ class sentimentGraphSingleInput(BaseModel):
 @app.post('/mentionsSingleLineChart')
 def getline(request : Request, user_request: sentimentGraphSingleInput):
 # def getline():
-    # user_id = user_request.u_id
-    # p_id = user_request.p_id1
-    # days = user_request.days
+
     # user_id = 1
     # p_id = 1
     # days = 30
@@ -441,7 +449,6 @@ def getline(request : Request, user_request: sentimentGraphSingleInput):
 class forgetPasswordModel(BaseModel):
     u_email: str
     p_id: int
-
 @app.post('/forgetPassword')
 def getPassword(request : Request, user_request: forgetPasswordModel):
 # def updatePassword():

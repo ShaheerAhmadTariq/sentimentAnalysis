@@ -1,4 +1,4 @@
-from database import session,session1,session2,session3 ,Base
+from database import session,session1,session2,session3,session5,session6 ,Base
 
 from model import newsBrands, newsCompetitor, newsHashtag, redditBrands, redditCompetitor, redditHashtag, Base
 from datetime import datetime, timedelta
@@ -47,29 +47,6 @@ def getGraphs(brand: str, competitor: str, hashtag: str, day: int ):
     now = datetime.now()
     # # Calculate the date one month ago
     days = now - timedelta(days=day)
-    # try:
-    #     # n_brands = getNewsGraph(brand, days, newsBrands)
-    #     row = session.query(newsBrands.content, func.date(newsBrands.published_at).label('published_at')).filter(newsBrands.published_at >= days, newsBrands.name == brand).all()
-    #     n_brands = getNewsGraph(row)
-    #     # session.expire_all()
-    #     row2 = session1.query(newsCompetitor.content, func.date(newsCompetitor.published_at).label('published_at')).filter(newsCompetitor.published_at >= days, newsCompetitor.name == competitor).all()
-    #     n_competitors = getNewsGraph(row2)
-    #     # session.expire_all()
-    #     row3 = session.query(newsHashtag.content, func.date(newsHashtag.published_at).label('published_at')).filter(newsHashtag.published_at >= days, newsHashtag.name == hashtag).all()
-    #     n_hashtag = getNewsGraph(row3)
-    #     # session.expire_all()
-    #     row4 = session2.query(redditBrands.content, func.date(redditBrands.published_at).label('published_at')).filter(redditBrands.published_at >= days, redditBrands.name == brand).all()
-    #     r_brands = getNewsGraph(row4)
-    #     # session.expire_all()
-    #     row5 = session3.query(redditCompetitor.content, func.date(redditCompetitor.published_at).label('published_at')).filter(redditCompetitor.published_at >= days, redditCompetitor.name == competitor).all()
-    #     r_competitors = getNewsGraph(row5)
-    #     # session.expire_all()
-    #     row6 = session.query(redditHashtag.content, func.date(redditHashtag.published_at).label('published_at')).filter(redditHashtag.published_at >= days, redditHashtag.name == hashtag).all()
-    #     r_hashtags = getNewsGraph(row6)
-    #     session.expire_all()
-    # except:
-    #     return "err"
-    # try:
     n_brands = getNewsGraph(brand, days, newsBrands)
     n_competitors = getNewsGraph(competitor, days, newsCompetitor)
     n_hashtag = getNewsGraph2(hashtag, days, newsHashtag)
@@ -77,27 +54,12 @@ def getGraphs(brand: str, competitor: str, hashtag: str, day: int ):
     r_brands = getNewsGraph2(brand, days, redditBrands)
     r_competitors = getNewsGraph3(competitor, days, redditCompetitor)
     r_hashtags = getNewsGraph3(hashtag, days, redditHashtag)
-        # n_brands = getNewsGraph(brand, days, newsBrands, session)
-        # n_competitors = getNewsGraph(competitor, days, newsCompetitor, session)
-        # n_hashtag = getNewsGraph(hashtag, days, newsHashtag, session)
-
-        # r_brands = getNewsGraph(brand, days, redditBrands, session)
-        # r_competitors = getNewsGraph(competitor, days, redditCompetitor, session)
-        # r_hashtags = getNewsGraph(hashtag, days, redditHashtag, session)
-    # except:
-        # return {'err':'while running'}
-    # session.close()
-    # session1.close()
-    # session2.close()
     result = joinDict(n_brands,n_competitors)
     result = joinDict(result, n_hashtag)
     result = joinDict(result, r_brands)
     result = joinDict(result, r_competitors)
     result = joinDict(result, r_hashtags)
-    # except:
-        # return "err"
     pos,neg,neutral = graph(result)
-    # pos,neg,neutral = (0,0,0)
     
     return {"positive": pos, "negative": neg, "neutral": neutral}
     
@@ -130,7 +92,7 @@ def getNewsGraph2(name: str, one_month_ago : int, table: str):
     # rows = session.query(table).all
     # return rows
     # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
-    rows = session1.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
+    rows = session6.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
     # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
     # rows = session.query(table).all
     # stmt = select([table.content, func.date(table.published_at).label('published_at')]).where(table.published_at >= one_month_ago)
@@ -152,7 +114,7 @@ def getNewsGraph3(name: str, one_month_ago : int, table: str):
     # rows = session.query(table).all
     # return rows
     # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
-    rows = session2.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
+    rows = session5.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
     # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
     # rows = session.query(table).all
     # stmt = select([table.content, func.date(table.published_at).label('published_at')]).where(table.published_at >= one_month_ago)
