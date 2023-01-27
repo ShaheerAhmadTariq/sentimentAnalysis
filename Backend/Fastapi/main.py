@@ -362,19 +362,19 @@ def getline(request : Request, user_request: lineComaparisonModel):
     try: 
         project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
         res = comparisonLineChart(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
-        p_id = user_request.p_id2
+        p_id2 = user_request.p_id2
         
-        # p_id = 3
-        project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
-        res2 = comparisonLineChart(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
+        # p_id2 = 3
+        project2 = session1.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id2).first()
+        res2 = comparisonLineChart(project2.p_brand_name, project2.p_competitor_name, project2.p_hashtag, days)
         
         result =  {"project01": res, "project02": res2}
         result["project01"] = sorted(result["project01"], key=lambda x: datetime.strptime(next(iter(x)), "%Y-%m-%d"))
-        result["project02"] = sorted(result["project01"], key=lambda x: datetime.strptime(next(iter(x)), "%Y-%m-%d"))
+        result["project02"] = sorted(result["project02"], key=lambda x: datetime.strptime(next(iter(x)), "%Y-%m-%d"))
         return result
     except:
         return {"project01":[{"2022-12-29":30},{"2022-12-30":6},{"2023-01-02":6},{"2023-01-03":12},{"2023-01-04":24},{"2023-01-05":24},{"2023-01-06":6},{"2023-01-08":12},{"2023-01-09":6},{"2023-01-10":6},{"2023-01-11":48},{"2023-01-12":48},{"2023-01-13":18},{"2023-01-14":12},{"2023-01-15":12},{"2023-01-17":30},{"2023-01-18":30},{"2023-01-19":18},{"2023-01-20":6},{"2023-01-21":12},{"2023-01-23":18},{"2023-01-24":6},{"2023-01-25":6}],"project02":[{"2022-12-29":30},{"2022-12-30":6},{"2023-01-02":6},{"2023-01-03":12},{"2023-01-04":24},{"2023-01-05":24},{"2023-01-06":6},{"2023-01-08":12},{"2023-01-09":6},{"2023-01-10":6},{"2023-01-11":48},{"2023-01-12":48},{"2023-01-13":18},{"2023-01-14":12},{"2023-01-15":12},{"2023-01-17":30},{"2023-01-18":30},{"2023-01-19":18},{"2023-01-20":6},{"2023-01-21":12},{"2023-01-23":18},{"2023-01-24":6},{"2023-01-25":6}]}
-
+        # return {'njsdvks'}
 class getProjectsModel(BaseModel):
     u_id: int
 @app.post('/getProjects')
@@ -475,6 +475,6 @@ def reportPie(request : Request, user_request: reportPieModel):
     user_id = user_request.u_id
     p_id = user_request.p_id1
     days = 30
-    project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+    project = session6.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
     res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id)
     return {"project01": res}
