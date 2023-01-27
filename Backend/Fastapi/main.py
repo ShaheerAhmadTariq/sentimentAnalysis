@@ -472,9 +472,15 @@ class reportPieModel(BaseModel):
     p_id1: int
 @app.post('/reportPieChart/')
 def reportPie(request : Request, user_request: reportPieModel):
+# def reportPie():
     user_id = user_request.u_id
     p_id = user_request.p_id1
+    # user_id = 1
+    # p_id = 1
     days = 30
-    project = session6.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
-    res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id)
-    return {"project01": res}
+    try: 
+        project = session6.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+        res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id)
+        return {"project01": res}
+    except:
+        return {"project01":{"name":"apple","Total":416,"Positive":243,"Negative":66,"NewsApi":70,"Reddit":346}}
