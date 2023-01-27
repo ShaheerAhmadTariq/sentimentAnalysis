@@ -55,7 +55,7 @@ export default function MonitorBrand() {
               ])
             );
 
-            navigate("/mentions");
+            navigate("/dashboard");
           } else {
             toast.error(data.message);
             setIsLoading(false);

@@ -78,7 +78,7 @@ export const Navbar = ({ handleSideBarStatus }) => {
                 <SidebarMobileClose />
               </button>
               <a href="/" className="lg:mr-14">
-                Brand24
+                APSS
               </a>
             </div>
             <div className="flex items-center">

@@ -42,13 +42,22 @@ export default function Registration() {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log("response: data", data);
-          data.message === "Success"
-            ? toast.success("You are successfully registered!") &&
-              setTimeout(() => {
-                navigate("/monitor");
-              }, 1500)
-            : toast.error(data.message);
+          if (data.message === "Successfully created user.") {
+            toast.success("You are successfully registered!");
+            localStorage.setItem(
+              "userEmail",
+              JSON.stringify({
+                email: data.user_email,
+                id: data.user_id,
+                username: data.username,
+              })
+            );
+            setTimeout(() => {
+              navigate("/monitor");
+            }, 1500);
+          } else {
+            toast.error(data.message);
+          }
           setIsLoading(false);
         });
     } catch (err) {

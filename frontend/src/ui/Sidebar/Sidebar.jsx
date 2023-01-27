@@ -17,11 +17,7 @@ const sideNavigation = [
     href: "/dashboard",
     icon: <HomeIcon className={iconClass} />,
   },
-  // {
-  //   name: "Projects",
-  //   href: "/projects",
-  //   icon: <StarIcon className={iconClass} />,
-  // },
+
   {
     name: "Mentions",
     href: "/mentions",
@@ -39,45 +35,24 @@ const sideNavigation = [
   },
 ];
 
-export const Sidebar = ({ showSideBar }) => {
+export const Sidebar = ({ currentProjectFetch = undefined, showSideBar }) => {
+  const [brandKey, setbrandKey] = useState([]);
+  const [brandKeys, setbrandKeys] = useState([]);
   useEffect(() => {
-    // getBrands();
-  }, []);
+    if (currentProjectFetch?.projectFetch) {
+      setbrandKey(currentProjectFetch?.currentProject?.brandNames?.at(-1));
+      setbrandKeys(currentProjectFetch?.currentProject?.brandNames);
+    } else {
+      var brandKey = JSON.parse(localStorage.getItem("brandList"));
+      var brandKeys = JSON.parse(localStorage.getItem("brandList"));
+      brandKey = brandKey[0].brandNames;
+      brandKeys = brandKeys[0].brandNames;
+      brandKey = brandKey?.at(-1);
 
-  async function getBrands() {
-    var userEmail = JSON.parse(localStorage.getItem("userEmail"));
-
-    // encode to scape spaces
-    const esc = encodeURIComponent;
-    const url =
-      "https://media-monitoring-tool.herokuapp.com/api/v1/users/brands_listing?";
-    const params = {
-      accountType: "trial",
-      email: userEmail,
-    };
-    // this line takes the params object and builds the query string
-    const query = Object.keys(params)
-      .map((k) => `${esc(k)}=${esc(params[k])}`)
-      .join("&");
-
-    await fetch(url + query, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        var brandKeys = data.data?.map((i) => i.hashtag);
-        localStorage.setItem("brandList", JSON.stringify(brandKeys));
-      });
-  }
-  var brandKey = JSON.parse(localStorage.getItem("brandList"));
-  var brandKeys = JSON.parse(localStorage.getItem("brandList"));
-  brandKey = brandKey[0].brandNames;
-  brandKeys = brandKeys[0].brandNames;
-  brandKey = brandKey?.at(-1);
+      setbrandKey(brandKey);
+      setbrandKeys(brandKeys);
+    }
+  }, [currentProjectFetch]);
 
   return (
     <aside

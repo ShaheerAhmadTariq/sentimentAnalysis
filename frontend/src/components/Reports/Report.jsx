@@ -43,6 +43,7 @@ const Report = () => {
       }),
     });
     resp = await resp.json();
+    console.log(resp);
     setData(resp);
   }
 
@@ -66,8 +67,8 @@ const Report = () => {
   }
 
   useEffect(() => {
-    // getData();
-    getGraphData();
+    // getGraphData();
+    getData();
   }, []);
 
   return (

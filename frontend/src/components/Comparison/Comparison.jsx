@@ -69,6 +69,7 @@ const Comparison = () => {
   async function getComparisonLineChart() {
     let { id } = JSON.parse(localStorage.getItem("userEmail"));
     try {
+      console.log(selectedProjects);
       const res = await fetch("http://localhost:8000/comaprisonLineChart", {
         method: "POST",
         headers: {
@@ -82,6 +83,7 @@ const Comparison = () => {
         }),
       });
       const lineChart = await res.json();
+      console.log(lineChart);
       setlineChartData(lineChart);
     } catch (error) {
       console.log(error);

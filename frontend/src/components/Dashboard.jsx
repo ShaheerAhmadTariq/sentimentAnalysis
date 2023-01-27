@@ -26,27 +26,32 @@ const Dashboard = () => {
       const projects = await res.json();
       setallProjects(projects);
       setcurrentProjects(projects);
-      setcurrentProject({
-        p_id: projects[0].p_id,
-        brandNames: [
-          projects[0].p_brand_name,
-          projects[0].p_competitor_name,
-          projects[0].p_hashtag,
-        ],
-      });
-      localStorage.setItem(
-        "brandList",
-        JSON.stringify([
-          {
-            p_id: projects[0].p_id,
-            brandNames: [
-              projects[0].p_brand_name,
-              projects[0].p_competitor_name,
-              projects[0].p_hashtag,
-            ],
-          },
-        ])
-      );
+      const currentItem = JSON.parse(localStorage.getItem("brandList"));
+      if (currentItem[0]) {
+        setcurrentProject(currentItem[0]);
+      } else {
+        setcurrentProject({
+          p_id: projects[0].p_id,
+          brandNames: [
+            projects[0].p_brand_name,
+            projects[0].p_competitor_name,
+            projects[0].p_hashtag,
+          ],
+        });
+        localStorage.setItem(
+          "brandList",
+          JSON.stringify([
+            {
+              p_id: projects[0].p_id,
+              brandNames: [
+                projects[0].p_brand_name,
+                projects[0].p_competitor_name,
+                projects[0].p_hashtag,
+              ],
+            },
+          ])
+        );
+      }
     } catch (error) {
       console.log(error);
     }
@@ -122,7 +127,7 @@ const Dashboard = () => {
     );
   };
   return (
-    <MainLayout>
+    <MainLayout currentProjectFetch={{ currentProject, projectFetch: true }}>
       <div className="m-4 min-h-screen">
         <Card className="my-4">
           <CardBody>
