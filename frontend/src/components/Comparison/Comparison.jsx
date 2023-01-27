@@ -69,7 +69,6 @@ const Comparison = () => {
   async function getComparisonLineChart() {
     let { id } = JSON.parse(localStorage.getItem("userEmail"));
     try {
-      console.log(selectedProjects);
       const res = await fetch("http://localhost:8000/comaprisonLineChart", {
         method: "POST",
         headers: {
@@ -83,7 +82,6 @@ const Comparison = () => {
         }),
       });
       const lineChart = await res.json();
-      console.log(lineChart);
       setlineChartData(lineChart);
     } catch (error) {
       console.log(error);
@@ -124,7 +122,6 @@ const Comparison = () => {
       getData();
     }
   }, [selectedProjects]);
-
   return (
     <MainLayout>
       {brandList?.length <= 1 ? (
@@ -198,7 +195,7 @@ const Comparison = () => {
                   {/* Project01 */}
                   <Card className="my-4">
                     <CardBody>
-                      <p className="capitalize">{Object.keys(data)[0]}</p>
+                      <p className="capitalize">{data.project01.name}</p>
                       <div className="grid grid-cols-[repeat(auto-fit,_15.666666%)] gap-5 m-auto justify-center">
                         {/* Side Figures */}
                         <Figures
@@ -235,7 +232,7 @@ const Comparison = () => {
                   {/* Project02 */}
                   <Card className="my-4">
                     <CardBody>
-                      <p className="capitalize">{Object.keys(data)[1]}</p>
+                      <p className="capitalize">{data.project02.name}</p>
 
                       <div className="grid grid-cols-[repeat(auto-fit,_15.666666%)] gap-5 m-auto justify-center">
                         {/* Side Figures */}
