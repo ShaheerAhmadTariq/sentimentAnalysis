@@ -42,9 +42,9 @@ def comparisonLineChart(brand: str, competitor: str, hashtag: str, day: int ):
 
 def getNewsGraph(name: str, one_month_ago : int, table: str):
     query = (
-        session3.query(newsBrands.published_at, func.count(newsBrands.id).label("count").cast(Integer))
-        .filter(newsBrands.published_at >= one_month_ago)
-        .group_by(newsBrands.published_at)
+        session3.query(table.published_at, func.count(table.id).label("count").cast(Integer))
+        .filter(table.name == name)
+        .group_by(table.published_at)
         .all()
     )
     result_as_dict = [{row[0].strftime("%Y-%m-%d"):row[1]} for row in query]
