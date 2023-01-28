@@ -20,6 +20,9 @@ const Comparison = () => {
   const [selectedProjects, setSelectedProjects] = useState([]);
   const [lineChartData, setlineChartData] = useState();
 
+
+  // console.log(data.project01); 
+
   var brandKey = JSON.parse(localStorage.getItem("brandList"));
   brandKey = brandKey[0].brandNames;
   brandKey = brandKey?.at(-1).replace(/^\s+/g, "");
@@ -212,6 +215,7 @@ const Comparison = () => {
                               currentDate={currentDate}
                               prevDate={prevDate}
                               data={data.project01}
+                             
                             />
                           </div>
                         </div>

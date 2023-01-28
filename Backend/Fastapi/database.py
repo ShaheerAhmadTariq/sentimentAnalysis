@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import NullPool
 
 
-DATABASE_URL = "mysql+pymysql://root:@localhost:3306/FIVER2"
+DATABASE_URL = "mysql+pymysql://root:root@localhost:3306/FIVER2"
 
 
 engine = create_engine(DATABASE_URL, pool_size=50)

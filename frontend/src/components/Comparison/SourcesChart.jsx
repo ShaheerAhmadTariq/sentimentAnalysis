@@ -3,6 +3,8 @@ import Chart from "react-apexcharts";
 
 const SourcesChart = ({ brandKey, currentDate, prevDate, data }) => {
   const [series, setSeries] = useState([data.Postive, data.Negative]);
+  const [positive, setPositive] = useState(Number)
+  const [negative, setNegative] = useState(Number)
 
   useEffect(() => {
     setSeries([
@@ -10,9 +12,8 @@ const SourcesChart = ({ brandKey, currentDate, prevDate, data }) => {
       Number(((data.Negative / data.Total) * 100).toFixed(2)),
     ]);
   }, [data]);
-
   const [options, setOptions] = useState({
-    labels: ["Positive", "Negative"],
+    labels: [[`Positive: ${((data.Positive /(data.Positive+data.Negative))*100).toFixed(1)}`],[`Negative: ${((data.Negative /(data.Positive+data.Negative))*100).toFixed(1)}`]],
     chart: {
       type: "donut",
       hight: 100,
@@ -24,12 +25,13 @@ const SourcesChart = ({ brandKey, currentDate, prevDate, data }) => {
       },
     },
     dataLabels: {
-      enabled: true,
+      enabled: false,
+      
     },
     legend: {
       show: true,
     },
-
+    
     responsive: [
       {
         breakpoint: 480,
@@ -54,3 +56,4 @@ const SourcesChart = ({ brandKey, currentDate, prevDate, data }) => {
 };
 
 export default SourcesChart;
+

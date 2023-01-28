@@ -11,7 +11,7 @@ const SentimentChart = ({ brandKey, currentDate, prevDate, data }) => {
   }, [data]);
 
   const [options, setOptions] = useState({
-    labels: ["NewsApi", "Reddit"],
+    labels: [[`NewsApi: ${((data.NewsApi /(data.Reddit+data.NewsApi))*100).toFixed(1)}`],[`Reddit: ${((data.Reddit /(data.Reddit+data.NewsApi))*100).toFixed(1)}`]],
     chart: {
       type: "donut",
       hight: 100,
@@ -19,7 +19,7 @@ const SentimentChart = ({ brandKey, currentDate, prevDate, data }) => {
     },
 
     dataLabels: {
-      enabled: true,
+      enabled: false,
     },
     legend: {
       show: true,

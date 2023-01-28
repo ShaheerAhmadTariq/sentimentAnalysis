@@ -1,6 +1,0 @@
-query = (
-        session.query(table.published_at, func.count(table.id))
-        .filter(table.published_at >= one_month_ago)
-        .group_by(table.published_at)
-        .all()
-    )

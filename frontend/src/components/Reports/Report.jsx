@@ -76,14 +76,18 @@ const Report = () => {
   return (
     <MainLayout>
       <div className="bg-white p-10 space-y-10 flex flex-col w-full min-h-screen">
-        <h1 className="text-black text-3xl font-bold tracking-wider">
-          Reports Page
-        </h1>
+        
+        <Card className="my-4">
+          <CardBody>
+            <p className="text-xl font-bold">Reports Page</p>
+            
+          </CardBody>
+        </Card>
         <div className="col-span-2">
           <div className="">
             {data && (
               <Card className="my-4">
-                <h2 className="text-3xl font-semibold underline">Sources</h2>
+                <h2 className="text-3xl font-semibold ">Sources</h2>
                 <CardBody>
                   <p className="capitalize">{data.project01.name}</p>
                   <div className="grid grid-cols-[repeat(auto-fit,_15.666666%)] gap-5 m-auto justify-center">
@@ -124,7 +128,7 @@ const Report = () => {
         </div>
         {graphs && (
           <>
-            <h2 className="text-3xl font-semibold underline">
+            <h2 className="text-3xl font-semibold ">
               Number of Mentions
             </h2>
             <SentimentGraph
@@ -137,7 +141,7 @@ const Report = () => {
               graphsValue={graphs}
               displayDateFilter={false}
             />
-            <h2 className="text-3xl font-semibold underline">Senitment</h2>
+            <h2 className="text-3xl font-semibold ">Senitment</h2>
             <SentimentGraph
               days={days}
               setDays={setDays}
