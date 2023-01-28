@@ -3,16 +3,15 @@ import Chart from "react-apexcharts";
 
 // import Chart from "react-apexcharts";
 
-const SentimentChart = ({ brandKey, currentDate, prevDate,data }) => {
+const SentimentChart = ({ brandKey, currentDate, prevDate, data }) => {
+  const [series, setSeries] = useState([data.NewsApi, data.Reddit]);
 
-  const [series, setSeries] = useState([data.NewsApi,data.Reddit]);
-  
-  useEffect(()=>{
-       setSeries([data.NewsApi,data.Reddit])
-  },[data])
-  
+  useEffect(() => {
+    setSeries([data.NewsApi, data.Reddit]);
+  }, [data]);
+
   const [options, setOptions] = useState({
-    labels:['NewsApi',"Reddit"],
+    labels: ["NewsApi", "Reddit"],
     chart: {
       type: "donut",
       hight: 100,
@@ -20,7 +19,7 @@ const SentimentChart = ({ brandKey, currentDate, prevDate,data }) => {
     },
 
     dataLabels: {
-      enabled: false,
+      enabled: true,
     },
     legend: {
       show: true,
@@ -41,9 +40,6 @@ const SentimentChart = ({ brandKey, currentDate, prevDate,data }) => {
       },
     ],
   });
-
-
- 
 
   return (
     <div id="chart">

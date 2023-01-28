@@ -270,13 +270,13 @@ def sentimentGraph(request : Request, user_request: sentimentGraphInput):
         multiGraphs = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
         singleGraph = getSingleLineChart(multiGraphs)
         return {'multiGraph':multiGraphs, "singleGraph":singleGraph}
-    
+
     except:
         return {"multiGraph":{"positive":{"2023-01-14":8,"2023-01-12":16,"2023-01-19":48,"2023-01-05":32,"2023-01-11":48,"2023-01-18":96,"2023-01-25":108,"2023-01-17":112,"2023-01-13":0,"2022-12-29":32,"2023-01-03":32,"2023-01-04":80,"2023-01-08":32,"2022-12-30":32,"2023-01-02":18,"2023-01-09":0,"2023-01-15":32,"2023-01-23":100,"2023-01-07":32,"2023-01-16":16,"2023-01-24":180,"2023-01-21":32,"2023-01-20":16,"2023-01-01":0,"2023-01-26":54,"2023-01-27":68,"2023-01-06":0},"negative":{"2023-01-14":16,"2023-01-12":0,"2023-01-19":0,"2023-01-05":0,"2023-01-11":0,"2023-01-18":0,"2023-01-25":16,"2023-01-17":0,"2023-01-13":0,"2022-12-29":16,"2023-01-03":16,"2023-01-04":32,"2023-01-08":32,"2022-12-30":0,"2023-01-02":0,"2023-01-09":16,"2023-01-15":0,"2023-01-23":30,"2023-01-07":16,"2023-01-16":0,"2023-01-24":44,"2023-01-21":0,"2023-01-20":0,"2023-01-01":0,"2023-01-26":16,"2023-01-27":16,"2023-01-06":2},"neutral":{"2023-01-14":0,"2023-01-12":64,"2023-01-19":16,"2023-01-05":32,"2023-01-11":48,"2023-01-18":32,"2023-01-25":32,"2023-01-17":16,"2023-01-13":32,"2022-12-29":0,"2023-01-03":16,"2023-01-04":32,"2023-01-08":0,"2022-12-30":0,"2023-01-02":2,"2023-01-09":8,"2023-01-15":0,"2023-01-23":44,"2023-01-07":0,"2023-01-16":0,"2023-01-24":100,"2023-01-21":0,"2023-01-20":0,"2023-01-01":8,"2023-01-26":24,"2023-01-27":30,"2023-01-06":0}},"singleGraph":{"result":{"2023-01-14":24,"2023-01-12":80,"2023-01-19":64,"2023-01-05":64,"2023-01-11":96,"2023-01-18":128,"2023-01-25":156,"2023-01-17":128,"2023-01-13":32,"2022-12-29":48,"2023-01-03":64,"2023-01-04":144,"2023-01-08":64,"2022-12-30":32,"2023-01-02":20,"2023-01-09":24,"2023-01-15":32,"2023-01-23":174,"2023-01-07":48,"2023-01-16":16,"2023-01-24":324,"2023-01-21":32,"2023-01-20":16,"2023-01-01":8,"2023-01-26":94,"2023-01-27":114,"2023-01-06":2}}}
-    
+
     # finally:
     #     session2.close()
-        
+
 
 class sentimentCardInput(BaseModel):
     u_id: int
@@ -329,16 +329,16 @@ def getCount (request : Request, user_request: countComaparisonModel):
     # p_id = 1
     # days = 30
 
-    try: 
+    try:
         project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
         res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id)
         p_id2 = user_request.p_id2
-        
+
         # p_id2 = 3
 
         project = session1.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id2).first()
         res2 = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id2)
-        
+
         return {"project01": res, "project02": res2}
     except:
         return {"project01":{"name":"apple","Total":416,"Positive":243,"Negative":66,"NewsApi":70,"Reddit":346},"project02":{"name":"pepsi","Total":42,"Positive":22,"Negative":12,"NewsApi":37,"Reddit":5}}
@@ -359,15 +359,15 @@ def getline(request : Request, user_request: lineComaparisonModel):
     # user_id = 1
     # p_id = 1
     # days = 30
-    try: 
+    try:
         project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
         res = comparisonLineChart(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
         p_id2 = user_request.p_id2
-        
+
         # p_id2 = 3
         project2 = session1.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id2).first()
         res2 = comparisonLineChart(project2.p_brand_name, project2.p_competitor_name, project2.p_hashtag, days)
-        
+
         result =  {"project01": res, "project02": res2}
         result["project01"] = sorted(result["project01"], key=lambda x: datetime.strptime(next(iter(x)), "%Y-%m-%d"))
         result["project02"] = sorted(result["project02"], key=lambda x: datetime.strptime(next(iter(x)), "%Y-%m-%d"))

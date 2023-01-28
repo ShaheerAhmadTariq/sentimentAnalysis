@@ -3,7 +3,7 @@ import SidebarMobileClose from "../../icons/SidebarMobileClose";
 import { useState } from "react";
 import React from "react";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Navbar = ({ handleSideBarStatus }) => {
   const [isActive, setActive] = useState(false);
@@ -78,10 +78,14 @@ export const Navbar = ({ handleSideBarStatus }) => {
                 <SidebarMobileClose />
               </button>
               <a href="/" className="lg:mr-14">
-                Brand24
+                APSS
               </a>
             </div>
             <div className="flex items-center">
+              <p className="font-semibold flex items-center space-x-4 px-4">
+                <Link to={"/aboutus"}>About Us</Link>
+                <Link to="/contactus">Contact Us</Link>
+              </p>
               <p className="mr-2 hidden text-sm font-normal lg:block">
                 Good Morning,
                 <span className="ml-1 font-semibold">{username}</span>

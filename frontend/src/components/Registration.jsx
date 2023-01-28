@@ -29,29 +29,35 @@ export default function Registration() {
 
     setIsLoading(true);
 
-    let values = { username,email, password };
+    let values = { username, email, password };
 
     try {
-      await fetch(
-        "http://127.0.0.1:8000/users",
-        {
-          method: "POST",
-          body: JSON.stringify(values),
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        }
-      )
+      await fetch("http://127.0.0.1:8000/users", {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
         .then((res) => res.json())
         .then((data) => {
-          console.log("response: data",data)
-          data.message === "Success"
-            ? toast.success("You are successfully registered!") &&
-              setTimeout(() => {
-                navigate("/login");
-              }, 1500)
-            : toast.error(data.message);
+          if (data.message === "Successfully created user.") {
+            toast.success("You are successfully registered!");
+            localStorage.setItem(
+              "userEmail",
+              JSON.stringify({
+                email: data.user_email,
+                id: data.user_id,
+                username: data.username,
+              })
+            );
+            setTimeout(() => {
+              navigate("/monitor");
+            }, 1500);
+          } else {
+            toast.error(data.message);
+          }
           setIsLoading(false);
         });
     } catch (err) {
@@ -81,7 +87,6 @@ export default function Registration() {
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form className="space-y-6" onSubmit={signUp}>
               <div>
-                
                 <label
                   htmlFor="email"
                   className="block text-sm font-medium text-gray-700"
@@ -101,7 +106,6 @@ export default function Registration() {
                 </div>
               </div>
               <div>
-                
                 <label
                   htmlFor="email"
                   className="block text-sm font-medium text-gray-700"
