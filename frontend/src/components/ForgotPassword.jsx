@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 const ForgotPassword = () => {
+  const navigate = useNavigate();
   const [formStates, setformStates] = useState({
     email: "",
     password: "",
@@ -12,6 +13,7 @@ const ForgotPassword = () => {
   async function resetPassword(e) {
     e.preventDefault();
     try {
+      console.log("formstate",formStates)
       if (!formStates.email || !formStates.password || !formStates.cPassword)
         return;
       if (formStates.password !== formStates.cPassword) {
@@ -30,6 +32,7 @@ const ForgotPassword = () => {
       });
       const data = await res.json();
       alert(data.message);
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }

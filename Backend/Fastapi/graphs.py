@@ -110,19 +110,10 @@ def getNewsGraph2(name: str, one_month_ago : int, table: str):
     return sentiment_dict
 
 def getNewsGraph3(name: str, one_month_ago : int, table: str): 
-# def getNewsGraph(rows: list): 
-    # rows = session.query(table).all
-    # return rows
-    # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
     rows = session5.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
-    # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
-    # rows = session.query(table).all
-    # stmt = select([table.content, func.date(table.published_at).label('published_at')]).where(table.published_at >= one_month_ago)
-    # rows = session.execute(stmt).fetchall()
+    
 
     content_dict = defaultdict(list)
-    # print(rows)
-    # Iterate through the rows and add the content values to the appropriate key in the content_dict
     for row in rows:
         content_dict[row.published_at].append(row.content)
     sentiment_dict = {}
@@ -153,4 +144,6 @@ def getSentiment(content: list):
             neutral += 1
 
     return positive,negative,neutral
-    # return contents
+
+def handleExceptionSentimentGraph():
+    return {"multiGraph":{"positive":{"2023-01-14":8,"2023-01-12":16,"2023-01-19":48,"2023-01-05":32,"2023-01-11":48,"2023-01-18":96,"2023-01-25":108,"2023-01-17":112,"2023-01-13":0,"2022-12-29":32,"2023-01-03":32,"2023-01-04":80,"2023-01-08":32,"2022-12-30":32,"2023-01-02":18,"2023-01-09":0,"2023-01-15":32,"2023-01-23":100,"2023-01-07":32,"2023-01-16":16,"2023-01-24":180,"2023-01-21":32,"2023-01-20":16,"2023-01-01":0,"2023-01-26":54,"2023-01-27":68,"2023-01-06":0},"negative":{"2023-01-14":16,"2023-01-12":0,"2023-01-19":0,"2023-01-05":0,"2023-01-11":0,"2023-01-18":0,"2023-01-25":16,"2023-01-17":0,"2023-01-13":0,"2022-12-29":16,"2023-01-03":16,"2023-01-04":32,"2023-01-08":32,"2022-12-30":0,"2023-01-02":0,"2023-01-09":16,"2023-01-15":0,"2023-01-23":30,"2023-01-07":16,"2023-01-16":0,"2023-01-24":44,"2023-01-21":0,"2023-01-20":0,"2023-01-01":0,"2023-01-26":16,"2023-01-27":16,"2023-01-06":2},"neutral":{"2023-01-14":0,"2023-01-12":64,"2023-01-19":16,"2023-01-05":32,"2023-01-11":48,"2023-01-18":32,"2023-01-25":32,"2023-01-17":16,"2023-01-13":32,"2022-12-29":0,"2023-01-03":16,"2023-01-04":32,"2023-01-08":0,"2022-12-30":0,"2023-01-02":2,"2023-01-09":8,"2023-01-15":0,"2023-01-23":44,"2023-01-07":0,"2023-01-16":0,"2023-01-24":100,"2023-01-21":0,"2023-01-20":0,"2023-01-01":8,"2023-01-26":24,"2023-01-27":30,"2023-01-06":0}},"singleGraph":{"result":{"2023-01-14":24,"2023-01-12":80,"2023-01-19":64,"2023-01-05":64,"2023-01-11":96,"2023-01-18":128,"2023-01-25":156,"2023-01-17":128,"2023-01-13":32,"2022-12-29":48,"2023-01-03":64,"2023-01-04":144,"2023-01-08":64,"2022-12-30":32,"2023-01-02":20,"2023-01-09":24,"2023-01-15":32,"2023-01-23":174,"2023-01-07":48,"2023-01-16":16,"2023-01-24":324,"2023-01-21":32,"2023-01-20":16,"2023-01-01":8,"2023-01-26":94,"2023-01-27":114,"2023-01-06":2}}}

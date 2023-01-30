@@ -1,18 +1,18 @@
 from model import redditBrands, redditCompetitor, redditHashtag
 import praw
 from datetime import datetime
-from database import session1,session2,session3
+from database import session1,session2,session3,session7,session8,session9,session10
 from typing import List, Dict, Any
 from sqlalchemy import exists
 import threading
 
-def redditBrandInsert(db:session1, rows: List[Dict[str, Any]]):
+def redditBrandInsert(db:session7, rows: List[Dict[str, Any]]):
     db.bulk_insert_mappings(redditBrands, rows)
     db.commit()
-def redditCompetitorInsert(db:session2, rows: List[Dict[str, Any]]):
+def redditCompetitorInsert(db:session8, rows: List[Dict[str, Any]]):
     db.bulk_insert_mappings(redditCompetitor, rows)
     db.commit()
-def redditHashtagInsert(db:session3, rows: List[Dict[str, Any]]):
+def redditHashtagInsert(db:session9, rows: List[Dict[str, Any]]):
     db.bulk_insert_mappings(redditHashtag, rows)
     db.commit()
 
@@ -52,7 +52,7 @@ def redditApi(keywords):
             redditBrandInsert(session1, k1)
 
     def api_call_2():
-        if not session2.query(exists().where(redditCompetitor.name == keywords[1])).scalar():
+        if not session10.query(exists().where(redditCompetitor.name == keywords[1])).scalar():
             k2 = []
             subreddit = reddit.subreddit(keywords[1])
             for submission in subreddit.hot(limit=limit):
@@ -115,6 +115,9 @@ def redditApi(keywords):
     thread1.join()
     thread2.join()
     thread3.join()
+    # api_call_1()
+    # api_call_2()
+    # api_call_3()
 
 
 

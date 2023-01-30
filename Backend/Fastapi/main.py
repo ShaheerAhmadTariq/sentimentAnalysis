@@ -18,11 +18,12 @@ from typing import List, Dict, Any
 from datetime import datetime
 from reddit import redditApi
 import asyncio
-from sentiment import getNews
-from graphs import getNewsGraph, getGraphs, getSingleLineChart
+from newsApi import newsApi
+from sentiment import getNews, handleExceptionProjectSentiment
+from graphs import getNewsGraph, getGraphs, getSingleLineChart, handleExceptionSentimentGraph
 from cards import getCards
 from newGraph import graph
-from comparison import comparisonCountpie, comparisonLineChart
+from comparison import comparisonCountpie, comparisonLineChart, handleExceptiongetCount, handleExceptionLineChart, handleExceptionPieChart
 from update import updateTables
 # from defalutCards import cardsDefault
 origins = [
@@ -76,59 +77,6 @@ def add_project(string,userID):
     session1.refresh(project)
     return project
 
-def newsBrandInsert(db:session, rows: List[Dict[str, Any]]):
-    db.bulk_insert_mappings(newsBrands, rows)
-    db.commit()
-def newsCompetitorInsert(db:session, rows: List[Dict[str, Any]]):
-    db.bulk_insert_mappings(newsCompetitor, rows)
-    db.commit()
-def newsHashtagInsert(db:session, rows: List[Dict[str, Any]]):
-    db.bulk_insert_mappings(newsHashtag, rows)
-    db.commit()
-def newsApi(keywords):
-    keywords = keywords.split(',')
-    url = ('https://newsapi.org/v2/everything?q=' + ' OR '.join(keywords)) + '&language=en' + '&sortBy=relevancy' + '&apiKey=1a8e8d019bb0420e8aa011b382aa8f76' + '&pageSize=100'
-    response = requests.get(url)
-    data = json.loads(response.content)
-    k1 = []
-    k2 = []
-    k3 = []
-
-    for result in data['articles']:
-        date = result["publishedAt"]
-        date = datetime.strptime(date, '%Y-%m-%dT%H:%M:%SZ').date()
-        article_data = {
-                "source_id": 1,
-                "source_name": result["source"]["name"],
-                "author": result["author"],
-                "title": result["title"],
-                "description": result["description"],
-                "url": result["url"],
-                "url_to_image": result["urlToImage"],
-                "published_at": date,
-                "content": result["content"],
-            }
-        if re.search(keywords[0], result['content'], re.IGNORECASE):
-            article_data['name'] = keywords[0]
-            k1.append(article_data)
-        elif re.search(keywords[1], result['content'], re.IGNORECASE):
-            article_data['name'] = keywords[1]
-            k2.append(article_data)
-        elif re.search(keywords[2], result['content'], re.IGNORECASE):
-            article_data['name'] = keywords[2]
-            k3.append(article_data)
-
-    if not session.query(exists().where(newsBrands.name == keywords[0])).scalar():
-        newsBrandInsert(session, k1)
-    if not session.query(exists().where(newsCompetitor.name == keywords[1])).scalar():
-        newsCompetitorInsert(session, k2)
-    if not session.query(exists().where(newsHashtag.name == keywords[2])).scalar():
-        newsHashtagInsert(session, k3)
-
-
-    session.close()
-    return len(k1),len(k2),len(k3)
-
 def apiCall(string, userID):
     project = add_project(string, userID)
     redditApi(string)
@@ -139,52 +87,25 @@ def apiCall(string, userID):
 class UserStringRequest(BaseModel):
     enterBrandCompetitorHashtag: str
     email : dict
-# Enter Keywords Page
-# inputs are written in UserStringRequest
+
 @app.post("/createProject")
 # async def submit(request: Request, user_string_request: UserStringRequest):
-async def submit(request: Request, user_string_request: UserStringRequest):
+def submit(request: Request, user_string_request: UserStringRequest):
     user_string = user_string_request.enterBrandCompetitorHashtag
     userID = user_string_request.email['id']
+    
     try:
+        # p_id = 1
         p_id = apiCall(user_string,userID)
-        # p_id = session.query(projects).filter(projects.user_id == userID).first()
-        # if p_id:
-        project = session.query(projects).filter(projects.user_id == userID, projects.p_id == p_id).first()
+        project = session6.query(projects).filter(projects.user_id == userID, projects.p_id == p_id).first()
         res = getNews(project.p_brand_name, project.p_competitor_name, project.p_hashtag,p_id)
-        # await asyncio.sleep(1)
+       
         return {"message" : "Success", "p_id": p_id}
     except:
+        # project = session.query(projects).filter(projects.user_id == userID, projects.p_id == p_id).first()
+        # handleExceptionProjectSentiment(project.p_brand_name, project.p_competitor_name, project.p_hashtag,p_id)
+        # return {"message" : "Success", "p_id": p_id}
         return {"message": "project not found"}
-
-# def add_user():
-#     user = users(
-#         u_name='shah',
-#         u_email='u_email@gmail.com',
-#         u_password='u_password',
-#         u_creation_at=datetime.utcnow()
-#     )
-#     session.add(user)
-#     session.commit()
-#     session.refresh(user)
-#     return user
-
-# @app.get("/createUser")
-# def read_root(db: Session = Depends(get_database_session)):
-#     user = add_user()
-#     return {"message": 'user','u_id': user.u_id}
-# @app.get('/retrieved')
-# def get_news_brand_by_id():
-#     # Retrieve a single row from the newsBrands table with the specified id
-#     # news_brand = session.query(newsBrands).filter(newsBrands.id == 139).first()
-#     username = 'shah@gmail.com'
-#     password = 'Sasda@232gjh'
-#     user = session.query(users).filter(users.u_email == username, users.u_password == password).first()
-#     if user:
-#         return {"status": "success", "user_id": user.u_id}
-#     else:
-#         return {"status": "error", "message": "Invalid username or password"}
-#     return news_brand
 
 
 
@@ -270,12 +191,8 @@ def sentimentGraph(request : Request, user_request: sentimentGraphInput):
         multiGraphs = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
         singleGraph = getSingleLineChart(multiGraphs)
         return {'multiGraph':multiGraphs, "singleGraph":singleGraph}
-
     except:
-        return {"multiGraph":{"positive":{"2023-01-14":8,"2023-01-12":16,"2023-01-19":48,"2023-01-05":32,"2023-01-11":48,"2023-01-18":96,"2023-01-25":108,"2023-01-17":112,"2023-01-13":0,"2022-12-29":32,"2023-01-03":32,"2023-01-04":80,"2023-01-08":32,"2022-12-30":32,"2023-01-02":18,"2023-01-09":0,"2023-01-15":32,"2023-01-23":100,"2023-01-07":32,"2023-01-16":16,"2023-01-24":180,"2023-01-21":32,"2023-01-20":16,"2023-01-01":0,"2023-01-26":54,"2023-01-27":68,"2023-01-06":0},"negative":{"2023-01-14":16,"2023-01-12":0,"2023-01-19":0,"2023-01-05":0,"2023-01-11":0,"2023-01-18":0,"2023-01-25":16,"2023-01-17":0,"2023-01-13":0,"2022-12-29":16,"2023-01-03":16,"2023-01-04":32,"2023-01-08":32,"2022-12-30":0,"2023-01-02":0,"2023-01-09":16,"2023-01-15":0,"2023-01-23":30,"2023-01-07":16,"2023-01-16":0,"2023-01-24":44,"2023-01-21":0,"2023-01-20":0,"2023-01-01":0,"2023-01-26":16,"2023-01-27":16,"2023-01-06":2},"neutral":{"2023-01-14":0,"2023-01-12":64,"2023-01-19":16,"2023-01-05":32,"2023-01-11":48,"2023-01-18":32,"2023-01-25":32,"2023-01-17":16,"2023-01-13":32,"2022-12-29":0,"2023-01-03":16,"2023-01-04":32,"2023-01-08":0,"2022-12-30":0,"2023-01-02":2,"2023-01-09":8,"2023-01-15":0,"2023-01-23":44,"2023-01-07":0,"2023-01-16":0,"2023-01-24":100,"2023-01-21":0,"2023-01-20":0,"2023-01-01":8,"2023-01-26":24,"2023-01-27":30,"2023-01-06":0}},"singleGraph":{"result":{"2023-01-14":24,"2023-01-12":80,"2023-01-19":64,"2023-01-05":64,"2023-01-11":96,"2023-01-18":128,"2023-01-25":156,"2023-01-17":128,"2023-01-13":32,"2022-12-29":48,"2023-01-03":64,"2023-01-04":144,"2023-01-08":64,"2022-12-30":32,"2023-01-02":20,"2023-01-09":24,"2023-01-15":32,"2023-01-23":174,"2023-01-07":48,"2023-01-16":16,"2023-01-24":324,"2023-01-21":32,"2023-01-20":16,"2023-01-01":8,"2023-01-26":94,"2023-01-27":114,"2023-01-06":2}}}
-
-    # finally:
-    #     session2.close()
+        return handleExceptionSentimentGraph()
 
 
 class sentimentCardInput(BaseModel):
@@ -341,10 +258,8 @@ def getCount (request : Request, user_request: countComaparisonModel):
 
         return {"project01": res, "project02": res2}
     except:
-        return {"project01":{"name":"apple","Total":416,"Positive":243,"Negative":66,"NewsApi":70,"Reddit":346},"project02":{"name":"pepsi","Total":42,"Positive":22,"Negative":12,"NewsApi":37,"Reddit":5}}
-        session1.rollback()
-    finally:
-        session.close()
+        return handleExceptiongetCount()
+    
 class lineComaparisonModel(BaseModel):
     u_id: int
     p_id1: int
@@ -373,8 +288,8 @@ def getline(request : Request, user_request: lineComaparisonModel):
         result["project02"] = sorted(result["project02"], key=lambda x: datetime.strptime(next(iter(x)), "%Y-%m-%d"))
         return result
     except:
-        return {"project01":[{"2022-12-29":30},{"2022-12-30":6},{"2023-01-02":6},{"2023-01-03":12},{"2023-01-04":24},{"2023-01-05":24},{"2023-01-06":6},{"2023-01-08":12},{"2023-01-09":6},{"2023-01-10":6},{"2023-01-11":48},{"2023-01-12":48},{"2023-01-13":18},{"2023-01-14":12},{"2023-01-15":12},{"2023-01-17":30},{"2023-01-18":30},{"2023-01-19":18},{"2023-01-20":6},{"2023-01-21":12},{"2023-01-23":18},{"2023-01-24":6},{"2023-01-25":6}],"project02":[{"2022-12-29":30},{"2022-12-30":6},{"2023-01-02":6},{"2023-01-03":12},{"2023-01-04":24},{"2023-01-05":24},{"2023-01-06":6},{"2023-01-08":12},{"2023-01-09":6},{"2023-01-10":6},{"2023-01-11":48},{"2023-01-12":48},{"2023-01-13":18},{"2023-01-14":12},{"2023-01-15":12},{"2023-01-17":30},{"2023-01-18":30},{"2023-01-19":18},{"2023-01-20":6},{"2023-01-21":12},{"2023-01-23":18},{"2023-01-24":6},{"2023-01-25":6}]}
-        # return {'njsdvks'}
+        return handleExceptionLineChart()
+        
 class getProjectsModel(BaseModel):
     u_id: int
 @app.post('/getProjects')
@@ -448,13 +363,14 @@ def getline(request : Request, user_request: sentimentGraphSingleInput):
 
 class forgetPasswordModel(BaseModel):
     u_email: str
-    p_id: int
+    p_id: str
 @app.post('/forgetPassword')
 def getPassword(request : Request, user_request: forgetPasswordModel):
 # def updatePassword():
     # user_id = user_request.u_id
     p_id = user_request.p_id
     user_email = user_request.u_email
+    print("user email: ",user_email,p_id)
     try:
         # user_id = 1
         # user_email = 'shah@gmail.com'
@@ -483,4 +399,4 @@ def reportPie(request : Request, user_request: reportPieModel):
         res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id)
         return {"project01": res}
     except:
-        return {"project01":{"name":"apple","Total":416,"Positive":243,"Negative":66,"NewsApi":70,"Reddit":346}}
+        return handleExceptionPieChart()
