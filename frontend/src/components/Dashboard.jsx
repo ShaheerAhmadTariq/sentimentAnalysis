@@ -27,9 +27,10 @@ const Dashboard = () => {
       setallProjects(projects);
       setcurrentProjects(projects);
       const currentItem = JSON.parse(localStorage.getItem("brandList"));
-      if (currentItem[0]) {
-        setcurrentProject(currentItem[0]);
-      } else {
+      // if (currentItem[0]) {
+      if (true){
+        // setcurrentProject(currentItem[0]);
+      // } else {
         setcurrentProject({
           p_id: projects[0].p_id,
           brandNames: [
