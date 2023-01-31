@@ -143,7 +143,7 @@ const Graph1 = ({ brandKey, currentDate, prevDate, lineChart }) => {
     let labels = getArrayOfObjectKeys(lineChart.project01);
     const valuesProject01 = getArrayOfObjectValues(lineChart.project01);
     const valuesProject02 = getArrayOfObjectValues(lineChart.project02);
-
+    
     setOptions({
       chart: {
         type: "line",

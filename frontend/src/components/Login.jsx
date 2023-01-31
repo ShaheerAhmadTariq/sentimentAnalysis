@@ -127,7 +127,7 @@ export default function Login() {
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <input
+                  {/* <input
                     id="remember-me"
                     name="remember-me"
                     type="checkbox"
@@ -138,7 +138,7 @@ export default function Login() {
                     className="ml-2 block text-sm text-gray-900"
                   >
                     Remember me
-                  </label>
+                  </label> */}
                 </div>
 
                 <div className="text-sm">

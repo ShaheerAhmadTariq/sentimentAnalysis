@@ -25,6 +25,10 @@ export default function Registration() {
   }, []);
 
   async function signUp(e) {
+    if( /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email))
+    {
+      console.log("valid email")
+    
     e.preventDefault();
 
     setIsLoading(true);
@@ -62,6 +66,10 @@ export default function Registration() {
         });
     } catch (err) {
       console.log(err);
+    }
+    }
+    else{
+      alert('Enter Valid Email Address')
     }
   }
   return (

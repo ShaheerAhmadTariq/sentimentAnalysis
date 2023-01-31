@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const [formStates, setformStates] = useState({
     email: "",
     password: "",
     cPassword: "",
+    errorMessage: "",
   });
   function changeHandler(e) {
     setformStates({ ...formStates, [e.target.name]: e.target.value });
@@ -13,11 +15,38 @@ const ForgotPassword = () => {
   async function resetPassword(e) {
     e.preventDefault();
     try {
-      console.log("formstate",formStates)
-      if (!formStates.email || !formStates.password || !formStates.cPassword)
+      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+      console.log("formstate", formStates);
+      if (!formStates.email || !formStates.password || !formStates.cPassword) {
+        setformStates({
+          ...formStates,
+          errorMessage: "All fields are required.",
+        });
+        alert('All fields are required.')
         return;
+      }
+      if (formStates.password.length < 8) {
+        setformStates({
+          ...formStates,
+          errorMessage: "Password must be at least 8 characters long.",
+        });
+        alert("Password must be at least 8 characters long.")
+        return;
+      }
+      if (!passwordRegex.test(formStates.password)){
+        setformStates({
+          ...formStates,
+          errorMessage: "Password must contain at least one letter, one number, and one special character.",
+        });
+        alert("Password must contain at least one letter, one number, and one special character")
+        return;
+      }
       if (formStates.password !== formStates.cPassword) {
-        alert("Passwords does not match");
+        setformStates({
+          ...formStates,
+          errorMessage: "Passwords do not match.",
+        });
+        alert("Passwords do not match.")
         return;
       }
       const res = await fetch("http://localhost:8000/forgetPassword", {

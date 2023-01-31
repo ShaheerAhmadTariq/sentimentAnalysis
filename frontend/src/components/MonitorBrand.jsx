@@ -54,8 +54,9 @@ export default function MonitorBrand() {
                 { p_id: data.p_id, brandNames: brandKeywordsArray.split(",") },
               ])
             );
+            
 
-            navigate("/dashboard");
+            navigate("/mentions");
           } else {
             toast.error(data.message);
             setIsLoading(false);

@@ -1,5 +1,6 @@
 from model import redditBrands, redditCompetitor, redditHashtag
 import praw
+import prawcore
 from datetime import datetime
 from database import session1,session2,session3,session7,session8,session9,session10
 from typing import List, Dict, Any
@@ -29,77 +30,89 @@ def redditApi(keywords):
     limit = 2
     def api_call_1():
         if not session1.query(exists().where(redditBrands.name == keywords[0])).scalar():
-            subreddit = reddit.subreddit(keywords[0])
-            k1 = []
-            for submission in subreddit.hot(limit=limit):
+            try:
+                subreddit = reddit.subreddit(keywords[0])   
+                k1 = []
+                for submission in subreddit.hot(limit=limit):
+                    
+                    all_comments = submission.comments.list()
+                    
+                    for comment in all_comments:
+                        if isinstance(comment, praw.models.reddit.comment.Comment):
+                            data = {}
+                            data['name'] = keywords[0]
+                            data['description'] = subreddit.description
+                            data['title'] = submission.title
+                            data['source_name'] = submission.author
+                            data['url'] = submission.url
+                            data['author'] = comment.author
+                            data['content'] = comment.body
+                            date = str(datetime.fromtimestamp(comment.created_utc))
+                            data['published_at'] = date
+                            k1.append(data)
                 
-                all_comments = submission.comments.list()
-                
-                for comment in all_comments:
-                    if isinstance(comment, praw.models.reddit.comment.Comment):
-                        data = {}
-                        data['name'] = keywords[0]
-                        data['description'] = subreddit.description
-                        data['title'] = submission.title
-                        data['source_name'] = submission.author
-                        data['url'] = submission.url
-                        data['author'] = comment.author
-                        data['content'] = comment.body
-                        date = str(datetime.fromtimestamp(comment.created_utc))
-                        data['published_at'] = date
-                        k1.append(data)
-            
-            redditBrandInsert(session1, k1)
-
+                redditBrandInsert(session1, k1)
+            except:
+                print("The subreddit was not found.")
+                print("Error message:")
     def api_call_2():
         if not session10.query(exists().where(redditCompetitor.name == keywords[1])).scalar():
             k2 = []
-            subreddit = reddit.subreddit(keywords[1])
-            for submission in subreddit.hot(limit=limit):
-                
-                all_comments = submission.comments.list()
-                
-                for comment in all_comments:
-                    if isinstance(comment, praw.models.reddit.comment.Comment):
-                        data = {}
-                        data['name'] = keywords[1]
-                        data['description'] = subreddit.description
-                        data['title'] = submission.title
-                        data['source_name'] = submission.author
-                        data['url'] = submission.url
-                        data['author'] = comment.author
-                        data['content'] = comment.body
-                        date = str(datetime.fromtimestamp(comment.created_utc))
-                        
-                        data['published_at'] = date
-                        k2.append(data)
+            try:
+                subreddit = reddit.subreddit(keywords[1])
             
-            redditCompetitorInsert(session2, k2)
+                for submission in subreddit.hot(limit=limit):
+                    
+                    all_comments = submission.comments.list()
+                    
+                    for comment in all_comments:
+                        if isinstance(comment, praw.models.reddit.comment.Comment):
+                            data = {}
+                            data['name'] = keywords[1]
+                            data['description'] = subreddit.description
+                            data['title'] = submission.title
+                            data['source_name'] = submission.author
+                            data['url'] = submission.url
+                            data['author'] = comment.author
+                            data['content'] = comment.body
+                            date = str(datetime.fromtimestamp(comment.created_utc))
+                            
+                            data['published_at'] = date
+                            k2.append(data)
+                
+                redditCompetitorInsert(session2, k2)
+            except:
+                print("The subreddit was not found.")
+                print("Error message:")
+                
 
     def api_call_3():
         if not session3.query(exists().where(redditHashtag.name == keywords[2])).scalar():
             k3 = []
-            subreddit = reddit.subreddit(keywords[2])
-            for submission in subreddit.hot(limit=limit):
+            try:
+                subreddit = reddit.subreddit(keywords[2])
+                for submission in subreddit.hot(limit=limit):
+                    
+                    all_comments = submission.comments.list()
+                    
+                    for comment in all_comments:
+                        if isinstance(comment, praw.models.reddit.comment.Comment):
+                            data = {}
+                            data['name'] = keywords[2]
+                            data['description'] = subreddit.description
+                            data['title'] = submission.title
+                            data['source_name'] = submission.author
+                            data['url'] = submission.url
+                            data['author'] = comment.author
+                            data['content'] = comment.body
+                            date = str(datetime.fromtimestamp(comment.created_utc))
+                            data['published_at'] = date
+                            k3.append(data)
                 
-                all_comments = submission.comments.list()
-                
-                for comment in all_comments:
-                    if isinstance(comment, praw.models.reddit.comment.Comment):
-                        data = {}
-                        data['name'] = keywords[2]
-                        data['description'] = subreddit.description
-                        data['title'] = submission.title
-                        data['source_name'] = submission.author
-                        data['url'] = submission.url
-                        data['author'] = comment.author
-                        data['content'] = comment.body
-                        date = str(datetime.fromtimestamp(comment.created_utc))
-                        data['published_at'] = date
-                        k3.append(data)
-            
-            redditHashtagInsert(session2, k3)
-
+                redditHashtagInsert(session2, k3)
+            except:
+                print("The subreddit was not found.")
+                print("Error message:")
     # create three threads, one for each API call
     
     thread1 = threading.Thread(target=api_call_1)

@@ -43,7 +43,7 @@ def comparisonLineChart(brand: str, competitor: str, hashtag: str, day: int ):
 def getNewsGraph(name: str, one_month_ago : int, table: str):
     query = (
         session3.query(table.published_at, func.count(table.id).label("count").cast(Integer))
-        .filter(table.name == name)
+        .filter(table.name == name,table.published_at >= one_month_ago)
         .group_by(table.published_at)
         .all()
     )
@@ -79,7 +79,8 @@ def comparisonCountpie(brand: str, competitor: str, hashtag: str, day: int, p_id
     session6 = SessionLocal()
     result = session6.query(projectSentiments).filter(projectSentiments.project_id == p_id).first()
     # Total = result.p_sentiments['neutral'] + result.p_sentiments['negative'] + result.p_sentiments['positive']
-    Mentions = newsCount + redditCount
+    # Mentions = newsCount + redditCount
+    Mentions = result.p_sentiments['positive'] + result.p_sentiments['negative']
     # print(result.p_sentiments['neutral'])
 
     return {"name": brand,"Total": Mentions, "Positive": result.p_sentiments['positive'], "Negative": result.p_sentiments['negative'],"NewsApi":newsCount, "Reddit": redditCount}
@@ -96,7 +97,7 @@ def handleExceptiongetCount():
     return {"project01":{"name":"apple","Total":416,"Positive":243,"Negative":66,"NewsApi":70,"Reddit":346},"project02":{"name":"pepsi","Total":42,"Positive":22,"Negative":12,"NewsApi":37,"Reddit":5}}
 
 def handleExceptionLineChart():
-    return {"project01":[{"2022-12-29":30},{"2022-12-30":6},{"2023-01-02":6},{"2023-01-03":12},{"2023-01-04":24},{"2023-01-05":24},{"2023-01-06":6},{"2023-01-08":12},{"2023-01-09":6},{"2023-01-10":6},{"2023-01-11":48},{"2023-01-12":48},{"2023-01-13":18},{"2023-01-14":12},{"2023-01-15":12},{"2023-01-17":30},{"2023-01-18":30},{"2023-01-19":18},{"2023-01-20":6},{"2023-01-21":12},{"2023-01-23":18},{"2023-01-24":6},{"2023-01-25":6}],"project02":[{"2022-12-29":30},{"2022-12-30":6},{"2023-01-02":6},{"2023-01-03":12},{"2023-01-04":24},{"2023-01-05":24},{"2023-01-06":6},{"2023-01-08":12},{"2023-01-09":6},{"2023-01-10":6},{"2023-01-11":48},{"2023-01-12":48},{"2023-01-13":18},{"2023-01-14":12},{"2023-01-15":12},{"2023-01-17":30},{"2023-01-18":30},{"2023-01-19":18},{"2023-01-20":6},{"2023-01-21":12},{"2023-01-23":18},{"2023-01-24":6},{"2023-01-25":6}]}
+    return {"project01":[{"2022-12-29":20},{"2022-12-30":16},{"2023-01-02":16},{"2023-01-03":2},{"2023-01-04":4},{"2023-01-05":14},{"2023-01-06":16},{"2023-01-08":2},{"2023-01-09":6},{"2023-01-10":16},{"2023-01-11":28},{"2023-01-12":18},{"2023-01-13":28},{"2023-01-14":32},{"2023-01-15":9},{"2023-01-17":30},{"2023-01-18":30},{"2023-01-19":18},{"2023-01-20":16},{"2023-01-21":22},{"2023-01-23":8},{"2023-01-24":26},{"2023-01-25":16}],"project02":[{"2022-12-29":30},{"2022-12-30":6},{"2023-01-02":6},{"2023-01-03":12},{"2023-01-04":24},{"2023-01-05":24},{"2023-01-06":6},{"2023-01-08":12},{"2023-01-09":6},{"2023-01-10":6},{"2023-01-11":48},{"2023-01-12":48},{"2023-01-13":18},{"2023-01-14":12},{"2023-01-15":12},{"2023-01-17":30},{"2023-01-18":30},{"2023-01-19":18},{"2023-01-20":6},{"2023-01-21":12},{"2023-01-23":18},{"2023-01-24":6},{"2023-01-25":6}]}
 
 def handleExceptionPieChart():
     return {"project01":{"name":"apple","Total":416,"Positive":243,"Negative":66,"NewsApi":70,"Reddit":346}}

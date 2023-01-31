@@ -4,8 +4,8 @@ from database import SessionLocal, engine, session, session1, session2, session6
 import model
 from model import projects, users, newsBrands, newsCompetitor, newsHashtag, redditBrands, projectSentiments
 from datetime import datetime
-from fastapi import FastAPI
-from fastapi import FastAPI, Depends, Request
+from fastapi import FastAPI, Body, Header, HTTPException
+from fastapi import Depends, Request
 from sqlalchemy.orm import Session
 from sqlalchemy import exists, update
 from fastapi.responses import HTMLResponse
@@ -25,6 +25,9 @@ from cards import getCards
 from newGraph import graph
 from comparison import comparisonCountpie, comparisonLineChart, handleExceptiongetCount, handleExceptionLineChart, handleExceptionPieChart
 from update import updateTables
+import bcrypt
+import smtplib
+from email.mime.text import MIMEText
 # from defalutCards import cardsDefault
 origins = [
 
@@ -78,10 +81,13 @@ def add_project(string,userID):
     return project
 
 def apiCall(string, userID):
-    project = add_project(string, userID)
-    redditApi(string)
-    newsApi(string)
-    return project.p_id
+    # project = add_project(string, userID)
+    try:
+        redditApi(string)
+        newsApi(string)
+    except:
+        return None
+    # return project.p_id
 
 
 class UserStringRequest(BaseModel):
@@ -93,19 +99,33 @@ class UserStringRequest(BaseModel):
 def submit(request: Request, user_string_request: UserStringRequest):
     user_string = user_string_request.enterBrandCompetitorHashtag
     userID = user_string_request.email['id']
-    
+    # adding project here 
+    strSplit = user_string.split(',')
+    keywords = strSplit
+    project = projects(
+    user_id=userID,
+    p_brand_name=keywords[0],
+    p_competitor_name=keywords[1],
+    p_hashtag=keywords[2],
+    p_creation_at=datetime.utcnow(),
+    p_update_at=datetime.utcnow()
+    )
+    session1.add(project)
+    session1.commit()
+    session1.refresh(project)
+    p_id = project.p_id
     try:
-        # p_id = 1
-        p_id = apiCall(user_string,userID)
-        project = session6.query(projects).filter(projects.user_id == userID, projects.p_id == p_id).first()
+        
+        apiCall(user_string,userID)
+        # project = session6.query(projects).filter(projects.user_id == userID, projects.p_id == p_id).first()
         res = getNews(project.p_brand_name, project.p_competitor_name, project.p_hashtag,p_id)
-       
+        
         return {"message" : "Success", "p_id": p_id}
     except:
-        # project = session.query(projects).filter(projects.user_id == userID, projects.p_id == p_id).first()
         # handleExceptionProjectSentiment(project.p_brand_name, project.p_competitor_name, project.p_hashtag,p_id)
-        # return {"message" : "Success", "p_id": p_id}
-        return {"message": "project not found"}
+        getNews(project.p_brand_name, project.p_competitor_name, project.p_hashtag,p_id)
+        return {"message" : "Success", "p_id": p_id}
+        # return {"message": "project not found"}
 
 
 
@@ -119,10 +139,10 @@ def create_user(request: Request, user_request: UserRequest):
         name = user_request.username
         password = user_request.password
         email = user_request.email
-
+        hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
         user = users(
             u_name=name,
-            u_password=password,
+            u_password=hashed_password,
             u_email=email,
             u_creation_at=datetime.utcnow()
         )
@@ -130,29 +150,32 @@ def create_user(request: Request, user_request: UserRequest):
     # Add the user to the database
         session.add(user)
         session.commit()
+        return {"message": "Successfully created user.", "user_id": user.u_id, "user_email": user.u_email, "username": user.u_name}
     except:
         session.rollback()
         # err =  HTTPException(status_code=500, detail="Failed to create user.")
-        return {"message": 'Failed to create user'}
-    # return {"name": name, "password": password}
-    return {"message": "Successfully created user.", "user_id": user.u_id, "user_email": user.u_email, "username": user.u_name}
-    # return {"message": "Successfully created user."}
+        return {"message": 'User email already exists'}
+    
 class UserloginRequest(BaseModel):
     email: str
     password: str
 @app.post("/login/")
 def login(request: Request, user_request : UserloginRequest):
-    try:
+    # try:
         email = user_request.email
         password = user_request.password
-        user = session.query(users).filter(users.u_email == email, users.u_password == password).first()
+        user = session.query(users).filter(users.u_email == email).first()
         if user:
-            return {"message": "Success", "user_id": user.u_id, "user_email": user.u_email, "username": user.u_name}
-            # return {"message": "Success"}
+            hashed_password = user.u_password
+            if bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8')):
+                return {"message": "Success", "user_id": user.u_id, "user_email": user.u_email, "username": user.u_name}
+            else:
+                return {"status": "error", "message": "Invalid username or password"}
         else:
             return {"status": "error", "message": "Invalid username or password"}
-    except:
-        return {"message": 'Failed to create user'}
+    # except:
+        return {"message": 'Failed to login'}
+
 
 @app.get("/tables")
 def list_tables(db: Session = Depends(get_database_session)):
@@ -259,7 +282,48 @@ def getCount (request : Request, user_request: countComaparisonModel):
         return {"project01": res, "project02": res2}
     except:
         return handleExceptiongetCount()
-    
+def equalizeLen(result):
+    if len(result['project01']) == len(result['project02']):
+        # print('equal length')
+        return result
+    if len(result['project01']) > len(result['project02']):
+        # print('p1 > p2')
+        listOfKeys = []
+        for val in result['project02']:
+            for key in val.keys():
+                listOfKeys.append(key)
+                # print(key)
+        newP1 = []
+        for val in listOfKeys:
+            flag = True
+            for dic in result['project01']:
+                for key in dic.keys():
+                    if key == val:
+                        newP1.append(dic)
+                        flag = False
+            if flag:
+                newP1.append({val:0})
+        
+        return {'project01':newP1,'project02':result['project02']}
+    else:
+        # print('p1 < p2')
+        listOfKeys = []
+        for val in result['project01']:
+            for key in val.keys():
+                listOfKeys.append(key)
+                # print(key)
+        newP1 = []
+        for val in listOfKeys:
+            flag = True
+            for dic in result['project02']:
+                for key in dic.keys():
+                    if key == val:
+                        newP1.append(dic)
+                        flag = False
+            if flag:
+                newP1.append({val:0})
+        return {'project01':result['project01'],'project02':newP1}
+    # len(result['project02']),len(newP1),len(listOfKeys)    
 class lineComaparisonModel(BaseModel):
     u_id: int
     p_id1: int
@@ -271,24 +335,28 @@ def getline(request : Request, user_request: lineComaparisonModel):
     user_id = user_request.u_id
     p_id = user_request.p_id1
     days = user_request.days
-    # user_id = 1
-    # p_id = 1
+    # user_id = 14
+    # p_id = 41
     # days = 30
     try:
         project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
         res = comparisonLineChart(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
         p_id2 = user_request.p_id2
 
-        # p_id2 = 3
+        # p_id2 = 40
         project2 = session1.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id2).first()
         res2 = comparisonLineChart(project2.p_brand_name, project2.p_competitor_name, project2.p_hashtag, days)
 
         result =  {"project01": res, "project02": res2}
         result["project01"] = sorted(result["project01"], key=lambda x: datetime.strptime(next(iter(x)), "%Y-%m-%d"))
         result["project02"] = sorted(result["project02"], key=lambda x: datetime.strptime(next(iter(x)), "%Y-%m-%d"))
+        result = equalizeLen(result)
+
         return result
     except:
+        # return {'error'}
         return handleExceptionLineChart()
+    
         
 class getProjectsModel(BaseModel):
     u_id: int
@@ -297,7 +365,13 @@ def getProjects(request : Request, user_request: getProjectsModel):
     try :
         user_id = user_request.u_id
         project = session.query(projects).filter(projects.user_id == user_id).all()
-        return project
+        projectSentiment = session.query(projectSentiments)
+        projectList = []
+        for p in project:
+            for s in projectSentiment:
+                if p.p_id == s.project_id:
+                    projectList.append(p)
+        return projectList
     except:
         return {"error while fetching projects"}
 
@@ -400,3 +474,30 @@ def reportPie(request : Request, user_request: reportPieModel):
         return {"project01": res}
     except:
         return handleExceptionPieChart()
+class sendEmailModel(BaseModel):
+    subject: str
+    message: str
+@app.post("/sendemail")
+async def send_email(request : Request, user_request: sendEmailModel):
+    # here enter you email and password make sure to enable Less secure app access from Google account
+    # from
+    sender = "fa18-bcs-151@cuilahore.edu.pk"
+    password = "yaAllahkhair"
+    message = user_request.message
+    subject = user_request.subject
+    # to 
+    email = 'fa18-bcs-151@cuilahore.edu.pk'
+    try:
+        msg = MIMEText(message)
+        msg["Subject"] = subject
+        msg["From"] = sender
+        msg["To"] = email
+
+        with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
+            smtp.ehlo()
+            smtp.starttls()
+            smtp.login(sender, password)
+            smtp.send_message(msg)
+        return {"message": "Email sent successfully"}
+    except:
+        return {'message': "Email not sent"}

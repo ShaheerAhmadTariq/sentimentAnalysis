@@ -140,6 +140,7 @@ const Mentions = () => {
           item?.author?.toLowerCase()?.includes(search.toLowerCase())
         );
       }
+      setCurrentPage(1)
       setFinalData(filteredRecord);
     }
   };

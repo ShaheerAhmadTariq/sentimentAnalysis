@@ -41,3 +41,18 @@ mentions by number
 Welcome
 About us 
 contact us 
+
+
+
+
+problems 
+
+validations check on forgot password
+remove remember me
+valid email
+password hash
+create project
+after sliding page sentiment filter doesnot work
+contact us 
+remove user email input field 
+create api to send message to fa18-bcs-151
