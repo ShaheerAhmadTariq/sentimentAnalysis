@@ -45,8 +45,8 @@ export const Sidebar = ({ currentProjectFetch = undefined, showSideBar }) => {
     } else {
       var brandKey = JSON.parse(localStorage.getItem("brandList"));
       var brandKeys = JSON.parse(localStorage.getItem("brandList"));
-      brandKey = brandKey[0].brandNames;
-      brandKeys = brandKeys[0].brandNames;
+      brandKey = brandKey ? brandKey[0].brandNames : null;
+      brandKeys = brandKeys ? brandKeys[0]?.brandNames : [];
       brandKey = brandKey?.at(-1);
 
       setbrandKey(brandKey);
@@ -76,7 +76,7 @@ export const Sidebar = ({ currentProjectFetch = undefined, showSideBar }) => {
                     className="ml-3 flex-1 capitalize whitespace-nowrap"
                     data-testid="sidebar-item-content"
                   >
-                    {brandKey}
+                    {brandKey ? brandKey : "APSS"}
                   </span>
                   <div className="flex-shrink-0 w-2 h-2 rounded-full bg-lime-600"></div>
                 </NavLink>
@@ -101,15 +101,16 @@ export const Sidebar = ({ currentProjectFetch = undefined, showSideBar }) => {
                 </NavLink>
               ))}
               <hr />
-              {brandKeys?.map((item, idx) => (
-                <NavLink
-                  to="/mentions"
-                  key={idx}
-                  className="flex cursor-pointer items-center rounded-lg p-2 text-base font-normal text-gray-900 capitalize bg-gray-100"
-                >
-                  {item}
-                </NavLink>
-              ))}
+              {brandKeys &&
+                brandKeys?.map((item, idx) => (
+                  <NavLink
+                    to="/mentions"
+                    key={idx}
+                    className="flex cursor-pointer items-center rounded-lg p-2 text-base font-normal text-gray-900 capitalize bg-gray-100"
+                  >
+                    {item}
+                  </NavLink>
+                ))}
             </ul>
           </div>
         </div>

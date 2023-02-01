@@ -94,7 +94,8 @@ const Mentions = () => {
   const currentMentions = finalData?.slice(firstPageIndex, lastPageIndex);
 
   var brandKey = JSON.parse(localStorage.getItem("brandList"));
-  brandKey = brandKey[0].brandNames;
+  var brandList = JSON.parse(localStorage.getItem("brandList"));
+  brandKey = brandKey ? brandKey[0]?.brandNames : null;
   brandKey = brandKey?.at(-1);
 
   const date = new Date();
@@ -141,7 +142,6 @@ const Mentions = () => {
         );
       }
       setCurrentPage(1);
-      console.log(filteredRecord);
       setFinalData(filteredRecord);
     }
   };
@@ -167,6 +167,15 @@ const Mentions = () => {
       setIsGetting(true);
     }
   }, [brandKey]);
+
+  if (!brandList)
+    return (
+      <MainLayout className="bg-white h-screen">
+        <h1 className="text-center text-black text-2xl">
+          Please select a project first from Dashboard
+        </h1>
+      </MainLayout>
+    );
 
   return (
     <MainLayout>

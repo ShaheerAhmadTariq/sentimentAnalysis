@@ -5,13 +5,14 @@ import Figures from "../Comparison/Figures";
 import SentimentChart from "../Comparison/SentimentChart";
 import SourcesChart from "../Comparison/SourcesChart";
 import SentimentGraph from "../Mentions/SentimentGraph";
-import { JsxToPdf } from "jsx-to-pdf"
+import { JsxToPdf } from "jsx-to-pdf";
 const Report = () => {
   const [days, setDays] = useState(30);
   const [singleGraphDays, setsingleGraphDays] = useState(30);
   const [data, setData] = useState(undefined);
   var brandKey = JSON.parse(localStorage.getItem("brandList"));
-  brandKey = brandKey[0].brandNames;
+  var brandList = JSON.parse(localStorage.getItem("brandList"));
+  brandKey = brandKey ? brandKey[0].brandNames : null;
   brandKey = brandKey?.at(-1);
   const [graphs, setgraphs] = useState(undefined);
 
@@ -36,7 +37,7 @@ const Report = () => {
       return;
     }
     let brandList = JSON.parse(localStorage.getItem("brandList"));
-      const p_id = brandList[0]?.p_id;
+    const p_id = brandList[0]?.p_id;
     let resp = await fetch("http://localhost:8000/reportPieChart/", {
       method: "POST",
       headers: {
@@ -76,106 +77,113 @@ const Report = () => {
     getData();
   }, []);
 
+  if (!brandList)
+    return (
+      <MainLayout>
+        <h1 className="text-center text-black text-2xl">
+          Please select a project first from Dashboard
+        </h1>
+      </MainLayout>
+    );
+
   return (
     <div>
       <MainLayout>
-<JsxToPdf>
-  {({save, jsxRef, error, errorText })=>(
+        <JsxToPdf>
+          {({ save, jsxRef, error, errorText }) => (
+            <div>
+              <div className="flex justify-end p-5">
+                <button
+                  className="px-6 bg-[#282828] text-white rounded-md py-3"
+                  onClick={save}
+                >
+                  Download PDF
+                </button>
+              </div>
 
-        <div>
-          <div className="flex justify-end p-5">
-
-            <button className="px-6 bg-[#282828] text-white rounded-md py-3" onClick={save}>Download PDF</button>
-          </div>
-
-          <div ref={jsxRef}>
-            <div className="bg-white p-10 space-y-10 flex flex-col w-full min-h-screen">
-
-              <Card className="my-4">
-                <CardBody>
-                  <p className="text-xl font-bold">Reports Page</p>
-
-                </CardBody>
-              </Card>
-              <div className="col-span-2">
-                <div className="">
-                  {data && (
-                    <Card className="my-4">
-                      <h2 className="text-3xl font-semibold ">Sources</h2>
-                      <CardBody>
-                        <p className="capitalize">{data.project01.name}</p>
-                        <div className="grid grid-cols-[repeat(auto-fit,_15.666666%)] gap-5 m-auto justify-center">
-                          {/* Side Figures */}
-                          <Figures
-                            data={data.project01}
-                            brandKey={brandKey}
-                            currentDate={currentDate}
-                            prevDate={prevDate}
-                          />
-                          {/* Pie Chart Positive, Negative */}
-                          <div className="col-span-2">
-                            <div className="">
-                              <SourcesChart
-                                brandKey={brandKey}
-                                currentDate={currentDate}
-                                prevDate={prevDate}
-                                data={data.project01}
-                              />
-                            </div>
-                          </div>
-                          {/* Pie Chart NewsAPI, Reddit */}
-                          <div className="col-span-2">
-                            <div className="">
-                              <SentimentChart
+              <div ref={jsxRef}>
+                <div className="bg-white p-10 space-y-10 flex flex-col w-full min-h-screen">
+                  <Card className="my-4">
+                    <CardBody>
+                      <p className="text-xl font-bold">Reports Page</p>
+                    </CardBody>
+                  </Card>
+                  <div className="col-span-2">
+                    <div className="">
+                      {data && (
+                        <Card className="my-4">
+                          <h2 className="text-3xl font-semibold ">Sources</h2>
+                          <CardBody>
+                            <p className="capitalize">{data.project01.name}</p>
+                            <div className="grid grid-cols-[repeat(auto-fit,_15.666666%)] gap-5 m-auto justify-center">
+                              {/* Side Figures */}
+                              <Figures
                                 data={data.project01}
                                 brandKey={brandKey}
                                 currentDate={currentDate}
                                 prevDate={prevDate}
                               />
+                              {/* Pie Chart Positive, Negative */}
+                              <div className="col-span-2">
+                                <div className="">
+                                  <SourcesChart
+                                    brandKey={brandKey}
+                                    currentDate={currentDate}
+                                    prevDate={prevDate}
+                                    data={data.project01}
+                                  />
+                                </div>
+                              </div>
+                              {/* Pie Chart NewsAPI, Reddit */}
+                              <div className="col-span-2">
+                                <div className="">
+                                  <SentimentChart
+                                    data={data.project01}
+                                    brandKey={brandKey}
+                                    currentDate={currentDate}
+                                    prevDate={prevDate}
+                                  />
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                      </CardBody>
-                    </Card>
+                          </CardBody>
+                        </Card>
+                      )}
+                    </div>
+                  </div>
+                  {graphs && (
+                    <>
+                      <h2 className="text-3xl font-semibold ">
+                        Number of Mentions
+                      </h2>
+                      <SentimentGraph
+                        days={singleGraphDays}
+                        setDays={setsingleGraphDays}
+                        brandKey={brandKey}
+                        currentDate={currentDate}
+                        prevDate={prevDate}
+                        multiGraph={false}
+                        graphsValue={graphs}
+                        displayDateFilter={false}
+                      />
+                      <h2 className="text-3xl font-semibold ">Senitment</h2>
+                      <SentimentGraph
+                        days={days}
+                        setDays={setDays}
+                        brandKey={brandKey}
+                        currentDate={currentDate}
+                        prevDate={prevDate}
+                        graphsValue={graphs}
+                        multiGraph={true}
+                        displayDateFilter={false}
+                      />
+                    </>
                   )}
                 </div>
               </div>
-              {graphs && (
-                <>
-                  <h2 className="text-3xl font-semibold ">
-                    Number of Mentions
-                  </h2>
-                  <SentimentGraph
-                    days={singleGraphDays}
-                    setDays={setsingleGraphDays}
-                    brandKey={brandKey}
-                    currentDate={currentDate}
-                    prevDate={prevDate}
-                    multiGraph={false}
-                    graphsValue={graphs}
-                    displayDateFilter={false}
-                  />
-                  <h2 className="text-3xl font-semibold ">Senitment</h2>
-                  <SentimentGraph
-                    days={days}
-                    setDays={setDays}
-                    brandKey={brandKey}
-                    currentDate={currentDate}
-                    prevDate={prevDate}
-                    graphsValue={graphs}
-                    multiGraph={true}
-                    displayDateFilter={false}
-                  />
-                </>
-              )}
             </div>
-          </div>
-        </div>
-  )}
-</JsxToPdf>
-
-
-
+          )}
+        </JsxToPdf>
       </MainLayout>
     </div>
   );
