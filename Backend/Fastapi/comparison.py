@@ -1,4 +1,4 @@
-from database import session,session1,session2,session3, SessionLocal, session6, session10
+from database import session,session1,session2,session3, SessionLocal, session6, session10, SessionLocal
 from model import newsBrands, newsCompetitor, newsHashtag, redditBrands, redditCompetitor, redditHashtag, Base, projectSentiments
 from datetime import datetime, timedelta
 from sqlalchemy import select, func, Integer
@@ -41,6 +41,7 @@ def comparisonLineChart(brand: str, competitor: str, hashtag: str, day: int ):
     return result
 
 def getNewsGraph(name: str, one_month_ago : int, table: str):
+    session3 = SessionLocal()
     query = (
         session3.query(table.published_at, func.count(table.id).label("count").cast(Integer))
         .filter(table.name == name,table.published_at >= one_month_ago)
@@ -48,25 +49,10 @@ def getNewsGraph(name: str, one_month_ago : int, table: str):
         .all()
     )
     result_as_dict = [{row[0].strftime("%Y-%m-%d"):row[1]} for row in query]
+    session3.close()
     return result_as_dict
 
-# def getNewsGraph(name: str, one_month_ago : int, table: str):
-#     query = (
-#         session.query(table.published_at, func.count(table.id))
-#         .filter(table.published_at >= one_month_ago)
-#         .group_by(table.published_at)
-#         .all()
-#     )
-#     result_as_dict = [{"published_at": row[0].strftime("%Y-%m-%d"), "count": row[1]} for row in query]
-#     return result_as_dict
-    # rows = session.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
 
-
-    # content_dict = defaultdict(list)
-    # for row in rows:
-    #     content_dict[row.published_at].append(row.content)
-
-    # return sentiment_dict
 
 def comparisonCountpie(brand: str, competitor: str, hashtag: str, day: int, p_id: int ):
     now = datetime.now()
@@ -85,22 +71,16 @@ def comparisonCountpie(brand: str, competitor: str, hashtag: str, day: int, p_id
     # Mentions = newsCount + redditCount
     Mentions = result.p_sentiments['positive'] + result.p_sentiments['negative'] + result.p_sentiments['neutral']
     # print(result.p_sentiments['neutral'])
-
+    session6.close()
     return {"name": brand,"Total": Mentions, "Positive": result.p_sentiments['positive'], "Negative": result.p_sentiments['negative'], "Neutral": result.p_sentiments['neutral'],"NewsApi":newsCount, "Reddit": redditCount}
     return newsCount, redditCount
 def getCount(table : Base, name: str, days: int):
+    session17 = SessionLocal()
     count = (
-    session10.query(table)
+    session17.query(table)
     .filter(table.name == name,table.published_at >= days)
     .count()
     )
+    session17.close()
     return count
 
-def handleExceptiongetCount():
-    return {"project01":{"name":"apple","Total":416,"Positive":243,"Negative":66,"NewsApi":70,"Reddit":346},"project02":{"name":"pepsi","Total":42,"Positive":22,"Negative":12,"NewsApi":37,"Reddit":5}}
-
-def handleExceptionLineChart():
-    return {"project01":[{"2022-12-29":20},{"2022-12-30":16},{"2023-01-02":16},{"2023-01-03":2},{"2023-01-04":4},{"2023-01-05":14},{"2023-01-06":16},{"2023-01-08":2},{"2023-01-09":6},{"2023-01-10":16},{"2023-01-11":28},{"2023-01-12":18},{"2023-01-13":28},{"2023-01-14":32},{"2023-01-15":9},{"2023-01-17":30},{"2023-01-18":30},{"2023-01-19":18},{"2023-01-20":16},{"2023-01-21":22},{"2023-01-23":8},{"2023-01-24":26},{"2023-01-25":16}],"project02":[{"2022-12-29":30},{"2022-12-30":6},{"2023-01-02":6},{"2023-01-03":12},{"2023-01-04":24},{"2023-01-05":24},{"2023-01-06":6},{"2023-01-08":12},{"2023-01-09":6},{"2023-01-10":6},{"2023-01-11":48},{"2023-01-12":48},{"2023-01-13":18},{"2023-01-14":12},{"2023-01-15":12},{"2023-01-17":30},{"2023-01-18":30},{"2023-01-19":18},{"2023-01-20":6},{"2023-01-21":12},{"2023-01-23":18},{"2023-01-24":6},{"2023-01-25":6}]}
-
-def handleExceptionPieChart():
-    return {"project01":{"name":"apple","Total":416,"Positive":243,"Negative":66,"NewsApi":70,"Reddit":346}}

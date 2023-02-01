@@ -1,2 +1,35 @@
-first {datetime.date(2023, 1, 23): (0, 0, 1), datetime.date(2023, 1, 26): (3, 1, 1), datetime.date(2023, 1, 19): (1, 0, 1), datetime.date(2023, 1, 18): (0, 0, 1), datetime.date(2023, 1, 14): (1, 0, 0), datetime.date(2023, 1, 21): (1, 0, 0), datetime.date(2023, 1, 15): (0, 0, 1), datetime.date(2023, 1, 27): (0, 0, 1)}
-second {datetime.date(2023, 1, 4): (1, 1, 1), datetime.date(2023, 1, 20): (2, 0, 0), datetime.date(2023, 1, 19): (4, 0, 0), datetime.date(2023, 1, 12): (2, 0, 0), datetime.date(2023, 1, 13): (1, 0, 0), datetime.date(2023, 1, 27): (2, 0, 0), datetime.date(2023, 1, 6): (1, 0, 0), datetime.date(2023, 1, 5): (2, 0, 0), datetime.date(2023, 1, 16): (1, 0, 0), datetime.date(2023, 1, 25): (1, 0, 0), datetime.date(2023, 1, 17): (1, 0, 0), datetime.date(2023, 1, 30): (1, 0, 0), datetime.date(2023, 1, 18): (3, 0, 0), datetime.date(2023, 1, 10): (1, 0, 0), datetime.date(2023, 1, 24): (2, 0, 0), datetime.date(2023, 1, 26): (1, 0, 0), datetime.date(2023, 1, 23): (1, 0, 0)}
+select * from fiver.users;
+select * from fiver.projects;
+SELECT * FROM fiver.newsbrands;	
+where fiver.newsbrands.published_at = '2023-01-05 00:00:00';FIVER
+SELECT * FROM fiver.newscompetitor;
+SELECT * FROM fiver.newshashtag;
+SELECT * FROM fiver.redditbrands;
+SELECT * FROM fiver.redditcompetitor;
+select * from fiver.projectSentiments;
+where fiver.redditcompetitor.name = 'apple';
+SELECT * FROM fiver.reddithashtag;
+where fiver.reddithashtag.name = 'xiaomi';
+create DATABASE FIVER;
+use FIVER;
+DROP DATABASE FIVER;
+
+
+select count(id) from fiver.newsbrands
+where fiver.newsbrands.name = 'netflix';
+
+select count(id) from fiver.newscompetitor
+where fiver.newscompetitor.name = 'chanel';
+
+select count(id) from fiver.newshashtag
+where fiver.newshashtag.name = 'paypal';
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
+select count(id) from fiver.redditbrands
+where fiver.redditbrands.name = 'toyota';
+
+select count(id) from fiver.redditcompetitor
+where fiver.redditcompetitor.name = 'amazon';
+
+select count(id) from fiver.reddithashtag
+where fiver.reddithashtag.name = 'microsoft';
+

@@ -23,7 +23,7 @@ const Comparison = () => {
   // console.log(data.project01);
 
   var brandKey = JSON.parse(localStorage.getItem("brandList"));
-  brandKey = brandKey[0].brandNames;
+  brandKey = brandKey ? brandKey[0].brandNames : null;
   brandKey = brandKey?.at(-1).replace(/^\s+/g, "");
 
   const date = new Date();
@@ -124,6 +124,16 @@ const Comparison = () => {
       getData();
     }
   }, [selectedProjects]);
+
+  if (!brandList.length)
+    return (
+      <MainLayout className="bg-white h-screen">
+        <h1 className="text-center text-black text-2xl">
+          Please select a project first from Dashboard
+        </h1>
+      </MainLayout>
+    );
+
   return (
     <MainLayout>
       {brandList?.length > 1 ? (
