@@ -27,32 +27,33 @@ export default function Login() {
 
     let values = { email, password };
     try {
-      await fetch(
-        "http://127.0.0.1:8000/login",
-        {
-          method: "POST",
-          body: JSON.stringify(values),
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        }
-      )
+      await fetch("http://127.0.0.1:8000/login", {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
         .then((res) => res.json())
         .then((data) => {
-          console.log("response: ",data)
+          console.log("response: ", data);
           if (data.message === "Success") {
-            
             toast.success("You are successfully logged in!", {
               hideProgressBar: true,
             });
-            localStorage.setItem("userEmail", JSON.stringify({email:data.user_email, id:data.user_id, username:data.username}));
-
+            localStorage.setItem(
+              "userEmail",
+              JSON.stringify({
+                email: data.user_email,
+                id: data.user_id,
+                username: data.username,
+              })
+            );
+ 
             setIsLoading(false);
             // navigate("/mentions");
-            navigate("/monitor");
-
-           
+            navigate("/dashboard");
           } else {
             toast.error(data.message);
             setIsLoading(false);
@@ -74,15 +75,7 @@ export default function Login() {
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
             Sign in to your account
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{" "}
-            <a
-              href="/#"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              start your 14-day free trial
-            </a>
-          </p>
+          
         </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -134,7 +127,7 @@ export default function Login() {
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <input
+                  {/* <input
                     id="remember-me"
                     name="remember-me"
                     type="checkbox"
@@ -145,12 +138,12 @@ export default function Login() {
                     className="ml-2 block text-sm text-gray-900"
                   >
                     Remember me
-                  </label>
+                  </label> */}
                 </div>
 
                 <div className="text-sm">
                   <a
-                    href="/#"
+                    href="/forgot-password"
                     className="font-medium text-indigo-600 hover:text-indigo-500"
                   >
                     Forgot your password?

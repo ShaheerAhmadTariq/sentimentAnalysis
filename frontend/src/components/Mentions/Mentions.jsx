@@ -17,60 +17,74 @@ import { Loader } from "../../ui/Loader";
 import { reddit } from "../../assets";
 
 const Mentions = () => {
-  const [days, setDays] = useState(30)
+  const [days, setDays] = useState(30);
 
-  const [newsmentions, setNewsMentions] = useState([]);
-  const [redditmentions, setRedditMentions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isGetting, setIsGetting] = useState(false);
-  const [newsCheck, setNewsCheck] = useState(true);
+  const [newsCheck, setNewsCheck] = useState(false);
+  const [search, setsearch] = useState("");
   const [redditCheck, setRedditCheck] = useState(false);
+  const [allCheck, setallCheck] = useState(true);
   const [positiveCheck, setPositiveCheck] = useState(false);
   const [negativeCheck, setNegativeCheck] = useState(false);
   const [neutralCheck, setNeutralCheck] = useState(false);
   const [finalRecord, setFinalRecord] = useState([]);
   const [finalData, setFinalData] = useState([]);
-  
+  const [multiGraph, setmultiGraph] = useState(true);
 
   useEffect(() => {
     async function card() {
-     
-  // let cards = await  fetch('http://localhost:8000/cards')
+      // let cards = await  fetch('http://localhost:8000/cards')
 
-  let p_id =JSON.parse( localStorage.getItem("brandList"))
-  let {id} =JSON.parse( localStorage.getItem("userEmail"))
-  let cards = await fetch('http://localhost:8000/cards/', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({p_id: p_id[0].p_id,days,u_id:id}),
-})
+      let brandList = JSON.parse(localStorage.getItem("brandList"));
+      const p_id = brandList[0]?.p_id;
+      let { id } = JSON.parse(localStorage.getItem("userEmail"));
+      if (!id || !p_id) {
+        alert("No user id or product id found");
+        return;
+      }
+      let cards = await fetch("http://localhost:8000/cards/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ p_id, days, u_id: id , days: 3000}),
+      });
+      cards = await cards.json();
 
+      let positiveNewsApi = cards["NewsApi"][0].map((elm, ind) => {
+        return { ...elm, sentiment: "Positive", source: "News" };
+      });
+      let negativeNewsApi = cards["NewsApi"][1].map((elm, ind) => {
+        return { ...elm, sentiment: "Negative", source: "News" };
+      });
+      let neutralNewsApi = cards["NewsApi"][2].map((elm, ind) => {
+        return { ...elm, sentiment: "Neutral", source: "News" };
+      });
 
+      let positiveReddit = cards["Reddit"][0].map((elm, ind) => {
+        return { ...elm, sentiment: "Positive", source: "Reddit" };
+      });
+      let negativeReddit = cards["Reddit"][1].map((elm, ind) => {
+        return { ...elm, sentiment: "Negative", source: "Reddit" };
+      });
+      let neutralReddit = cards["Reddit"][2].map((elm, ind) => {
+        return { ...elm, sentiment: "Neutral", source: "Reddit" };
+      });
 
-  cards = await cards.json()
-
-  let positive=cards[0];
-  let negative=cards[1];
-  let neutral=cards[2];
-
-  positive=positive.map((elm,ind)=>{
-      return {...elm,sentiment:"Positive"}
-  })
-  negative=negative.map((elm,ind)=>{
-      return {...elm,sentiment:"Negative"}
-  })
-  neutral=neutral.map((elm,ind)=>{
-      return {...elm,sentiment:"Neutral"}
-  })
-
-  setFinalData([...positive,...negative,...neutral])
-  setFinalRecord([...positive,...negative,...neutral])
-
-
-
-}card()},  [days]);
+      const finalData = [
+        ...positiveNewsApi,
+        ...positiveReddit,
+        ...negativeNewsApi,
+        ...negativeReddit,
+        ...neutralNewsApi,
+        ...neutralReddit,
+      ];
+      setFinalData(finalData);
+      setFinalRecord(finalData);
+    }
+    card();
+  }, [days]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [mentionsPerPage] = useState(10);
@@ -79,8 +93,8 @@ const Mentions = () => {
   const firstPageIndex = lastPageIndex - mentionsPerPage;
   const currentMentions = finalData?.slice(firstPageIndex, lastPageIndex);
 
-  var brandKey = JSON.parse(localStorage.getItem("brandList"))
-  brandKey=brandKey[0].brandNames
+  var brandKey = JSON.parse(localStorage.getItem("brandList"));
+  brandKey = brandKey[0].brandNames;
   brandKey = brandKey?.at(-1);
 
   const date = new Date();
@@ -97,83 +111,52 @@ const Mentions = () => {
   var year2 = date.getFullYear();
   var prevDate = `${year2}-${month2}-${day2}`;
 
-  useEffect(() => {
-    // getNewsMentions();
-    // getRedditMentions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [brandKey]);
-  // getBrandListing
-
-  // get mentions from news api
-  async function getNewsMentions() {
-    setIsLoading(true);
-
-    // encode to scape spaces
-    const esc = encodeURIComponent;
-    const url =
-      "http://127.0.0.1:8000/sentimentGraph";
-    const params = {
-      keyword: brandKey,
-      startDate: prevDate,
-      endDate: currentDate,
-      sortBy: "publishedAt",
-      language: "en",
-    };
-    // this line takes the params object and builds the query string
-    const query = Object.keys(params)
-      .map((k) => `${esc(k)}=${esc(params[k])}`)
-      .join("&");
-
-    await fetch(url + query)
-      .then((res) => res.json())
-      .then((data) => {
-        setNewsMentions(data.data?.articles);
-        setIsLoading(false);
-      });
-  }
-  // get mentions from reddit api
-  async function getRedditMentions() {
-    setIsLoading(true);
-
-    // encode to scape spaces
-    const esc = encodeURIComponent;
-    const url =
-      "http://127.0.0.1:8000/sentimentGraph";
-    const params = {
-      keyword: brandKey,
-      limit: 100,
-    };
-    // this line takes the params object and builds the query string
-    const query = Object.keys(params)
-      .map((k) => `${esc(k)}=${esc(params[k])}`)
-      .join("&");
-
-    await fetch(url + query)
-      .then((res) => res.json())
-      .then((data) => {
-        setRedditMentions(data?.data);
-      });
-  }
-
-  useEffect(() => {
-    if (newsCheck) {
-      setFinalRecord(newsmentions);
-    } else if (redditCheck) {
-      setFinalRecord(redditmentions);
-    } else {
-      setFinalRecord(newsmentions);
+  const filterCards = () => {
+    if (finalRecord.length > 0) {
+      let filteredRecord = finalRecord;
+      if (newsCheck) {
+        filteredRecord = filteredRecord.filter((p) => p.source === "News");
+      }
+      if (redditCheck) {
+        filteredRecord = filteredRecord.filter((p) => p.source === "Reddit");
+      }
+      if (positiveCheck) {
+        filteredRecord = filteredRecord.filter(
+          (p) => p.sentiment === "Positive"
+        );
+      }
+      if (negativeCheck) {
+        filteredRecord = filteredRecord.filter(
+          (n) => n.sentiment === "Negative"
+        );
+      }
+      if (neutralCheck) {
+        filteredRecord = filteredRecord.filter(
+          (nu) => nu.sentiment === "Neutral"
+        );
+      }
+      if (search) {
+        filteredRecord = filteredRecord.filter((item) =>
+          item?.author?.toLowerCase()?.includes(search.toLowerCase())
+        );
+      }
+      setCurrentPage(1)
+      setFinalData(filteredRecord);
     }
-  }, [newsCheck, newsmentions, redditCheck, redditmentions]);
+  };
 
   useEffect(() => {
-    if (positiveCheck) {
-      setFinalData(finalRecord.filter((p) => p.sentiment === "Positive"));
-    } else if (negativeCheck) {
-      setFinalData(finalRecord.filter((n) => n.sentiment === "Negative"));
-    } else if (neutralCheck) {
-      setFinalData(finalRecord.filter((nu) => nu.sentiment === "Neutral"));
-    } else setFinalData(finalRecord);
-  }, [positiveCheck, negativeCheck, neutralCheck, finalRecord]);
+    filterCards();
+  }, [
+    newsCheck,
+    redditCheck,
+    allCheck,
+    positiveCheck,
+    negativeCheck,
+    neutralCheck,
+    search,
+    finalRecord,
+  ]);
 
   useEffect(() => {
     setIsGetting(true);
@@ -194,29 +177,40 @@ const Mentions = () => {
                 <button className="text-gray-500 text-sm">
                   Show Sentiment
                 </button>
-                {!redditCheck ? (
-                  <SentimentGraph
-                  days={days} setDays={setDays}
-                    brandKey={brandKey}
-                    currentDate={currentDate}
-                    prevDate={prevDate}
+                {/* Graph */}
+                <div className="flex space-x-2 items-center">
+                  <label className="text-sm">
+                    {multiGraph ? "Multi Graph" : "Single Graph"}
+                  </label>
+                  <input
+                    type="checkbox"
+                    checked={multiGraph}
+                    onChange={(e) => setmultiGraph(!multiGraph)}
                   />
-                ) : (
-                  <RedditSentiment
-                    brandKey={brandKey}
-                    currentDate={currentDate}
-                    prevDate={prevDate}
-                  />
-                )}
+                </div>
+
+                <SentimentGraph
+                  days={days}
+                  setDays={setDays}
+                  brandKey={brandKey}
+                  currentDate={currentDate}
+                  prevDate={prevDate}
+                  multiGraph={multiGraph}
+                />
               </div>
             </CardBody>
           </Card>
           <Card className="my-4">
             <CardBody>
               <div className="flex justify-between items-center">
+                {/* Checkboxes and pagination filter */}
                 <Filter
+                  allCheck={allCheck}
+                  setAllCheck={setallCheck}
                   newsCheck={newsCheck}
                   setNewsCheck={setNewsCheck}
+                  search={search}
+                  setSearch={setsearch}
                   redditCheck={redditCheck}
                   setRedditCheck={setRedditCheck}
                   totalMentions={finalData?.length}
@@ -231,6 +225,7 @@ const Mentions = () => {
           {isLoading ? (
             <Loader className="text-indigo-600" />
           ) : (
+            // Mention Cards
             <div className="flex justify-between gap-4">
               <ul className="overflow-y-scroll h-[calc(100vh_-_10vh)]">
                 {currentMentions &&
@@ -281,12 +276,14 @@ const Mentions = () => {
                                     </span>
                                   </p>
                                   <p className="text-sm text-gray-500">
-                                    <span>{m.source?.name || m.source}</span>
+                                    <span className="rounded-full px-2 py-1 bg-[#282828] text-white">
+                                      {m.source?.name || m.source}
+                                    </span>
                                     <time
                                       className="ml-2"
-                                      dateTime={m.publishedAt}
+                                      dateTime={m.published_at}
                                     >
-                                      {m.publishedAt}
+                                      {m.published_at}
                                     </time>
                                   </p>
                                 </div>
@@ -300,10 +297,10 @@ const Mentions = () => {
                                 </a>
                               </h2>
                             </div>
-                            <div
-                              className="mt-2 space-y-4 text-sm text-gray-700"
-                            />
-                            {m.description.length>=176?m.description.substring(0,176):m.description}
+                            <div className="mt-2 space-y-4 text-sm text-gray-700" />
+                            {m.description.length >= 176
+                              ? m.description.substring(0, 176)
+                              : m.description}
                             <div className="mt-6 flex justify-between space-x-8">
                               <div className="flex space-x-6">
                                 <span className="inline-flex items-center text-sm">

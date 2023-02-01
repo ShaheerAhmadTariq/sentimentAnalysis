@@ -15,34 +15,47 @@ export default function MonitorBrand() {
     setBrandKeywords(e.target.value);
   }
 
+  function splitKeywords(brandKeywords) {
+    let keywords = brandKeywords.split(",");
+    if (keywords.length === 1) {
+      keywords = [...keywords, "null", "null"];
+    } else if (keywords.length === 2) {
+      keywords = [...keywords, "null"];
+    }
+    return keywords.join(",");
+  }
+
   async function createBrand(e) {
     e.preventDefault();
+    let brandKeywordsArray = splitKeywords(brandKeywords);
     setIsLoading(true);
     try {
-      
-      await fetch(
-        "http://127.0.0.1:8000/createProject",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            enterBrandCompetitorHashtag: brandKeywords,
-            email: userEmail,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        }
-      )
+      await fetch("http://127.0.0.1:8000/createProject", {
+        method: "POST",
+        body: JSON.stringify({
+          enterBrandCompetitorHashtag: brandKeywordsArray,
+          email: userEmail,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
         .then((res) => res.json())
         .then((data) => {
-          console.log("res",data)
-          
+          console.log("res", data);
+
           if (data.message === "Success") {
             console.log(data);
             setIsLoading(false);
-            localStorage.setItem("brandList",JSON.stringify([{p_id:data.p_id,brandNames: brandKeywords.split(",")}]))
-          
+            localStorage.setItem(
+              "brandList",
+              JSON.stringify([
+                { p_id: data.p_id, brandNames: brandKeywordsArray.split(",") },
+              ])
+            );
+            
+
             navigate("/mentions");
           } else {
             toast.error(data.message);

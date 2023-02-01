@@ -1,4 +1,4 @@
-from database import session,session1,session2,session3 ,Base
+from database import session,session1,session2,session3,session5,session6 ,Base
 
 from model import newsBrands, newsCompetitor, newsHashtag, redditBrands, redditCompetitor, redditHashtag, Base
 from datetime import datetime, timedelta
@@ -10,18 +10,31 @@ from typing import List, Dict, Any
 # from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
 # sia = SIA()
 from sentiment import sia
+
+def getSingleLineChart(input: dict[str,Any]):
+    pos = input['positive']
+    neg = input['negative']
+    neutral = input['neutral']
+    finalDict= {}
+    for keys in pos.keys():
+        finalDict[keys] = pos[keys] + neg[keys] + neutral[keys]
+    return {"result": finalDict}
+
+
+
 def joinDict(first: dict[str, Any],second: dict[str, Any]):
-    new_dict = {**first, **second}
-    for key in new_dict.keys():
-        if key in first:
-            value = first[key]
-            new_value = new_dict[key]
-            b,c,h = new_value
-            b += value[0]
-            c += value[1]
-            h += value[2]
-            new_dict[key] = [b,c,h]
-    return new_dict
+    result = {}
+    for key,val in first.items():
+        if key in second.keys():
+            l1,l2,l3 = second[key]
+            result[key] = [val[0]+l1, val[1]+l2, val[2]+l3]
+        else:
+            result[key] = val
+    for key,val in second.items():
+        if key not in result.keys():
+            result[key] = val
+    return result
+
 def graph(result):
     pos = {}
     neg = {}
@@ -37,29 +50,7 @@ def getGraphs(brand: str, competitor: str, hashtag: str, day: int ):
     now = datetime.now()
     # # Calculate the date one month ago
     days = now - timedelta(days=day)
-    # try:
-    #     # n_brands = getNewsGraph(brand, days, newsBrands)
-    #     row = session.query(newsBrands.content, func.date(newsBrands.published_at).label('published_at')).filter(newsBrands.published_at >= days, newsBrands.name == brand).all()
-    #     n_brands = getNewsGraph(row)
-    #     # session.expire_all()
-    #     row2 = session1.query(newsCompetitor.content, func.date(newsCompetitor.published_at).label('published_at')).filter(newsCompetitor.published_at >= days, newsCompetitor.name == competitor).all()
-    #     n_competitors = getNewsGraph(row2)
-    #     # session.expire_all()
-    #     row3 = session.query(newsHashtag.content, func.date(newsHashtag.published_at).label('published_at')).filter(newsHashtag.published_at >= days, newsHashtag.name == hashtag).all()
-    #     n_hashtag = getNewsGraph(row3)
-    #     # session.expire_all()
-    #     row4 = session2.query(redditBrands.content, func.date(redditBrands.published_at).label('published_at')).filter(redditBrands.published_at >= days, redditBrands.name == brand).all()
-    #     r_brands = getNewsGraph(row4)
-    #     # session.expire_all()
-    #     row5 = session3.query(redditCompetitor.content, func.date(redditCompetitor.published_at).label('published_at')).filter(redditCompetitor.published_at >= days, redditCompetitor.name == competitor).all()
-    #     r_competitors = getNewsGraph(row5)
-    #     # session.expire_all()
-    #     row6 = session.query(redditHashtag.content, func.date(redditHashtag.published_at).label('published_at')).filter(redditHashtag.published_at >= days, redditHashtag.name == hashtag).all()
-    #     r_hashtags = getNewsGraph(row6)
-    #     session.expire_all()
-    # except:
-    #     return "err"
-    # try:
+    # days = 1000
     n_brands = getNewsGraph(brand, days, newsBrands)
     n_competitors = getNewsGraph(competitor, days, newsCompetitor)
     n_hashtag = getNewsGraph2(hashtag, days, newsHashtag)
@@ -67,27 +58,14 @@ def getGraphs(brand: str, competitor: str, hashtag: str, day: int ):
     r_brands = getNewsGraph2(brand, days, redditBrands)
     r_competitors = getNewsGraph3(competitor, days, redditCompetitor)
     r_hashtags = getNewsGraph3(hashtag, days, redditHashtag)
-        # n_brands = getNewsGraph(brand, days, newsBrands, session)
-        # n_competitors = getNewsGraph(competitor, days, newsCompetitor, session)
-        # n_hashtag = getNewsGraph(hashtag, days, newsHashtag, session)
+    
+    result = joinDict(n_competitors,n_brands)
 
-        # r_brands = getNewsGraph(brand, days, redditBrands, session)
-        # r_competitors = getNewsGraph(competitor, days, redditCompetitor, session)
-        # r_hashtags = getNewsGraph(hashtag, days, redditHashtag, session)
-    # except:
-        # return {'err':'while running'}
-    # session.close()
-    # session1.close()
-    # session2.close()
-    result = joinDict(n_brands,n_competitors)
     result = joinDict(result, n_hashtag)
     result = joinDict(result, r_brands)
     result = joinDict(result, r_competitors)
     result = joinDict(result, r_hashtags)
-    # except:
-        # return "err"
     pos,neg,neutral = graph(result)
-    # pos,neg,neutral = (0,0,0)
     
     return {"positive": pos, "negative": neg, "neutral": neutral}
     
@@ -120,7 +98,7 @@ def getNewsGraph2(name: str, one_month_ago : int, table: str):
     # rows = session.query(table).all
     # return rows
     # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
-    rows = session1.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
+    rows = session6.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
     # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
     # rows = session.query(table).all
     # stmt = select([table.content, func.date(table.published_at).label('published_at')]).where(table.published_at >= one_month_ago)
@@ -138,19 +116,10 @@ def getNewsGraph2(name: str, one_month_ago : int, table: str):
     return sentiment_dict
 
 def getNewsGraph3(name: str, one_month_ago : int, table: str): 
-# def getNewsGraph(rows: list): 
-    # rows = session.query(table).all
-    # return rows
-    # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
-    rows = session2.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
-    # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
-    # rows = session.query(table).all
-    # stmt = select([table.content, func.date(table.published_at).label('published_at')]).where(table.published_at >= one_month_ago)
-    # rows = session.execute(stmt).fetchall()
+    rows = session5.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
+    
 
     content_dict = defaultdict(list)
-    # print(rows)
-    # Iterate through the rows and add the content values to the appropriate key in the content_dict
     for row in rows:
         content_dict[row.published_at].append(row.content)
     sentiment_dict = {}
@@ -181,4 +150,6 @@ def getSentiment(content: list):
             neutral += 1
 
     return positive,negative,neutral
-    # return contents
+
+def handleExceptionSentimentGraph():
+    return {"multiGraph":{"positive":{"2023-01-02":32,"2023-01-03":32,"2023-01-04":40,"2023-01-05":24,"2023-01-06":0,"2023-01-07":64,"2023-01-08":8,"2023-01-09":24,"2023-01-10":24,"2023-01-11":40,"2023-01-12":32,"2023-01-13":16,"2023-01-14":8,"2023-01-15":8,"2023-01-16":16,"2023-01-17":104,"2023-01-18":64,"2023-01-19":32,"2023-01-20":32,"2023-01-21":96,"2023-01-22":8,"2023-01-23":49,"2023-01-24":49,"2023-01-25":27,"2023-01-26":6,"2023-01-27":6,"2023-01-28":11,"2023-01-29":4,"2023-01-30":75,"2023-01-31":37},"negative":{"2023-01-02":0,"2023-01-03":24,"2023-01-04":48,"2023-01-05":0,"2023-01-06":0,"2023-01-07":32,"2023-01-08":8,"2023-01-09":8,"2023-01-10":0,"2023-01-11":24,"2023-01-12":32,"2023-01-13":0,"2023-01-14":8,"2023-01-15":8,"2023-01-16":0,"2023-01-17":16,"2023-01-18":8,"2023-01-19":0,"2023-01-20":0,"2023-01-21":0,"2023-01-22":0,"2023-01-23":15,"2023-01-24":11,"2023-01-25":4,"2023-01-26":1,"2023-01-27":2,"2023-01-28":0,"2023-01-29":1,"2023-01-30":25,"2023-01-31":22},"neutral":{"2023-01-02":0,"2023-01-03":32,"2023-01-04":64,"2023-01-05":16,"2023-01-06":32,"2023-01-07":0,"2023-01-08":0,"2023-01-09":0,"2023-01-10":24,"2023-01-11":32,"2023-01-12":40,"2023-01-13":8,"2023-01-14":0,"2023-01-15":0,"2023-01-16":8,"2023-01-17":8,"2023-01-18":48,"2023-01-19":16,"2023-01-20":8,"2023-01-21":0,"2023-01-22":0,"2023-01-23":30,"2023-01-24":27,"2023-01-25":8,"2023-01-26":7,"2023-01-27":6,"2023-01-28":9,"2023-01-29":5,"2023-01-30":30,"2023-01-31":30}},"singleGraph":{"result":{"2023-01-02":32,"2023-01-03":88,"2023-01-04":152,"2023-01-05":40,"2023-01-06":32,"2023-01-07":96,"2023-01-08":16,"2023-01-09":32,"2023-01-10":48,"2023-01-11":96,"2023-01-12":104,"2023-01-13":24,"2023-01-14":16,"2023-01-15":16,"2023-01-16":24,"2023-01-17":128,"2023-01-18":120,"2023-01-19":48,"2023-01-20":40,"2023-01-21":96,"2023-01-22":8,"2023-01-23":94,"2023-01-24":87,"2023-01-25":39,"2023-01-26":14,"2023-01-27":14,"2023-01-28":20,"2023-01-29":10,"2023-01-30":130,"2023-01-31":89}}}

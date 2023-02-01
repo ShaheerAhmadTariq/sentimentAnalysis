@@ -1,29 +1,56 @@
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 
-// import Chart from "react-apexcharts";
+const SourcesChart = ({ brandKey, currentDate, prevDate, data }) => {
+  const [series, setSeries] = useState([
+    data.Postive,
+    data.Negative,
+    data.Neutral,
+  ]);
+  const [positive, setPositive] = useState(Number);
+  const [negative, setNegative] = useState(Number);
+  const [neutral, setNeutral] = useState(Number);
 
-const SourcesChart = ({ brandKey, currentDate, prevDate ,data}) => {
-
-
-
-  const [series, setSeries] = useState([data?.Postive,data?.Negative]);
-
-  useEffect(()=>{
-       setSeries([data?.Positive,data?.Negative])
-  },[data])
-
-
+  useEffect(() => {
+    setSeries([
+      Number(((data.Positive / data.Total) * 100).toFixed(2)),
+      Number(((data.Negative / data.Total) * 100).toFixed(2)),
+      Number(((data.Neutral / data.Total) * 100).toFixed(2)),
+    ]);
+  }, [data]);
   const [options, setOptions] = useState({
-    labels: ["Positive","Negative"],
+    labels: [
+      [
+        `Positive: ${(
+          (data.Positive / (data.Positive + data.Negative + data.Neutral)) *
+          100
+        ).toFixed(1)}`,
+      ],
+      [
+        `Negative: ${(
+          (data.Negative / (data.Positive + data.Negative + data.Neutral)) *
+          100
+        ).toFixed(1)}`,
+      ],
+      [
+        `Neutral: ${(
+          (data.Neutral / (data.Positive + data.Negative + data.Neutral)) *
+          100
+        ).toFixed(1)}`,
+      ],
+    ],
     chart: {
       type: "donut",
       hight: 100,
       width: 100,
     },
-
+    plotOptions: {
+      pie: {
+        customScale: 1,
+      },
+    },
     dataLabels: {
-      enabled: true,
+      enabled: false,
     },
     legend: {
       show: true,
@@ -34,8 +61,8 @@ const SourcesChart = ({ brandKey, currentDate, prevDate ,data}) => {
         breakpoint: 480,
         options: {
           chart: {
-            width: 200,
-            height: 200,
+            width: 250,
+            height: 250,
           },
           legend: {
             position: "bottom",
@@ -44,87 +71,6 @@ const SourcesChart = ({ brandKey, currentDate, prevDate ,data}) => {
       },
     ],
   });
-
-
-
-
-
-
-
-  // get
-  // async function getSentimentGraph() {
-  //   var graphPositives = [];
-
-  //   // encode to scape spaces
-  //   const esc = encodeURIComponent;
-  //   // const url =
-  //   //   "https://media-monitoring-tool.herokuapp.com/api/v1/mentions/show-sentiment-chart?";
-  //   const params = {
-  //     keyword: brandKey,
-  //     startDate: prevDate,
-  //     endDate: currentDate,
-  //     sortBy: "publishedAt",
-  //     language: "en",
-  //   };
-  //   // this line takes the params object and builds the query string
-  //   const query = Object.keys(params)
-  //     .map((k) => `${esc(k)}=${esc(params[k])}`)
-  //     .join("&");
-
-  //   await fetch(url + query)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (data) {
-  //         const key = "publishedAt";
-
-  //         const uniqueArr = [
-  //           ...new Map(data.data?.map((s) => [s[key], s])).values(),
-  //         ];
-
-  //         var arrayUniqueByKey = uniqueArr.slice(0, 6);
-
-  //         arrayUniqueByKey.map((i) => graphPositives.push(i.numberOfPositive));
-
-  //         setOptions({
-  //           labels: ["Blogs", "News", "Web", "Videos", "Forums", "Podcasts"],
-  //           chart: {
-  //             type: "donut",
-  //             hight: 100,
-  //             width: 100,
-  //           },
-
-  //           dataLabels: {
-  //             enabled: true,
-  //           },
-  //           legend: {
-  //             show: true,
-  //           },
-
-  //           responsive: [
-  //             {
-  //               breakpoint: 480,
-  //               options: {
-  //                 chart: {
-  //                   width: 200,
-  //                   height: 200,
-  //                 },
-  //                 legend: {
-  //                   position: "bottom",
-  //                 },
-  //               },
-  //             },
-  //           ],
-  //         });
-
-  //         // set series
-  //         setSeries(graphPositives);
-  //       }
-  //     });
-  // }
-
-  // useEffect(() => {
-  //   getSentimentGraph();
-  // }, []);
 
   return (
     <div id="chart">

@@ -4,9 +4,9 @@ import { Sidebar } from "../ui/Sidebar/Sidebar";
 import React, { useState, useEffect } from "react";
 import { Router, useNavigate } from "react-router-dom";
 
-export const MainLayout = ({ children }) => {
+export const MainLayout = ({ currentProjectFetch = undefined, children }) => {
   const [showSideBar, setShowSideBar] = useState(true);
-  const [IsLoading, setIsLoading] = useState(true)
+  const [IsLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   var user = JSON.parse(localStorage.getItem("userEmail"));
@@ -35,7 +35,10 @@ export const MainLayout = ({ children }) => {
       <div>
         <Navbar handleSideBarStatus={() => setShowSideBar(!showSideBar)} />
         <div className="flex bg-gray-50 pt-16">
-          <Sidebar showSideBar={showSideBar} />
+          <Sidebar
+            currentProjectFetch={currentProjectFetch}
+            showSideBar={showSideBar}
+          />
           <div
             className={`relative h-full bg-gray-50 transition delay-150 ease-in-out ml-auto ${
               showSideBar

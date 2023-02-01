@@ -1,11 +1,12 @@
 import React from "react";
 import { useEffect, useState } from "react";
 
-const Figures = ({ brandKey, currentDate, prevDate,data }) => {
+const Figures = ({ brandKey, currentDate, prevDate, data }) => {
   const [graphPositives, setGraphPositives] = useState([]);
   const [graphNegatives, setGraphNegatives] = useState([]);
   const [totalPos, setTotalPos] = useState("");
   const [totalNeg, setTotalNeg] = useState("");
+  const [totalNeu, setTotalNeu] = useState("");
   const [total, setTotal] = useState("");
 
   useEffect(() => {
@@ -26,8 +27,7 @@ const Figures = ({ brandKey, currentDate, prevDate,data }) => {
     var gNegatives = [];
     // encode to scape spaces
     const esc = encodeURIComponent;
-    const url =
-      "https://media-monitoring-tool.herokuapp.com/api/v1/mentions/show-sentiment-chart?";
+    const url = "http://localhost:8000/CountComparison/";
     const params = {
       keyword: brandKey,
       startDate: prevDate,
@@ -40,7 +40,7 @@ const Figures = ({ brandKey, currentDate, prevDate,data }) => {
       .map((k) => `${esc(k)}=${esc(params[k])}`)
       .join("&");
 
-    await fetch(url + query)
+    await fetch(url)
       .then((res) => res.json())
       .then((data) => {
         if (data) {
@@ -69,6 +69,12 @@ const Figures = ({ brandKey, currentDate, prevDate,data }) => {
           {data?.Negative}
         </span>
         <span className="text-xs text-gray-700 my-1">Negative</span>
+      </div>
+      <div className="flex flex-col text-center my-2">
+        <span className="text-4xl font-[200] my-1 text-rose-600">
+          {data.Neutral}
+        </span>
+        <span className="text-xs text-gray-700 my-1">Neutral</span>
       </div>
     </div>
   );

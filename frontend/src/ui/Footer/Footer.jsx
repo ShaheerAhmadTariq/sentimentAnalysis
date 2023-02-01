@@ -6,7 +6,7 @@ export const Footer = () => {
       <p className="text-sm font-normal text-gray-500">
         © 2022{" "}
         <a href="#/" className="hover:underline">
-          Brand24
+          APSS
         </a>
         . All rights reserved.
       </p>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { logo } from "../assets";
+import Capture  from "../assets/Capture.PNG";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Loader } from "../ui/Loader";
@@ -25,63 +25,68 @@ export default function Registration() {
   }, []);
 
   async function signUp(e) {
+    if( /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email))
+    {
+      console.log("valid email")
+    
     e.preventDefault();
 
     setIsLoading(true);
 
-    let values = { username,email, password };
+    let values = { username, email, password };
 
     try {
-      await fetch(
-        "http://127.0.0.1:8000/users",
-        {
-          method: "POST",
-          body: JSON.stringify(values),
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        }
-      )
+      await fetch("http://127.0.0.1:8000/users", {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
         .then((res) => res.json())
         .then((data) => {
-          console.log("response: data",data)
-          data.message === "Success"
-            ? toast.success("You are successfully registered!") &&
-              setTimeout(() => {
-                navigate("/login");
-              }, 1500)
-            : toast.error(data.message);
+          if (data.message === "Successfully created user.") {
+            toast.success("You are successfully registered!");
+            localStorage.setItem(
+              "userEmail",
+              JSON.stringify({
+                email: data.user_email,
+                id: data.user_id,
+                username: data.username,
+              })
+            );
+            setTimeout(() => {
+              navigate("/monitor");
+            }, 1500);
+          } else {
+            toast.error(data.message);
+          }
           setIsLoading(false);
         });
     } catch (err) {
       console.log(err);
+    }
+    }
+    else{
+      alert('Enter Valid Email Address')
     }
   }
   return (
     <>
       <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img className="mx-auto h-28 w-auto" src={logo} alt="Your Company" />
+          <img className="mx-auto h-28 w-auto" src={Capture} alt="Your Company" />
           <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">
             Create your account
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{" "}
-            <a
-              href="/#"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              start your 14-day free trial
-            </a>
-          </p>
+          
         </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form className="space-y-6" onSubmit={signUp}>
               <div>
-                
                 <label
                   htmlFor="email"
                   className="block text-sm font-medium text-gray-700"
@@ -101,7 +106,6 @@ export default function Registration() {
                 </div>
               </div>
               <div>
-                
                 <label
                   htmlFor="email"
                   className="block text-sm font-medium text-gray-700"

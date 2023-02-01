@@ -7,8 +7,10 @@ import Comparison from "./components/Comparison/Comparison";
 import Dashboard from "./components/Dashboard";
 import PageNotFound from "./components/PageNotFound";
 import Report from "./components/Reports/Report";
-import SentimentGraph from "./components/Mentions/SentimentGraph";
-
+import ForgotPassword from "./components/ForgotPassword";
+import AboutUs from "./components/AboutUs";
+import ContactUs from "./components/ContactUs";
+import Welcome from "./components/Welcome";
 function App() {
   return (
     <>
@@ -16,15 +18,16 @@ function App() {
         <Routes>
           <Route path="/" element={<Registration />} />
           <Route path="login" element={<Login />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="monitor" element={<MonitorBrand />} />
           <Route path="mentions" element={<Mentions />} />
           <Route path="comparison" element={<Comparison />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="report" element={<Report />} />
+          <Route path="aboutus" element={<AboutUs />} />
+          <Route path="contactus" element={<ContactUs />} />
+          <Route path="welcome" element={<Welcome />} />
           <Route path="*" element={<PageNotFound />} />
-          <Route path="line" element={<SentimentGraph />} />
-          {/* <Route path="contact" element={<ContactUs/>}/>
-          <Route path="about" element={<AboutUs/>}/> */}
         </Routes>
       </div>
     </>
