@@ -33,7 +33,9 @@ const SentimentGraph = ({
 
   function multiGraphValues(graph) {
     if (!graph) return;
-    let Dates = dateSort(Object.keys(graph.negative));
+    const Sortedgraph = formatDate(graph.negative)
+    // let Dates = dateSort(Object.keys(graph.negative));
+    let Dates = Object.keys(Sortedgraph)
 
     let negativeValues = Object.values(graph.negative);
 
@@ -45,10 +47,23 @@ const SentimentGraph = ({
       values: { negativeValues, positiveValues, neutralValues },
     };
   }
-
+  function formatDate(data){
+    const formattedData = []
+    for (const key in data) {
+      const date = new Date(key);
+      const monthDay = date.toLocaleDateString('default', { month: 'short', day: 'numeric' });
+      formattedData[monthDay] = data[key];
+      
+    }
+    // console.log("formated date",formattedData)
+    return formattedData
+  }
   function singleGraphValues(graph) {
-    let Dates = dateSort(Object.keys(graph));
-    let values = Object.values(graph);
+    // let Dates = dateSort(Object.keys(graph));
+    const Sortedgraph = formatDate(graph)
+    // console.log("dates will print here")
+    let Dates =  Object.keys(Sortedgraph);
+    let values = Object.values(Sortedgraph);
     return {
       Dates,
       values,
@@ -270,6 +285,26 @@ const SentimentGraph = ({
               // checked={positiveCheck}
               onChange={() => {
                 setDays(30);
+              }}
+              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+            />
+          </div>
+
+          <div className="flex h-5 items-center">
+            <div className="ml-2 text-sm">
+              <label htmlFor="15days" className="font-medium text-green-500">
+                All time
+              </label>
+            </div>
+            <input
+              id="Alltime"
+              aria-describedby="positve-description"
+              checked={days == 3000 ? true : false}
+              name="days"
+              type="radio"
+              // checked={positiveCheck}
+              onChange={() => {
+                setDays(3000);
               }}
               className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
             />

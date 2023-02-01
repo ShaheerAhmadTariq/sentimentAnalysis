@@ -1,6 +1,6 @@
 # python -m uvicorn main:app --reload
 import schema
-from database import SessionLocal, engine, session, session1, session2, session6
+from database import SessionLocal, engine, session, session1, session2, session6, session5
 import model
 from model import projects, users, newsBrands, newsCompetitor, newsHashtag, redditBrands, projectSentiments
 from datetime import datetime
@@ -19,7 +19,7 @@ from datetime import datetime
 from reddit import redditApi
 import asyncio
 from newsApi import newsApi
-from sentiment import getNews, handleExceptionProjectSentiment
+from sentiment import getNews, handleExceptionProjectSentiment, updateProjectSentiment
 from graphs import getNewsGraph, getGraphs, getSingleLineChart, handleExceptionSentimentGraph
 from cards import getCards
 from newGraph import graph
@@ -206,16 +206,29 @@ def sentimentGraph(request : Request, user_request: sentimentGraphInput):
         user_id = user_request.u_id
         p_id = user_request.p_id
         days = user_request.days
-        # user_id = 1
-        # p_id = 1
-        # days = 30
+        # user_id = 17
+        # p_id = 51
+        # days = 10000
         project = session2.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
         # print(project.p_brand_name)
         multiGraphs = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
+        
         singleGraph = getSingleLineChart(multiGraphs)
-        return {'multiGraph':multiGraphs, "singleGraph":singleGraph}
+        result = {'multiGraph':multiGraphs, "singleGraph":singleGraph}
+        for key in result['multiGraph'].keys():
+            myKeys = list(result['multiGraph'][key].keys())
+            myKeys.sort()
+            sorted_dict = {i: result['multiGraph'][key][i] for i in myKeys}
+            result['multiGraph'][key] = sorted_dict
+        for key in result['singleGraph']['result'].keys():
+            myKeys = list(result['singleGraph']['result'].keys())
+            myKeys.sort()
+            sorted_dict = {i: result['singleGraph']['result'][i] for i in myKeys}
+            result['singleGraph']['result'] = sorted_dict
+        return result
     except:
-        return handleExceptionSentimentGraph()
+        # return handleExceptionSentimentGraph()
+        return {'message':"error in sentiment graph"}
 
 
 class sentimentCardInput(BaseModel):
@@ -229,9 +242,9 @@ def card (request : Request, user_request: sentimentCardInput):
         user_id = user_request.u_id
         p_id = user_request.p_id
         days = user_request.days
-        # user_id = 1
-        # p_id = 1
-        # days = 30
+        # user_id = 17
+        # p_id = 51
+        # days = 51
         project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
         res = getCards(project.p_brand_name, project.p_competitor_name, project.p_hashtag,days)
         return res
@@ -411,6 +424,7 @@ def projectupdatefunction(request : Request, user_request: updateProjectModel):
         time = current_date - creationDate
         if time.days > 1:
             res = updateTables([project.p_brand_name, project.p_competitor_name, project.p_hashtag], creationDate)
+            updateProjectSentiment(project.p_brand_name, project.p_competitor_name, project.p_hashtag,p_id)
         # return {"time": time.days, "res": res}
         return {'message': "Successfully updated"}
     except:
@@ -467,13 +481,17 @@ def reportPie(request : Request, user_request: reportPieModel):
     p_id = user_request.p_id1
     # user_id = 1
     # p_id = 1
-    days = 30
+    days = 3000
     try: 
         project = session6.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
         res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id)
         return {"project01": res}
     except:
-        return handleExceptionPieChart()
+
+        project = session5.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+        res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id)
+        return {"project01": res}
+        # return handleExceptionPieChart()
 class sendEmailModel(BaseModel):
     subject: str
     message: str

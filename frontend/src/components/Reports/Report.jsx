@@ -35,13 +35,15 @@ const Report = () => {
       alert("No user id found");
       return;
     }
+    let brandList = JSON.parse(localStorage.getItem("brandList"));
+      const p_id = brandList[0]?.p_id;
     let resp = await fetch("http://localhost:8000/reportPieChart/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        p_id1: 1,
+        p_id1: p_id,
         u_id: id,
       }),
     });
@@ -59,7 +61,7 @@ const Report = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ p_id: p_id[0].p_id, days, u_id: id }),
+        body: JSON.stringify({ p_id: p_id[0].p_id, days: 3000, u_id: id }),
       });
 
       graphs = await graphs.json();

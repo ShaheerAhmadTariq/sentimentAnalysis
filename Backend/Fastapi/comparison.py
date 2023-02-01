@@ -1,4 +1,4 @@
-from database import session,session1,session2,session3, SessionLocal, session6
+from database import session,session1,session2,session3, SessionLocal, session6, session10
 from model import newsBrands, newsCompetitor, newsHashtag, redditBrands, redditCompetitor, redditHashtag, Base, projectSentiments
 from datetime import datetime, timedelta
 from sqlalchemy import select, func, Integer
@@ -69,26 +69,29 @@ def getNewsGraph(name: str, one_month_ago : int, table: str):
     # return sentiment_dict
 
 def comparisonCountpie(brand: str, competitor: str, hashtag: str, day: int, p_id: int ):
-    newsCount =  getCount(newsBrands, brand)
-    newsCount += getCount(newsCompetitor, competitor)
-    newsCount += getCount(newsHashtag, hashtag)
+    now = datetime.now()
+    # # Calculate the date one month ago
+    days = now - timedelta(days=day)
+    newsCount =  getCount(newsBrands, brand, days)
+    newsCount += getCount(newsCompetitor, competitor, days)
+    newsCount += getCount(newsHashtag, hashtag, days)
 
-    redditCount = getCount(redditBrands, brand)
-    redditCount += getCount(redditCompetitor, competitor)
-    redditCount += getCount(redditHashtag, hashtag)
+    redditCount = getCount(redditBrands, brand, days)
+    redditCount += getCount(redditCompetitor, competitor, days)
+    redditCount += getCount(redditHashtag, hashtag, days)
     session6 = SessionLocal()
     result = session6.query(projectSentiments).filter(projectSentiments.project_id == p_id).first()
     # Total = result.p_sentiments['neutral'] + result.p_sentiments['negative'] + result.p_sentiments['positive']
     # Mentions = newsCount + redditCount
-    Mentions = result.p_sentiments['positive'] + result.p_sentiments['negative']
+    Mentions = result.p_sentiments['positive'] + result.p_sentiments['negative'] + result.p_sentiments['neutral']
     # print(result.p_sentiments['neutral'])
 
-    return {"name": brand,"Total": Mentions, "Positive": result.p_sentiments['positive'], "Negative": result.p_sentiments['negative'],"NewsApi":newsCount, "Reddit": redditCount}
+    return {"name": brand,"Total": Mentions, "Positive": result.p_sentiments['positive'], "Negative": result.p_sentiments['negative'], "Neutral": result.p_sentiments['neutral'],"NewsApi":newsCount, "Reddit": redditCount}
     return newsCount, redditCount
-def getCount(table : Base, name: str):
+def getCount(table : Base, name: str, days: int):
     count = (
-    session6.query(table)
-    .filter(table.name == name)
+    session10.query(table)
+    .filter(table.name == name,table.published_at >= days)
     .count()
     )
     return count

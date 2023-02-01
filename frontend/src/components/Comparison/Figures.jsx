@@ -6,6 +6,7 @@ const Figures = ({ brandKey, currentDate, prevDate, data }) => {
   const [graphNegatives, setGraphNegatives] = useState([]);
   const [totalPos, setTotalPos] = useState("");
   const [totalNeg, setTotalNeg] = useState("");
+  const [totalNeu, setTotalNeu] = useState("");
   const [total, setTotal] = useState("");
 
   useEffect(() => {
@@ -68,6 +69,12 @@ const Figures = ({ brandKey, currentDate, prevDate, data }) => {
           {data.Negative}
         </span>
         <span className="text-xs text-gray-700 my-1">Negative</span>
+      </div>
+      <div className="flex flex-col text-center my-2">
+        <span className="text-4xl font-[200] my-1 text-rose-600">
+          {data.Neutral}
+        </span>
+        <span className="text-xs text-gray-700 my-1">Neutral</span>
       </div>
     </div>
   );
