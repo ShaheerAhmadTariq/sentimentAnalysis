@@ -48,7 +48,7 @@ const Mentions = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ p_id, days, u_id: id }),
+        body: JSON.stringify({ p_id, days, u_id: id , days: 3000}),
       });
       cards = await cards.json();
 

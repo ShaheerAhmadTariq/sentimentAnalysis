@@ -1,6 +1,6 @@
 # python -m uvicorn main:app --reload
 import schema
-from database import SessionLocal, engine, session, session1, session2, session6
+from database import SessionLocal, engine, session, session1, session2, session6, session5, session11
 import model
 from model import projects, users, newsBrands, newsCompetitor, newsHashtag, redditBrands, projectSentiments
 from datetime import datetime
@@ -19,11 +19,11 @@ from datetime import datetime
 from reddit import redditApi
 import asyncio
 from newsApi import newsApi
-from sentiment import getNews, handleExceptionProjectSentiment
-from graphs import getNewsGraph, getGraphs, getSingleLineChart, handleExceptionSentimentGraph
+from sentiment import getNews, updateProjectSentiment
+from graphs import getNewsGraph, getGraphs, getSingleLineChart
 from cards import getCards
 from newGraph import graph
-from comparison import comparisonCountpie, comparisonLineChart, handleExceptiongetCount, handleExceptionLineChart, handleExceptionPieChart
+from comparison import comparisonCountpie, comparisonLineChart
 from update import updateTables
 import bcrypt
 import smtplib
@@ -113,6 +113,7 @@ def submit(request: Request, user_string_request: UserStringRequest):
     session1.add(project)
     session1.commit()
     session1.refresh(project)
+    session1.close()
     p_id = project.p_id
     try:
         
@@ -206,16 +207,34 @@ def sentimentGraph(request : Request, user_request: sentimentGraphInput):
         user_id = user_request.u_id
         p_id = user_request.p_id
         days = user_request.days
-        # user_id = 1
-        # p_id = 1
-        # days = 30
-        project = session2.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
-        # print(project.p_brand_name)
+        # user_id = 17
+        # p_id = 51
+        # days = 356
+        try:
+            project = session11.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+        except:
+            {'message': "project id not found"}
         multiGraphs = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
+        
         singleGraph = getSingleLineChart(multiGraphs)
-        return {'multiGraph':multiGraphs, "singleGraph":singleGraph}
+        result = {'multiGraph':multiGraphs, "singleGraph":singleGraph}
+        for key in result['multiGraph'].keys():
+            myKeys = list(result['multiGraph'][key].keys())
+            myKeys.sort()
+            sorted_dict = {i: result['multiGraph'][key][i] for i in myKeys}
+            result['multiGraph'][key] = sorted_dict
+        for key in result['singleGraph']['result'].keys():
+            myKeys = list(result['singleGraph']['result'].keys())
+            myKeys.sort()
+            sorted_dict = {i: result['singleGraph']['result'][i] for i in myKeys}
+            result['singleGraph']['result'] = sorted_dict
+        sum = 0
+        for key in result['singleGraph']['result']:
+            sum += result['singleGraph']['result'][key]
+        result['X_Value'] = sum
+        return result
     except:
-        return handleExceptionSentimentGraph()
+        return {'message':"error in sentiment graph"}
 
 
 class sentimentCardInput(BaseModel):
@@ -229,12 +248,12 @@ def card (request : Request, user_request: sentimentCardInput):
         user_id = user_request.u_id
         p_id = user_request.p_id
         days = user_request.days
-        # user_id = 1
-        # p_id = 1
-        # days = 30
+        # user_id = 17
+        # p_id = 51
+        # days = 3000
         project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
-        res = getCards(project.p_brand_name, project.p_competitor_name, project.p_hashtag,days)
-        return res
+        data = getCards(project.p_brand_name, project.p_competitor_name, project.p_hashtag,days)
+        return data
     except:
         # return cardsDefault
         return {"message": "card error"}
@@ -281,7 +300,14 @@ def getCount (request : Request, user_request: countComaparisonModel):
 
         return {"project01": res, "project02": res2}
     except:
-        return handleExceptiongetCount()
+        project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+        res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id)
+        p_id2 = user_request.p_id2
+        project = session1.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id2).first()
+        res2 = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id2)
+
+        return {"project01": res, "project02": res2}
+    
 def equalizeLen(result):
     if len(result['project01']) == len(result['project02']):
         # print('equal length')
@@ -354,8 +380,16 @@ def getline(request : Request, user_request: lineComaparisonModel):
 
         return result
     except:
-        # return {'error'}
-        return handleExceptionLineChart()
+        project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+        res = comparisonLineChart(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
+        p_id2 = user_request.p_id2
+        project2 = session1.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id2).first()
+        res2 = comparisonLineChart(project2.p_brand_name, project2.p_competitor_name, project2.p_hashtag, days)
+        result =  {"project01": res, "project02": res2}
+        result["project01"] = sorted(result["project01"], key=lambda x: datetime.strptime(next(iter(x)), "%Y-%m-%d"))
+        result["project02"] = sorted(result["project02"], key=lambda x: datetime.strptime(next(iter(x)), "%Y-%m-%d"))
+        result = equalizeLen(result)
+        return result
     
         
 class getProjectsModel(BaseModel):
@@ -411,6 +445,7 @@ def projectupdatefunction(request : Request, user_request: updateProjectModel):
         time = current_date - creationDate
         if time.days > 1:
             res = updateTables([project.p_brand_name, project.p_competitor_name, project.p_hashtag], creationDate)
+            updateProjectSentiment(project.p_brand_name, project.p_competitor_name, project.p_hashtag,p_id)
         # return {"time": time.days, "res": res}
         return {'message': "Successfully updated"}
     except:
@@ -467,13 +502,17 @@ def reportPie(request : Request, user_request: reportPieModel):
     p_id = user_request.p_id1
     # user_id = 1
     # p_id = 1
-    days = 30
+    days = 3000
     try: 
         project = session6.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
         res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id)
         return {"project01": res}
     except:
-        return handleExceptionPieChart()
+
+        project = session5.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
+        res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id)
+        return {"project01": res}
+
 class sendEmailModel(BaseModel):
     subject: str
     message: str
