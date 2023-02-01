@@ -32,6 +32,12 @@ const Mentions = () => {
   const [finalData, setFinalData] = useState([]);
   const [multiGraph, setmultiGraph] = useState(true);
 
+  const [brandNames, setbrandNames] = useState([]);
+
+  const [brandNameCheck, setbrandNameCheck] = useState(false);
+  const [competitorNameCheck, setcompetitorNameCheck] = useState(false);
+  const [hashCheck, sethashCheck] = useState(false);
+
   useEffect(() => {
     async function card() {
       // let cards = await  fetch('http://localhost:8000/cards')
@@ -80,11 +86,19 @@ const Mentions = () => {
         ...neutralNewsApi,
         ...neutralReddit,
       ];
+
       setFinalData(finalData);
       setFinalRecord(finalData);
     }
     card();
   }, [days]);
+
+  useEffect(() => {
+    const brandNames = JSON.parse(localStorage.getItem("brandList"));
+    if (brandNames && brandNames[0]?.brandNames) {
+      setbrandNames(brandNames[0].brandNames);
+    }
+  }, []);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [mentionsPerPage] = useState(10);
@@ -136,6 +150,21 @@ const Mentions = () => {
           (nu) => nu.sentiment === "Neutral"
         );
       }
+      if (brandNameCheck) {
+        filteredRecord = filteredRecord.filter(
+          (nu) => nu.name === brandNames[0]
+        );
+      }
+      if (competitorNameCheck) {
+        filteredRecord = filteredRecord.filter(
+          (nu) => nu.name === brandNames[1]
+        );
+      }
+      if (hashCheck) {
+        filteredRecord = filteredRecord.filter(
+          (nu) => nu.name === brandNames[2]
+        );
+      }
       if (search) {
         filteredRecord = filteredRecord.filter((item) =>
           item?.author?.toLowerCase()?.includes(search.toLowerCase())
@@ -157,6 +186,9 @@ const Mentions = () => {
     neutralCheck,
     search,
     finalRecord,
+    brandNameCheck,
+    competitorNameCheck,
+    hashCheck,
   ]);
 
   useEffect(() => {
@@ -374,92 +406,162 @@ const Mentions = () => {
                   ))}
               </ul>
               {/* side filter */}
-              <div className="self-start">
-                <Card>
-                  <CardBody>
-                    <h3>Sentiment:</h3>
-                    <div className="flex justify-between mt-4 gap-2">
-                      <div className="relative flex items-start">
-                        <div className="flex h-5 items-center">
-                          <input
-                            id="positve"
-                            aria-describedby="positve-description"
-                            name="positve"
-                            type="checkbox"
-                            checked={positiveCheck}
-                            onChange={() => {
-                              setPositiveCheck((prev) => !prev);
-                              setNegativeCheck(false);
-                              setNeutralCheck(false);
-                            }}
-                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                          />
+              <div className="flex flex-col space-y-5">
+                <div className="self-start">
+                  <Card>
+                    <CardBody>
+                      <h3>Sentiment:</h3>
+                      <div className="flex justify-between mt-4 gap-2">
+                        <div className="relative flex items-start">
+                          <div className="flex h-5 items-center">
+                            <input
+                              id="positve"
+                              aria-describedby="positve-description"
+                              name="positve"
+                              type="checkbox"
+                              checked={positiveCheck}
+                              onChange={() => {
+                                setPositiveCheck((prev) => !prev);
+                                setNegativeCheck(false);
+                                setNeutralCheck(false);
+                              }}
+                              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            />
+                          </div>
+                          <div className="ml-2 text-sm">
+                            <label
+                              htmlFor="positive"
+                              className="font-medium text-green-500"
+                            >
+                              Positive
+                            </label>
+                          </div>
                         </div>
-                        <div className="ml-2 text-sm">
-                          <label
-                            htmlFor="positive"
-                            className="font-medium text-green-500"
-                          >
-                            Positive
-                          </label>
-                        </div>
-                      </div>
 
-                      <div className="relative flex items-start">
-                        <div className="flex h-5 items-center">
-                          <input
-                            id="negative"
-                            aria-describedby="negative-description"
-                            name="negative"
-                            type="checkbox"
-                            checked={negativeCheck}
-                            onChange={() => {
-                              setNegativeCheck((prev) => !prev);
-                              setPositiveCheck(false);
-                              setNeutralCheck(false);
-                            }}
-                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                          />
+                        <div className="relative flex items-start">
+                          <div className="flex h-5 items-center">
+                            <input
+                              id="negative"
+                              aria-describedby="negative-description"
+                              name="negative"
+                              type="checkbox"
+                              checked={negativeCheck}
+                              onChange={() => {
+                                setNegativeCheck((prev) => !prev);
+                                setPositiveCheck(false);
+                                setNeutralCheck(false);
+                              }}
+                              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            />
+                          </div>
+                          <div className="ml-2 text-sm">
+                            <label
+                              htmlFor="negative"
+                              className="font-medium text-red-500"
+                            >
+                              Negative
+                            </label>
+                          </div>
                         </div>
-                        <div className="ml-2 text-sm">
-                          <label
-                            htmlFor="negative"
-                            className="font-medium text-red-500"
-                          >
-                            Negative
-                          </label>
-                        </div>
-                      </div>
 
-                      {/* neutral */}
-                      <div className="relative flex items-start">
-                        <div className="flex h-5 items-center">
-                          <input
-                            id="neutral"
-                            aria-describedby="neutral-description"
-                            name="neutral"
-                            type="checkbox"
-                            checked={neutralCheck}
-                            onChange={() => {
-                              setNeutralCheck((prev) => !prev);
-                              setPositiveCheck(false);
-                              setNegativeCheck(false);
-                            }}
-                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                          />
-                        </div>
-                        <div className="ml-2 text-sm">
-                          <label
-                            htmlFor="neutral"
-                            className="font-medium text-gray-700"
-                          >
-                            Neutral
-                          </label>
+                        {/* neutral */}
+                        <div className="relative flex items-start">
+                          <div className="flex h-5 items-center">
+                            <input
+                              id="neutral"
+                              aria-describedby="neutral-description"
+                              name="neutral"
+                              type="checkbox"
+                              checked={neutralCheck}
+                              onChange={() => {
+                                setNeutralCheck((prev) => !prev);
+                                setPositiveCheck(false);
+                                setNegativeCheck(false);
+                              }}
+                              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            />
+                          </div>
+                          <div className="ml-2 text-sm">
+                            <label
+                              htmlFor="neutral"
+                              className="font-medium text-gray-700"
+                            >
+                              Neutral
+                            </label>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </CardBody>
-                </Card>
+                    </CardBody>
+                  </Card>
+                </div>
+                <div className="self-start">
+                  <Card>
+                    <CardBody>
+                      <h3>Keyowrds:</h3>
+                      <div className="flex justify-between mt-4 gap-2">
+                        <div className="relative flex items-start">
+                          <div className="flex h-5 items-center">
+                            <input
+                              type="checkbox"
+                              checked={brandNameCheck}
+                              onChange={() => {
+                                setbrandNameCheck((prev) => !prev);
+                                setcompetitorNameCheck(false);
+                                sethashCheck(false);
+                              }}
+                              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            />
+                          </div>
+                          <div className="ml-2 text-sm">
+                            <label className="font-medium text-green-500 capitalize">
+                              {brandNames[0]}
+                            </label>
+                          </div>
+                        </div>
+
+                        <div className="relative flex items-start">
+                          <div className="flex h-5 items-center">
+                            <input
+                              type="checkbox"
+                              checked={competitorNameCheck}
+                              onChange={() => {
+                                setcompetitorNameCheck((prev) => !prev);
+                                setbrandNameCheck(false);
+                                sethashCheck(false);
+                              }}
+                              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            />
+                          </div>
+                          <div className="ml-2 text-sm">
+                            <label className="font-medium text-red-500 capitalize">
+                              {brandNames[1]}
+                            </label>
+                          </div>
+                        </div>
+
+                        <div className="relative flex items-start">
+                          <div className="flex h-5 items-center">
+                            <input
+                              type="checkbox"
+                              checked={hashCheck}
+                              onChange={() => {
+                                sethashCheck((prev) => !prev);
+                                setbrandNameCheck(false);
+                                setcompetitorNameCheck(false);
+                              }}
+                              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            />
+                          </div>
+                          <div className="ml-2 text-sm">
+                            <label className="font-medium text-gray-700 capitalize">
+                              {brandNames[2]}
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </div>
               </div>
             </div>
           )}
