@@ -76,32 +76,6 @@ def getNews(brand: str, competitor: str, hashtag: str, p_id: int):
     return {"message": "Success"}
 
 
-def handleExceptionProjectSentiment(brand: str, competitor: str, hashtag: str, p_id: int):
-    n_p_brand_sentiments = {"positive": 0, "negative": 0, "neutral": 0}
-    n_p_competitor_sentiments = {"positive": 0, "negative": 0, "neutral": 0}
-    n_p_hashtag_sentiments = {"positive": 0, "negative": 0, "neutral": 0}
-
-    r_p_brand_sentiments = {"positive": 0, "negative": 0, "neutral": 0}
-    r_p_competitor_sentiments = {"positive": 0, "negative": 0, "neutral": 0}
-    r_p_hashtag_sentiments = {"positive": 0, "negative": 0, "neutral": 0}
-    n_p_sentiments = {"positive": 0, "negative": 0, "neutral": 0}
-    r_p_sentiments = {"positive": 0, "negative": 0, "neutral": 0}
-
-    p_sentiments = {"positive": 0, "negative": 0, "neutral": 0}
-    sentiment = projectSentiments(
-        project_id=p_id,
-        r_p_brand_sentiments=r_p_brand_sentiments,
-        r_p_competitor_sentiments=r_p_competitor_sentiments,
-        r_p_hashtag_sentiments=r_p_hashtag_sentiments,
-        n_p_brand_sentiments=n_p_brand_sentiments,
-        n_p_competitor_sentiments=n_p_competitor_sentiments,
-        n_p_hashtag_sentiments=n_p_hashtag_sentiments,
-        r_p_sentiments=r_p_sentiments,
-        n_p_sentiments=n_p_sentiments,
-        p_sentiments=p_sentiments
-    )
-    session2.add(sentiment)
-    session2.commit()
 
 
 def getSentiment(table: List[Dict[str, Any]]):

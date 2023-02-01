@@ -1,4 +1,4 @@
-from database import session,session1,session2,session3,session5,session6 ,Base
+from database import session,session1,session2,session3,session5,session6 ,Base, session12,session13,session14
 
 from model import newsBrands, newsCompetitor, newsHashtag, redditBrands, redditCompetitor, redditHashtag, Base
 from datetime import datetime, timedelta
@@ -75,7 +75,7 @@ def getNewsGraph(name: str, one_month_ago : int, table: str):
     # rows = session.query(table).all
     # return rows
     # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
-    rows = session3.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
+    rows = session12.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
     
     # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
     # rows = session.query(table).all
@@ -98,7 +98,7 @@ def getNewsGraph2(name: str, one_month_ago : int, table: str):
     # rows = session.query(table).all
     # return rows
     # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
-    rows = session6.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
+    rows = session13.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
     # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
     # rows = session.query(table).all
     # stmt = select([table.content, func.date(table.published_at).label('published_at')]).where(table.published_at >= one_month_ago)
@@ -116,7 +116,7 @@ def getNewsGraph2(name: str, one_month_ago : int, table: str):
     return sentiment_dict
 
 def getNewsGraph3(name: str, one_month_ago : int, table: str): 
-    rows = session5.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
+    rows = session14.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
     
 
     content_dict = defaultdict(list)
