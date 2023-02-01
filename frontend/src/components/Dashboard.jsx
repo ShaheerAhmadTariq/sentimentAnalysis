@@ -9,9 +9,14 @@ const Dashboard = () => {
   const user = JSON.parse(localStorage.getItem("userEmail"));
   const [allProjects, setallProjects] = useState([]);
   const [currentProjects, setcurrentProjects] = useState([]);
-  const [currentProject, setcurrentProject] = useState({
-    p_id: -1,
-  });
+  const brandList = JSON.parse(localStorage.getItem("brandList"));
+  const [currentProject, setcurrentProject] = useState(
+    brandList?.length > 0
+      ? brandList[0]
+      : {
+          p_id: -1,
+        }
+  );
   async function getUserProjects() {
     if (!user) return;
     try {
