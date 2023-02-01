@@ -20,10 +20,8 @@ const Comparison = () => {
   const [selectedProjects, setSelectedProjects] = useState([]);
   const [lineChartData, setlineChartData] = useState();
 
-  // console.log(data.project01);
-
   var brandKey = JSON.parse(localStorage.getItem("brandList"));
-  brandKey = brandKey ? brandKey[0].brandNames : null;
+  brandKey = brandKey && brandKey[0].brandNames;
   brandKey = brandKey?.at(-1).replace(/^\s+/g, "");
 
   const date = new Date();
@@ -124,8 +122,7 @@ const Comparison = () => {
       getData();
     }
   }, [selectedProjects]);
-
-  if (!brandList.length)
+  if (!brandList)
     return (
       <MainLayout className="bg-white h-screen">
         <h1 className="text-center text-black text-2xl">
@@ -136,7 +133,7 @@ const Comparison = () => {
 
   return (
     <MainLayout>
-      {brandList?.length > 1 ? (
+      {brandList?.length <= 1 ? (
         <div className="m-4 min-h-screen">
           <Card>
             <CardBody>
@@ -158,8 +155,7 @@ const Comparison = () => {
             <Loader className="text-indigo-600" />
           ) : (
             <>
-              {/* New Comment 1 */}
-              {/* <ProjectsModal
+              <ProjectsModal
                 open={open}
                 setOpen={setOpen}
                 brandList={brandList}
