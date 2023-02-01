@@ -208,9 +208,9 @@ def sentimentGraph(request : Request, user_request: sentimentGraphInput):
         days = user_request.days
         # user_id = 17
         # p_id = 51
-        # days = 10000
+        # days = 30
         project = session2.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
-        # print(project.p_brand_name)
+        
         multiGraphs = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
         
         singleGraph = getSingleLineChart(multiGraphs)
@@ -225,6 +225,10 @@ def sentimentGraph(request : Request, user_request: sentimentGraphInput):
             myKeys.sort()
             sorted_dict = {i: result['singleGraph']['result'][i] for i in myKeys}
             result['singleGraph']['result'] = sorted_dict
+        sum = 0
+        for key in result['singleGraph']['result']:
+            sum += result['singleGraph']['result'][key]
+        result['X_Value'] = sum
         return result
     except:
         # return handleExceptionSentimentGraph()
@@ -244,10 +248,10 @@ def card (request : Request, user_request: sentimentCardInput):
         days = user_request.days
         # user_id = 17
         # p_id = 51
-        # days = 51
+        # days = 3000
         project = session.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
-        res = getCards(project.p_brand_name, project.p_competitor_name, project.p_hashtag,days)
-        return res
+        data = getCards(project.p_brand_name, project.p_competitor_name, project.p_hashtag,days)
+        return data
     except:
         # return cardsDefault
         return {"message": "card error"}

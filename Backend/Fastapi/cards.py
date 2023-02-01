@@ -9,6 +9,10 @@ nltk.download('vader_lexicon')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
 sia = SIA()
 
+def sortListOfDict(data: List[dict[str,Any]]):
+    sorted_data = sorted(data, key=lambda x: x['published_at'])
+    return sorted_data
+
 def getCards(brand: str, competitor: str, hashtag: str, days: int ):
     positive = []
     negative = []
@@ -40,7 +44,11 @@ def getCards(brand: str, competitor: str, hashtag: str, days: int ):
     n_Positive.extend(pos)
     n_Negative.extend(neg)
     n_Neutral.extend(neu)
+    
+    # Sorting Cards
+    # positive = sortListOfDict(positive)
 
+    # return positive
     return {"NewsApi": [positive,negative,neutral], "Reddit": [n_Positive,n_Negative,n_Neutral]}
     # return positive,negative,neutral,n_Positive,n_Negative,n_Neutral
 
@@ -50,7 +58,7 @@ def getCards(brand: str, competitor: str, hashtag: str, days: int ):
 def getNewsCard(name: str, days : int, table: str):
     now = datetime.now()
     one_month_ago = now - timedelta(days=days)
-    rows = session.query(table).filter(table.published_at >= one_month_ago, table.name == name).all()
+    rows = session.query(table).filter(table.published_at >= one_month_ago, table.name == name).order_by(table.published_at).all()
     positive = []
     negative = []
     neutral = []
