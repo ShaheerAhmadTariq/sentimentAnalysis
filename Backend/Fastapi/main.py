@@ -99,7 +99,7 @@ class UserStringRequest(BaseModel):
 def submit(request: Request, user_string_request: UserStringRequest):
     user_string = user_string_request.enterBrandCompetitorHashtag
     userID = user_string_request.email['id']
-    # adding project here 
+    # adding project here
     strSplit = user_string.split(',')
     keywords = strSplit
     project = projects(
@@ -115,11 +115,11 @@ def submit(request: Request, user_string_request: UserStringRequest):
     session1.refresh(project)
     p_id = project.p_id
     try:
-        
+
         apiCall(user_string,userID)
         # project = session6.query(projects).filter(projects.user_id == userID, projects.p_id == p_id).first()
         res = getNews(project.p_brand_name, project.p_competitor_name, project.p_hashtag,p_id)
-        
+
         return {"message" : "Success", "p_id": p_id}
     except:
         # handleExceptionProjectSentiment(project.p_brand_name, project.p_competitor_name, project.p_hashtag,p_id)
@@ -155,7 +155,7 @@ def create_user(request: Request, user_request: UserRequest):
         session.rollback()
         # err =  HTTPException(status_code=500, detail="Failed to create user.")
         return {"message": 'User email already exists'}
-    
+
 class UserloginRequest(BaseModel):
     email: str
     password: str
@@ -210,9 +210,9 @@ def sentimentGraph(request : Request, user_request: sentimentGraphInput):
         # p_id = 51
         # days = 30
         project = session2.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
-        
+
         multiGraphs = getGraphs(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days)
-        
+
         singleGraph = getSingleLineChart(multiGraphs)
         result = {'multiGraph':multiGraphs, "singleGraph":singleGraph}
         for key in result['multiGraph'].keys():
@@ -320,7 +320,7 @@ def equalizeLen(result):
                         flag = False
             if flag:
                 newP1.append({val:0})
-        
+
         return {'project01':newP1,'project02':result['project02']}
     else:
         # print('p1 < p2')
@@ -340,7 +340,7 @@ def equalizeLen(result):
             if flag:
                 newP1.append({val:0})
         return {'project01':result['project01'],'project02':newP1}
-    # len(result['project02']),len(newP1),len(listOfKeys)    
+    # len(result['project02']),len(newP1),len(listOfKeys)
 class lineComaparisonModel(BaseModel):
     u_id: int
     p_id1: int
@@ -373,8 +373,8 @@ def getline(request : Request, user_request: lineComaparisonModel):
     except:
         # return {'error'}
         return handleExceptionLineChart()
-    
-        
+
+
 class getProjectsModel(BaseModel):
     u_id: int
 @app.post('/getProjects')
@@ -486,7 +486,7 @@ def reportPie(request : Request, user_request: reportPieModel):
     # user_id = 1
     # p_id = 1
     days = 3000
-    try: 
+    try:
         project = session6.query(projects).filter(projects.user_id == user_id, projects.p_id == p_id).first()
         res = comparisonCountpie(project.p_brand_name, project.p_competitor_name, project.p_hashtag, days, p_id)
         return {"project01": res}
@@ -507,7 +507,7 @@ async def send_email(request : Request, user_request: sendEmailModel):
     password = "yaAllahkhair"
     message = user_request.message
     subject = user_request.subject
-    # to 
+    # to
     email = 'fa18-bcs-151@cuilahore.edu.pk'
     try:
         msg = MIMEText(message)
