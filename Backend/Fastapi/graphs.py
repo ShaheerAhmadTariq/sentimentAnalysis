@@ -1,4 +1,4 @@
-from database import session,session1,session2,session3,session5,session6 ,Base, session12,session13,session14
+from database import session,session1,session2,session3,session5,session6 ,Base, session12,session13,session14, SessionLocal
 
 from model import newsBrands, newsCompetitor, newsHashtag, redditBrands, redditCompetitor, redditHashtag, Base
 from datetime import datetime, timedelta
@@ -53,11 +53,11 @@ def getGraphs(brand: str, competitor: str, hashtag: str, day: int ):
     # days = 1000
     n_brands = getNewsGraph(brand, days, newsBrands)
     n_competitors = getNewsGraph(competitor, days, newsCompetitor)
-    n_hashtag = getNewsGraph2(hashtag, days, newsHashtag)
+    n_hashtag = getNewsGraph(hashtag, days, newsHashtag)
 
-    r_brands = getNewsGraph2(brand, days, redditBrands)
-    r_competitors = getNewsGraph3(competitor, days, redditCompetitor)
-    r_hashtags = getNewsGraph3(hashtag, days, redditHashtag)
+    r_brands = getNewsGraph(brand, days, redditBrands)
+    r_competitors = getNewsGraph(competitor, days, redditCompetitor)
+    r_hashtags = getNewsGraph(hashtag, days, redditHashtag)
     
     result = joinDict(n_competitors,n_brands)
 
@@ -75,7 +75,8 @@ def getNewsGraph(name: str, one_month_ago : int, table: str):
     # rows = session.query(table).all
     # return rows
     # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
-    rows = session12.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
+    session18 = SessionLocal()
+    rows = session18.query(table.content, func.date(table.published_at).label('published_at')).filter(table.published_at >= one_month_ago, table.name == name).all()
     
     # rows = session.query(table.content, table.published_at).filter(table.published_at >= one_month_ago, table.name == name).all()
     # rows = session.query(table).all
@@ -91,6 +92,7 @@ def getNewsGraph(name: str, one_month_ago : int, table: str):
     for key in content_dict.keys():
         sentiment = getSentiment(content_dict[key])
         sentiment_dict[key] = sentiment
+    session18.close()
     return sentiment_dict
 
 def getNewsGraph2(name: str, one_month_ago : int, table: str): 
@@ -151,5 +153,3 @@ def getSentiment(content: list):
 
     return positive,negative,neutral
 
-def handleExceptionSentimentGraph():
-    return {"multiGraph":{"positive":{"2023-01-02":32,"2023-01-03":32,"2023-01-04":40,"2023-01-05":24,"2023-01-06":0,"2023-01-07":64,"2023-01-08":8,"2023-01-09":24,"2023-01-10":24,"2023-01-11":40,"2023-01-12":32,"2023-01-13":16,"2023-01-14":8,"2023-01-15":8,"2023-01-16":16,"2023-01-17":104,"2023-01-18":64,"2023-01-19":32,"2023-01-20":32,"2023-01-21":96,"2023-01-22":8,"2023-01-23":49,"2023-01-24":49,"2023-01-25":27,"2023-01-26":6,"2023-01-27":6,"2023-01-28":11,"2023-01-29":4,"2023-01-30":75,"2023-01-31":37},"negative":{"2023-01-02":0,"2023-01-03":24,"2023-01-04":48,"2023-01-05":0,"2023-01-06":0,"2023-01-07":32,"2023-01-08":8,"2023-01-09":8,"2023-01-10":0,"2023-01-11":24,"2023-01-12":32,"2023-01-13":0,"2023-01-14":8,"2023-01-15":8,"2023-01-16":0,"2023-01-17":16,"2023-01-18":8,"2023-01-19":0,"2023-01-20":0,"2023-01-21":0,"2023-01-22":0,"2023-01-23":15,"2023-01-24":11,"2023-01-25":4,"2023-01-26":1,"2023-01-27":2,"2023-01-28":0,"2023-01-29":1,"2023-01-30":25,"2023-01-31":22},"neutral":{"2023-01-02":0,"2023-01-03":32,"2023-01-04":64,"2023-01-05":16,"2023-01-06":32,"2023-01-07":0,"2023-01-08":0,"2023-01-09":0,"2023-01-10":24,"2023-01-11":32,"2023-01-12":40,"2023-01-13":8,"2023-01-14":0,"2023-01-15":0,"2023-01-16":8,"2023-01-17":8,"2023-01-18":48,"2023-01-19":16,"2023-01-20":8,"2023-01-21":0,"2023-01-22":0,"2023-01-23":30,"2023-01-24":27,"2023-01-25":8,"2023-01-26":7,"2023-01-27":6,"2023-01-28":9,"2023-01-29":5,"2023-01-30":30,"2023-01-31":30}},"singleGraph":{"result":{"2023-01-02":32,"2023-01-03":88,"2023-01-04":152,"2023-01-05":40,"2023-01-06":32,"2023-01-07":96,"2023-01-08":16,"2023-01-09":32,"2023-01-10":48,"2023-01-11":96,"2023-01-12":104,"2023-01-13":24,"2023-01-14":16,"2023-01-15":16,"2023-01-16":24,"2023-01-17":128,"2023-01-18":120,"2023-01-19":48,"2023-01-20":40,"2023-01-21":96,"2023-01-22":8,"2023-01-23":94,"2023-01-24":87,"2023-01-25":39,"2023-01-26":14,"2023-01-27":14,"2023-01-28":20,"2023-01-29":10,"2023-01-30":130,"2023-01-31":89}}}

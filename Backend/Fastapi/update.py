@@ -112,6 +112,7 @@ def redditApi(keywords, last_date):
     )
     limit = 2
     def api_call_1():
+        session4 = SessionLocal()
         if not session4.query(exists().where(redditBrands.name == keywords[0])).scalar():
             subreddit = reddit.subreddit(keywords[0])
             k1 = []
@@ -136,9 +137,11 @@ def redditApi(keywords, last_date):
             for row in k1:
                 if row['published_at'] > last_date:
                     n_k1.append(row)
+            session1 = SessionLocal()
             redditBrandInsert(session1, n_k1)
 
     def api_call_2():
+        session5 = SessionLocal()
         if not session5.query(exists().where(redditCompetitor.name == keywords[1])).scalar():
             k2 = []
             subreddit = reddit.subreddit(keywords[1])
@@ -164,9 +167,11 @@ def redditApi(keywords, last_date):
             for row in k2:
                 if row['published_at'] > last_date:
                     n_k2.append(row)
+            session2 = SessionLocal()
             redditCompetitorInsert(session2, n_k2)
 
     def api_call_3():
+        session6 = SessionLocal()
         if not session6.query(exists().where(redditHashtag.name == keywords[2])).scalar():
             k3 = []
             subreddit = reddit.subreddit(keywords[2])
@@ -191,6 +196,7 @@ def redditApi(keywords, last_date):
             for row in k3:
                 if row['published_at'] > last_date:
                     n_k3.append(row)
+            session2 = SessionLocal()
             redditHashtagInsert(session2, n_k3)
 
     thread1 = threading.Thread(target=api_call_1)

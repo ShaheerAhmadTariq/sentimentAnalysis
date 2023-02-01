@@ -1,4 +1,4 @@
-from database import session,session1,session2,session3, SessionLocal, session6, session10
+from database import session,session1,session2,session3, SessionLocal, session6, session10, SessionLocal
 from model import newsBrands, newsCompetitor, newsHashtag, redditBrands, redditCompetitor, redditHashtag, Base, projectSentiments
 from datetime import datetime, timedelta
 from sqlalchemy import select, func, Integer
@@ -41,6 +41,7 @@ def comparisonLineChart(brand: str, competitor: str, hashtag: str, day: int ):
     return result
 
 def getNewsGraph(name: str, one_month_ago : int, table: str):
+    session3 = SessionLocal()
     query = (
         session3.query(table.published_at, func.count(table.id).label("count").cast(Integer))
         .filter(table.name == name,table.published_at >= one_month_ago)
@@ -48,6 +49,7 @@ def getNewsGraph(name: str, one_month_ago : int, table: str):
         .all()
     )
     result_as_dict = [{row[0].strftime("%Y-%m-%d"):row[1]} for row in query]
+    session3.close()
     return result_as_dict
 
 
@@ -69,14 +71,16 @@ def comparisonCountpie(brand: str, competitor: str, hashtag: str, day: int, p_id
     # Mentions = newsCount + redditCount
     Mentions = result.p_sentiments['positive'] + result.p_sentiments['negative'] + result.p_sentiments['neutral']
     # print(result.p_sentiments['neutral'])
-
+    session6.close()
     return {"name": brand,"Total": Mentions, "Positive": result.p_sentiments['positive'], "Negative": result.p_sentiments['negative'], "Neutral": result.p_sentiments['neutral'],"NewsApi":newsCount, "Reddit": redditCount}
     return newsCount, redditCount
 def getCount(table : Base, name: str, days: int):
+    session17 = SessionLocal()
     count = (
-    session10.query(table)
+    session17.query(table)
     .filter(table.name == name,table.published_at >= days)
     .count()
     )
+    session17.close()
     return count
 

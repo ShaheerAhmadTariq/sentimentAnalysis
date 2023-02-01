@@ -33,9 +33,10 @@ const SentimentGraph = ({
 
   function multiGraphValues(graph) {
     if (!graph) return;
-    const Sortedgraph = formatDate(graph.negative)
+    const Sortedgraph = formatDate(graph.negative);
+    console.log(Sortedgraph);
     // let Dates = dateSort(Object.keys(graph.negative));
-    let Dates = Object.keys(Sortedgraph)
+    let Dates = Object.keys(Sortedgraph);
 
     let negativeValues = Object.values(graph.negative);
 
@@ -47,22 +48,24 @@ const SentimentGraph = ({
       values: { negativeValues, positiveValues, neutralValues },
     };
   }
-  function formatDate(data){
-    const formattedData = []
+  function formatDate(data) {
+    const formattedData = [];
     for (const key in data) {
       const date = new Date(key);
-      const monthDay = date.toLocaleDateString('default', { month: 'short', day: 'numeric' });
+      const monthDay = date.toLocaleDateString("default", {
+        month: "short",
+        day: "numeric",
+      });
       formattedData[monthDay] = data[key];
-      
     }
     // console.log("formated date",formattedData)
-    return formattedData
+    return formattedData;
   }
   function singleGraphValues(graph) {
     // let Dates = dateSort(Object.keys(graph));
-    const Sortedgraph = formatDate(graph)
+    const Sortedgraph = formatDate(graph);
     // console.log("dates will print here")
-    let Dates =  Object.keys(Sortedgraph);
+    let Dates = Object.keys(Sortedgraph);
     let values = Object.values(Sortedgraph);
     return {
       Dates,
@@ -84,6 +87,7 @@ const SentimentGraph = ({
       });
 
       graphs = await graphs.json();
+      console.log(graphs);
       graphValues = multiGraph
         ? multiGraphValues(graphs.multiGraph)
         : singleGraphValues(graphs.singleGraph.result);

@@ -48,7 +48,7 @@ const Mentions = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ p_id, days, u_id: id , days: 3000}),
+        body: JSON.stringify({ p_id, days, u_id: id, days: 3000 }),
       });
       cards = await cards.json();
 
@@ -94,7 +94,8 @@ const Mentions = () => {
   const currentMentions = finalData?.slice(firstPageIndex, lastPageIndex);
 
   var brandKey = JSON.parse(localStorage.getItem("brandList"));
-  brandKey = brandKey[0].brandNames;
+  var brandList = JSON.parse(localStorage.getItem("brandList"));
+  brandKey = brandKey ? brandKey[0]?.brandNames : null;
   brandKey = brandKey?.at(-1);
 
   const date = new Date();
@@ -140,7 +141,7 @@ const Mentions = () => {
           item?.author?.toLowerCase()?.includes(search.toLowerCase())
         );
       }
-      setCurrentPage(1)
+      setCurrentPage(1);
       setFinalData(filteredRecord);
     }
   };
@@ -166,6 +167,15 @@ const Mentions = () => {
       setIsGetting(true);
     }
   }, [brandKey]);
+
+  if (!brandList)
+    return (
+      <MainLayout className="bg-white h-screen">
+        <h1 className="text-center text-black text-2xl">
+          Please select a project first from Dashboard
+        </h1>
+      </MainLayout>
+    );
 
   return (
     <MainLayout>
@@ -226,7 +236,7 @@ const Mentions = () => {
             <Loader className="text-indigo-600" />
           ) : (
             // Mention Cards
-            <div className="flex justify-between gap-4">
+            <div className="flex flex-col-reverse lg:flex-row justify-between gap-4">
               <ul className="overflow-y-scroll h-[calc(100vh_-_10vh)]">
                 {currentMentions &&
                   currentMentions.map((m, idx) => (
@@ -236,22 +246,15 @@ const Mentions = () => {
                           <article>
                             <div>
                               <div className="flex space-x-3">
-                                {redditCheck ? (
-                                  <img
-                                    className="h-10 w-10 rounded-full"
-                                    src={reddit}
-                                    alt=""
-                                  />
-                                ) : m.urlToImage ? (
-                                  <img
-                                    className="h-10 w-10 rounded-full"
-                                    src={m.urlToImage}
-                                    alt=""
-                                  />
-                                ) : (
-                                  <div className="h-10 w-10 rounded-full bg-black"></div>
-                                )}
-
+                                <img
+                                  className="h-10 w-10 rounded-full"
+                                  src={
+                                    m.source === "Reddit"
+                                      ? reddit
+                                      : m.url_to_image
+                                  }
+                                  alt=""
+                                />
                                 <div className="min-w-0 flex-1">
                                   <p className="text-sm flex justify-between font-medium text-gray-900">
                                     {m.author ? (

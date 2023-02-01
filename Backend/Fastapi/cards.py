@@ -1,4 +1,4 @@
-from database import session
+from database import session, SessionLocal
 from model import newsBrands, newsCompetitor, newsHashtag, redditBrands, redditCompetitor, redditHashtag, Base
 from datetime import datetime, timedelta
 from sqlalchemy import select, func
@@ -58,6 +58,7 @@ def getCards(brand: str, competitor: str, hashtag: str, days: int ):
 def getNewsCard(name: str, days : int, table: str):
     now = datetime.now()
     one_month_ago = now - timedelta(days=days)
+    session = SessionLocal()
     rows = session.query(table).filter(table.published_at >= one_month_ago, table.name == name).order_by(table.published_at).all()
     positive = []
     negative = []
@@ -74,6 +75,7 @@ def getNewsCard(name: str, days : int, table: str):
             # content.append(negative)
         else :
             neutral.append(row)
+    session.close()
     return positive,negative,neutral
 
 def getSentiment(content: list):

@@ -1,6 +1,6 @@
 from datetime import datetime
 from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
-from database import session, session2
+from database import session, session2, SessionLocal
 from model import newsBrands, newsCompetitor, newsHashtag, redditBrands, redditCompetitor, redditHashtag, projectSentiments
 from typing import List, Dict, Any
 import nltk
@@ -9,6 +9,7 @@ sia = SIA()
 
 
 def getNews(brand: str, competitor: str, hashtag: str, p_id: int):
+    session = SessionLocal()
     brands = session.query(newsBrands).filter(newsBrands.name == brand).all()
     N_b_positive, N_b_negative, N_b_neutral = getSentiment(brands)
     competitors = session.query(newsCompetitor).filter(
@@ -73,6 +74,7 @@ def getNews(brand: str, competitor: str, hashtag: str, p_id: int):
     )
     session.add(sentiment)
     session.commit()
+    session.close()
     return {"message": "Success"}
 
 
@@ -102,6 +104,7 @@ def getSentiment(table: List[Dict[str, Any]]):
 
 
 def updateProjectSentiment(brand: str, competitor: str, hashtag: str, p_id: int):
+    session = SessionLocal()
     brands = session.query(newsBrands).filter(newsBrands.name == brand).all()
     N_b_positive, N_b_negative, N_b_neutral = getSentiment(brands)
     competitors = session.query(newsCompetitor).filter(
@@ -164,3 +167,4 @@ def updateProjectSentiment(brand: str, competitor: str, hashtag: str, p_id: int)
         projectSentiments.p_sentiments:p_sentiments
     })
     session.commit()
+    session.close()

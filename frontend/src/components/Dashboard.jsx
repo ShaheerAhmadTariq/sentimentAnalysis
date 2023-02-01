@@ -9,10 +9,14 @@ const Dashboard = () => {
   const user = JSON.parse(localStorage.getItem("userEmail"));
   const [allProjects, setallProjects] = useState([]);
   const [currentProjects, setcurrentProjects] = useState([]);
-  // const [currentProject, setcurrentProject] = useState(
-  //   JSON.parse(localStorage.getItem("brandList"))[0]
-  // );
-  const [currentProject, setcurrentProject] = useState({});
+  const brandList = JSON.parse(localStorage.getItem("brandList"));
+  const [currentProject, setcurrentProject] = useState(
+    brandList?.length > 0
+      ? brandList[0]
+      : {
+          p_id: -1,
+        }
+  );
   async function getUserProjects() {
     if (!user) return;
     try {
@@ -26,33 +30,6 @@ const Dashboard = () => {
       const projects = await res.json();
       setallProjects(projects);
       setcurrentProjects(projects);
-      const currentItem = JSON.parse(localStorage.getItem("brandList"));
-      // if (currentItem[0]) {
-      if (true){
-        // setcurrentProject(currentItem[0]);
-      // } else {
-        setcurrentProject({
-          p_id: projects[0].p_id,
-          brandNames: [
-            projects[0].p_brand_name,
-            projects[0].p_competitor_name,
-            projects[0].p_hashtag,
-          ],
-        });
-        localStorage.setItem(
-          "brandList",
-          JSON.stringify([
-            {
-              p_id: projects[0].p_id,
-              brandNames: [
-                projects[0].p_brand_name,
-                projects[0].p_competitor_name,
-                projects[0].p_hashtag,
-              ],
-            },
-          ])
-        );
-      }
     } catch (error) {
       console.log(error);
     }
@@ -93,19 +70,10 @@ const Dashboard = () => {
         (item) => item.p_id !== projectId
       );
       setcurrentProjects(modifiedProjects);
-      localStorage.setItem(
-        "brandList",
-        JSON.stringify([
-          {
-            p_id: modifiedProjects[0].p_id,
-            brandNames: [
-              modifiedProjects[0].p_brand_name,
-              modifiedProjects[0].p_competitor_name,
-              modifiedProjects[0].p_hashtag,
-            ],
-          },
-        ])
-      );
+      localStorage.removeItem("brandList");
+      setcurrentProject({
+        p_id: -1,
+      });
     } catch (error) {
       console.log(error);
     }
