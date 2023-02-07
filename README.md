@@ -1,11 +1,12 @@
 # Sentiment Analysis 
 # Description
-    I have created a web application that allows users to sign up and sign in, after which they can enter keywords related to brand names. 
-    The application uses Reddit and NewsAPI to fetch data related to the brand names and stores the results in the database. 
-    Sentiment analysis is performed on the fetched data using the Vader library, 
-    and the results are displayed in the form of a graph showing the positive, negative, and neutral sentiments, along with the number of mentions.
-    The user can compare two projects and also generate a PDF report of their projects. 
-    A dashboard is provided for the user to edit, delete, and update their projects.
+    **In this project, you have created a full-stack web application that allows users to monitor brand mentions and analyze their sentiment across various news sources and social media platforms. The application consists of a ReactJS front-end and a FastAPI back-end, both connected to a MySQL database.
+
+    Users can sign up and sign in to the application, and then enter keywords that represent the brands they want to monitor. The application uses the Reddit and NewsAPI to fetch data related to the entered keywords, which is then stored in the MySQL database.
+
+    Once the data has been collected, the application performs sentiment analysis on the data using Vader, a popular library for sentiment analysis. The results of this analysis are then displayed as graphs on the frontend, which show the number of positive, negative, and neutral mentions of the brands over time.
+
+    In addition, users can compare two projects to see how their brand mentions and sentiment have changed over time, and can also generate PDF reports of their projects for further analysis. The dashboard allows users to edit, delete, and update their projects, giving them full control over their data and insights.**
 
 # Technologies used:
 ## for frontend
