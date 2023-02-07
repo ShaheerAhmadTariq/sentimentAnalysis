@@ -1,6 +1,6 @@
 # Sentiment Analysis 
 
-# Technilogies used:
+# Technologies used:
     for frontend
         react js
     for backend
