@@ -8,11 +8,11 @@
     A dashboard is provided for the user to edit, delete, and update their projects.
 
 # Technologies used:
-    ## for frontend
+## for frontend
         react js
-    ## for backend
+## for backend
         fastapi
-    ## for database
+## for database
         mysql
 
 # Setup 
